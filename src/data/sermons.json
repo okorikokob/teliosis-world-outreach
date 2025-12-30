@@ -1,0 +1,14 @@
+[
+  {
+    "id": "s1",
+    "title": "Walking in Faith",
+    "slug": "walking-in-faith",
+    "date": "2025-09-01",
+    "speaker": "Pastor John Doe",
+    "series": "Faith Foundations",
+    "audioUrl": "/audio/walking-in-faith.mp3",
+    "tags": ["faith", "discipleship"],
+    "summary": "Exploring practical steps of faith in daily life.",
+    "scriptureRefs": ["Hebrews 11:1", "James 2:17"]
+  }
+]
