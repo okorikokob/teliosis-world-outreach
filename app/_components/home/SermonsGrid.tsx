@@ -181,6 +181,7 @@ function SermonCard({
     const a = audioRef.current;
     if (!a) return;
     a.muted = !a.muted;
+    
     setIsMuted(a.muted);
   };
 
