@@ -1,26 +1,219 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", sans-serif;
+}
+
+@theme {
+  --color-light-100: #ffffff;
+  --color-light-200: #f3f3f3;
+  --color-light-300: #f3f4f6;
+  --color-light-500: #fafaf9;
+
+  --color-primary-100: #eff6ff;
+  --color-primary-500: #2563eb;
+
+  --color-danger-100: #fef2f2;
+  --color-danger-500: #dc2626;
+
+  --color-dark-500: #0f0f0f;
+  --color-gray-500: #78716c;
+
+  --radius-2: 8px;
+  --radius-1_5: 6px;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --shadow-light-100:
+    0px 12px 20px 0px rgba(184, 184, 184, 0.03), 0px 6px 12px 0px rgba(184, 184, 184, 0.02),
+    0px 2px 4px 0px rgba(184, 184, 184, 0.03);
+  --shadow-light-200: 10px 10px 20px 0px rgba(218, 213, 213, 0.1);
+  --shadow-light-300: -10px 10px 20px 0px rgba(218, 213, 213, 0.1);
+  --shadow-dark-100: 0px 2px 10px 0px rgba(46, 52, 56, 0.1);
+  --shadow-dark-200: 2px 0px 20px 0px rgba(39, 36, 36, 0.04);
+
+  --background-image-auth-dark: url("/images/auth-dark.png");
+  --background-image-auth-light: url("/images/auth-light.png");
+
+  --breakpoint-xs: 420px;
+
+  --font-inter: var(--font-inter);
+  --font-space-grotesk: var(--font-space-grotesk);
+}
+
+/* Typography utilities from Figma */
+@utility text-heading-xl {
+  font-family: var(--font-inter);
+  font-size: 81.6px;
+  font-weight: 900;
+  line-height: 96px;
+  letter-spacing: 0;
+}
+
+@utility text-heading-lg {
+  font-family: var(--font-inter);
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 56px;
+  letter-spacing: 0;
+}
+
+@utility text-heading-md {
+  font-family: var(--font-inter);
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 40px;
+  letter-spacing: 0;
+}
+
+@utility text-heading-sm {
+  font-family: var(--font-inter);
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 32px;
+  letter-spacing: 0;
+}
+
+@utility text-body-lg {
+  font-family: var(--font-inter);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: 0;
+}
+
+@utility text-body-md {
+  font-family: var(--font-inter);
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 28px;
+  letter-spacing: 0;
+}
+
+@utility text-body-sm {
+  font-family: var(--font-inter);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+@utility text-label {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+/* Background utilities */
+@utility bg-dark {
+  background-color: var(--color-dark-500);
+}
+
+@utility bg-light {
+  background-color: var(--color-light-200);
+}
+
+@utility bg-primary {
+  background-color: var(--color-primary-500);
+}
+
+@utility bg-secondary {
+  background-color: var(--color-secondary-500);
+}
+
+/* Text color utilities */
+@utility text-primary {
+  color: var(--color-primary-500);
+}
+
+@utility text-secondary {
+  color: var(--color-secondary-500);
+}
+
+@utility text-dark {
+  color: var(--color-dark-500);
+}
+
+@utility text-light {
+  color: var(--color-light-100);
+}
+
+@utility text-muted {
+  color: var(--color-gray-500);
+}
+
+/* Opacity text utilities */
+@utility text-light-90 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@utility text-light-70 {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Button utilities */
+@utility btn-primary {
+  background-color: var(--color-primary-500);
+  color: var(--color-light-100);
+  border-radius: var(--radius-full);
+  padding: 20px 40px;
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+@utility btn-outline {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-light-100);
+  border-radius: var(--radius-full);
+  padding: 10px 20px;
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+/* Blur decorative elements */
+@utility blur-red {
+  background-color: rgba(220, 38, 38, 0.2);
+  border-radius: var(--radius-full);
+  filter: blur(400px);
+}
+
+@utility blur-orange {
+  background-color: rgba(249, 115, 22, 0.15);
+  border-radius: var(--radius-full);
+  filter: blur(400px);
+}
+
+@utility blur-purple {
+  background-color: rgba(168, 85, 247, 0.2);
+  border-radius: var(--radius-full);
+  filter: blur(400px);
+}
+
+/* Overlay utility */
+@utility overlay-dark {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+@utility flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@utility flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@utility flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
