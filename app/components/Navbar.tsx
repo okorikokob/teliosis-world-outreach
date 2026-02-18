@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,7 @@ const Navbar = () => {
         <div className="flex-between h-20">
           {/* Logo */}
           <Link href="/" className="flex-center gap-2">
-            <img src="/assets/logo.png" alt="Teliosis World Outreach" className="h-12 w-12" />
+            <Image src="/assets/logo.png" alt="Teliosis World Outreach" width={48} height={48} className="h-12 w-12" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -57,15 +58,12 @@ const Navbar = () => {
           </div>
 
           {/* Partner Button - Desktop */}
-          <div className="hidden md:block">
-            <Link
-              href="/partner"
-              className="text-body-lg inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 font-semibold text-white transition-opacity duration-200 hover:opacity-90"
-            >
+          <Button asChild variant="gradient" size="lg" className="hidden md:inline-flex">
+            <Link href="/partner">
               <Heart className="h-5 w-5" />
               Partner
             </Link>
-          </div>
+          </Button>
 
           {/* Mobile Menu Button */}
           <Button
@@ -94,14 +92,12 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/partner"
-              className="text-label mt-4 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 font-semibold text-white"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <Heart className="h-5 w-5" />
-              Partner
-            </Link>
+            <Button asChild variant="gradient" size="lg" className="mt-4 w-full">
+              <Link href="/partner" onClick={() => setIsMenuOpen(false)}>
+                <Heart className="h-5 w-5" />
+                Partner
+              </Link>
+            </Button>
           </div>
         </div>
       )}

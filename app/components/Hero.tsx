@@ -1,15 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Play, ChevronDown, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
     <section className="relative flex flex-col items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/assets/hero-background.png')" }}
+      <Image
+        src="/assets/hero-background.png"
+        alt="Hero background"
+        fill
+        priority
+        className="object-cover object-center"
+        sizes="100vw"
       />
       {/* Dark Overlay */}
       <div className="overlay-dark absolute inset-0" />
@@ -21,7 +27,7 @@ const Hero = () => {
       <div className="layout-container relative z-10 flex flex-col items-center pt-20 pb-5 text-center">
         {/* Welcome Badge */}
         <div className="flex-center mb-8 gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md">
-          <img src="/assets/welcome-icon.png" alt="Welcome" className="h-5 w-5" />
+          <Image src="/assets/welcome-icon.png" alt="Welcome" width={20} height={20} className="h-5 w-5" />
           <span className="text-light-100 text-body-sm">Welcome Home</span>
         </div>
 
@@ -39,30 +45,28 @@ const Hero = () => {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex-column mb-16 gap-4 sm:flex-row">
+        <div className="mb-16 flex flex-col items-center gap-4 sm:flex-row">
           {/* Join Us Button - Solid Red */}
-          <Link
-            href="/visit"
-            className="flex-center bg-danger-500 hover:bg-danger-500/90 text-light-100 gap-2 rounded-full px-8 py-4 text-base font-semibold transition-all duration-200"
-          >
-            Join Us This Sunday
-            <ArrowRight className="h-5 w-5" />
-          </Link>
+          <Button asChild variant="brand" size="xl">
+            <Link href="/visit">
+              Join Us This Sunday
+              <ArrowRight />
+            </Link>
+          </Button>
 
           {/* Watch Latest Service Button - Glassmorphism */}
-          <Link
-            href="/media"
-            className="flex-center text-light-100 gap-3 rounded-full border border-white/20 bg-white/10 px-6 py-4 text-base font-medium backdrop-blur-md transition-all duration-200 hover:bg-white/20"
-          >
-            <div className="flex-center bg-danger-500 h-8 w-8 rounded-full">
-              <Play className="h-4 w-4 text-white" />
-            </div>
-            Watch Latest Service
-          </Link>
+          <Button asChild variant="glass" size="xl" className="gap-3">
+            <Link href="/media">
+              <div className="bg-danger-500 flex h-8 w-8 items-center justify-center rounded-full">
+                <Play className="h-4 w-4 text-white" />
+              </div>
+              Watch Latest Service
+            </Link>
+          </Button>
         </div>
 
         {/* Service Times Card - Glassmorphism */}
-        <div className="flex-column gap-6 rounded-2xl border border-white/20 bg-white/10 px-8 py-5 backdrop-blur-md sm:flex-row sm:gap-12">
+        <div className="flex flex-col items-center gap-6 rounded-2xl border border-white/20 bg-white/10 px-8 py-5 backdrop-blur-md sm:flex-row sm:gap-12">
           <div className="text-center sm:text-left">
             <p className="text-light-70 text-body-sm mb-1">Sunday Services</p>
             <p className="text-light-100 text-lg font-bold">8:00 AM & 10:00 AM</p>

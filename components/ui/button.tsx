@@ -17,12 +17,20 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // Custom variants for Teliosis design system
+        brand:
+          "rounded-full bg-danger-500 text-white font-semibold hover:bg-danger-500/90 focus-visible:ring-danger-500/20",
+        glass:
+          "rounded-full border border-white/20 bg-white/10 text-white font-medium backdrop-blur-md hover:bg-white/20 hover:text-white",
+        gradient:
+          "rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white  font-semibold hover:opacity-90",
       },
       size: {
-        default: "h-9 px-4  has-[>svg]:px-3",
+        default: "h-9 px-4 has-[>svg]:px-3",
         xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        lg: "h-10 px-6 text-base has-[>svg]:px-4",
+        xl: "h-auto px-8 py-4 text-base [&_svg:not([class*='size-'])]:size-5",
         icon: "size-9",
         "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
