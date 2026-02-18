@@ -19,7 +19,7 @@ const Hero = () => {
       />
       {/* Dark Overlay */}
       <div className="overlay-dark absolute inset-0" />
-      Decorative Blur Elements
+      {/* Decorative Blur Elements */}
       <div className="blur-red absolute top-0 left-0 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2" />
       <div className="blur-orange absolute top-20 left-20 h-[400px] w-[400px]" />
       <div className="blur-purple absolute top-0 right-0 h-[500px] w-[500px] translate-x-1/3 -translate-y-1/4" />

@@ -39,7 +39,7 @@ const Navbar = () => {
         <div className="flex-between h-20">
           {/* Logo */}
           <Link href="/" className="flex-center gap-2">
-            <Image src="/assets/logo.png" alt="Teliosis World Outreach" width={48} height={48} className="h-12 w-12" />
+            <Image src="/assets/logo.png" alt="Teliosis World Outreach" width={48} height={48} />
           </Link>
 
           {/* Desktop Navigation */}

@@ -1,6 +1,6 @@
 import { Hero, AboutSection } from "./components";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <Hero />
@@ -9,4 +9,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

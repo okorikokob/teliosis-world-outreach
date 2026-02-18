@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +9,7 @@ const AboutSection = () => {
       <div className="layout-container">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left Column - Text Content */}
-          <div className="order-1 lg:order-1">
+          <div className="order-1">
             <h2 className="text-heading-lg text-dark-500 mb-6">
               About <span className="text-danger-500">Us</span>
             </h2>
@@ -33,7 +31,7 @@ const AboutSection = () => {
           </div>
 
           {/* Right Column - Image with Floating Card */}
-          <div className="relative order-2 lg:order-2">
+          <div className="relative order-2">
             <div className="relative">
               <Image
                 src="/assets/aboutImage.png"

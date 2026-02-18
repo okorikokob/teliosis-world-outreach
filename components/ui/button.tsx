@@ -22,8 +22,7 @@ const buttonVariants = cva(
           "rounded-full bg-danger-500 text-white font-semibold hover:bg-danger-500/90 focus-visible:ring-danger-500/20",
         glass:
           "rounded-full border border-white/20 bg-white/10 text-white font-medium backdrop-blur-md hover:bg-white/20 hover:text-white",
-        gradient:
-          "rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white  font-semibold hover:opacity-90",
+        gradient: "rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold hover:opacity-90",
       },
       size: {
         default: "h-9 px-4 has-[>svg]:px-3",
