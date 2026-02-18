@@ -1,11 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Puzzle, Heart } from "lucide-react";
+import { Menu, X, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -18,7 +29,11 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-light-100 shadow-light-200 fixed top-0 right-0 left-0 z-50">
+    <nav
+      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+      }`}
+    >
       <div className="layout-container">
         <div className="flex-between h-20">
           {/* Logo */}
@@ -32,7 +47,9 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-dark hover:text-primary text-label font-medium transition-colors duration-200"
+                className={`text-body-lg transition-colors duration-200 ${
+                  isScrolled ? "text-gray-900 hover:text-blue-600" : "text-light-70 hover:text-white/80"
+                }`}
               >
                 {link.label}
               </Link>
@@ -43,7 +60,7 @@ const Navbar = () => {
           <div className="hidden md:block">
             <Link
               href="/partner"
-              className="text-light-100 text-label inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 font-semibold transition-opacity duration-200 hover:opacity-90"
+              className="text-body-lg inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 font-semibold text-white transition-opacity duration-200 hover:opacity-90"
             >
               <Heart className="h-5 w-5" />
               Partner
@@ -51,25 +68,27 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-dark p-2 md:hidden"
+            className={`md:hidden ${isScrolled ? "text-gray-900" : "text-white hover:bg-white/10"}`}
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="bg-light-100 border-dark/10 border-t md:hidden">
+        <div className="border-t border-gray-200 bg-white md:hidden">
           <div className="space-y-3 px-4 pt-2 pb-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-dark hover:text-primary text-label block py-2 font-medium transition-colors duration-200"
+                className="text-label block py-2 font-medium text-gray-900 transition-colors duration-200 hover:text-blue-600"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
@@ -77,7 +96,7 @@ const Navbar = () => {
             ))}
             <Link
               href="/partner"
-              className="text-light-100 text-label mt-4 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 font-semibold"
+              className="text-label mt-4 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 font-semibold text-white"
               onClick={() => setIsMenuOpen(false)}
             >
               <Heart className="h-5 w-5" />

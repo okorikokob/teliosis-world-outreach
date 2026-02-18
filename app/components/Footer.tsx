@@ -51,7 +51,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={link.label}
-                    className="text-light-100 hover:text-primary flex h-10 w-10 items-center justify-center rounded-[10px] border border-gray-600 bg-gray-700 transition-colors duration-200"
+                    className="text-light-100 hover:text-primary flex h-10 w-10 items-center justify-center rounded-[10px] border border-white/20 bg-white/10 transition-colors duration-200"
                   >
                     <IconComponent className="h-6 w-6" />
                   </a>
