@@ -1,11 +1,12 @@
-import { Hero } from "./components";
+import { Hero, AboutSection } from "./components";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <Hero />
+      <AboutSection />
     </div>
   );
 };
 
-export default page;
+export default Page;
