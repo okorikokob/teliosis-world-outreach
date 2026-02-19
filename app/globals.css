@@ -147,7 +147,7 @@ body {
 }
 
 @utility text-muted {
-  color: var(--color-gray-500);
+  color: var(--color-gray-500) !important;
 }
 
 /* Opacity text utilities */

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const AboutSection = () => {
   return (
-    <section className="bg-light-200 py-24">
+    <section className="bg-light-100 relative overflow-hidden py-24">
       <div className="layout-container">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left Column - Text Content */}
