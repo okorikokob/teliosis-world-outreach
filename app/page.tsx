@@ -1,4 +1,4 @@
-import { Hero, AboutSection, DevotionalSection } from "./components";
+import { Hero, AboutSection, DevotionalSection, NewHereSection } from "./components";
 
 const Page = () => {
   return (
@@ -6,6 +6,7 @@ const Page = () => {
       <Hero />
       <AboutSection />
       <DevotionalSection />
+      <NewHereSection />
     </div>
   );
 };
