@@ -1,4 +1,5 @@
 import { Hero, AboutSection, DevotionalSection, NewHereSection } from "./components";
+import TeliosisSection from "./components/TeliosisSchoolSection";
 
 const Page = () => {
   return (
@@ -7,6 +8,7 @@ const Page = () => {
       <AboutSection />
       <DevotionalSection />
       <NewHereSection />
+      <TeliosisSection />
     </div>
   );
 };
