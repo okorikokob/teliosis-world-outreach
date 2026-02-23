@@ -1,4 +1,5 @@
 import { Hero, AboutSection, DevotionalSection, NewHereSection } from "./components";
+import PartnerSection from "./components/PartnerSection";
 import TeliosisSection from "./components/TeliosisSchoolSection";
 
 const Page = () => {
@@ -9,6 +10,7 @@ const Page = () => {
       <DevotionalSection />
       <NewHereSection />
       <TeliosisSection />
+      <PartnerSection />
     </div>
   );
 };
