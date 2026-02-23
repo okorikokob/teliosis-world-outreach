@@ -1,30 +1,34 @@
+import Link from "next/link";
 import { Heart, DollarSign, Box, Users, ArrowRight, Sparkles } from "lucide-react";
 
-export default function PartnerSection() {
-  const cards = [
-    {
-      title: "Give",
-      description: "Your generosity fuels our mission. Every gift helps us reach more people with hope and love.",
-      icon: <DollarSign className="h-7 w-7 text-white" />,
-      iconBg: "bg-[#D92D20]", // Vibrant Red
-      btnText: "Give Now",
-    },
-    {
-      title: "Serve",
-      description: "Use your gifts and talents to make a difference. There's a place for everyone to serve.",
-      icon: <Box className="h-7 w-7 text-white" />,
-      iconBg: "bg-[#2970FF]", // Vibrant Blue
-      btnText: "Find Your Team",
-    },
-    {
-      title: "Partner",
-      description: "Join our mission as a ministry partner. Together, we can accomplish more than alone.",
-      icon: <Heart className="h-7 w-7 text-white" />,
-      iconBg: "bg-[#F79009]", // Vibrant Orange
-      btnText: "Become a Partner",
-    },
-  ];
+const cards = [
+  {
+    title: "Give",
+    description: "Your generosity fuels our mission. Every gift helps us reach more people with hope and love.",
+    icon: <DollarSign className="h-7 w-7 text-white" />,
+    iconBg: "bg-[#D92D20]", // Vibrant Red
+    btnText: "Give Now",
+    href: "/give",
+  },
+  {
+    title: "Serve",
+    description: "Use your gifts and talents to make a difference. There's a place for everyone to serve.",
+    icon: <Box className="h-7 w-7 text-white" />,
+    iconBg: "bg-[#2970FF]", // Vibrant Blue
+    btnText: "Find Your Team",
+    href: "/serve",
+  },
+  {
+    title: "Partner",
+    description: "Join our mission as a ministry partner. Together, we can accomplish more than alone.",
+    icon: <Heart className="h-7 w-7 text-white" />,
+    iconBg: "bg-[#F79009]", // Vibrant Orange
+    btnText: "Become a Partner",
+    href: "/partner",
+  },
+];
 
+export default function PartnerSection() {
   return (
     <section className="relative overflow-hidden bg-white py-24 lg:py-32">
       {/* Background Glow - Top Left */}
@@ -63,16 +67,19 @@ export default function PartnerSection() {
               <p className="mb-10 flex-grow text-[15px] leading-relaxed text-gray-500">{card.description}</p>
 
               {/* Dark Action Button */}
-              <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#1D1B18] py-4.5 text-sm font-bold text-white transition-all hover:bg-zinc-800 active:scale-[0.98]">
+              <Link
+                href={card.href}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#1D1B18] py-4.5 text-sm font-bold text-white transition-all hover:bg-zinc-800 active:scale-[0.98]"
+              >
                 {card.btnText}
                 <ArrowRight size={18} />
-              </button>
+              </Link>
             </div>
           ))}
         </div>
 
         {/* --- Testimonial Section --- */}
-        <div className="relative overflow-hidden rounded-[3.5rem] bg-[#939393] px-6 py-20 text-center text-white md:px-20 lg:py-24">
+        <div className="relative overflow-hidden rounded-[3.5rem] bg-zinc-800 px-6 py-20 text-center text-white md:px-20 lg:py-24">
           {/* Subtle Sparkle Background Decoration */}
           <div className="absolute top-10 left-1/2 -translate-x-1/2 opacity-20">
             <Sparkles size={120} strokeWidth={0.5} />
@@ -83,7 +90,7 @@ export default function PartnerSection() {
               <Sparkles size={40} />
             </div>
 
-            <blockquote className="mx-auto max-w-4xl text-2xl leading-[1.3] font-bold md:text-4xl">
+            <blockquote className="mx-auto max-w-4xl text-2xl leading-[1.3] font-bold text-white md:text-4xl">
               "Partnering with this church has been one of the most rewarding decisions of my life. Seeing lives
               transformed and knowing I played a small part in that—it's incredible."
             </blockquote>
@@ -94,8 +101,8 @@ export default function PartnerSection() {
                 MJ
               </div>
               <div>
-                <p className="text-lg font-bold">Michael Johnson</p>
-                <p className="text-sm font-medium tracking-widest text-white/50 uppercase">Partner since 2019</p>
+                <p className="text-lg font-bold text-white">Michael Johnson</p>
+                <p className="text-sm font-medium tracking-widest text-white/80 uppercase">Partner since 2019</p>
               </div>
             </div>
           </div>
