@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { GraduationCap, BookOpen, Users, Award, Users2, Sparkles, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function TeliosisSection() {
   const features = [
@@ -31,8 +31,8 @@ export default function TeliosisSection() {
   ];
 
   return (
-    <section className="bg-[#FDFCFB] px-6 py-20 md:px-12 lg:px-24">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-light-100 py-20">
+      <div className="layout-container">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
           {/* Left Content */}
           <div className="space-y-8">
@@ -42,12 +42,11 @@ export default function TeliosisSection() {
               </div>
               <span className="font-bold text-gray-900">Teliosis School</span>
             </div>
-
-            <h2 className="text-heading-lg mb-6 font-black text-zinc-900 md:text-6xl">
+            <h2 className="text-heading-lg text-dark-500 mb-6">
               The Teliosis <br /> School of the <br /> Teaching Ministry
             </h2>
 
-            <p className="max-w-md text-lg leading-relaxed text-gray-500">
+            <p className="text-body-lg text-muted max-w-xl">
               Deepen your understanding of Scripture and develop your teaching gifts through our comprehensive ministry
               training program. Whether you're called to teach, lead, or serve, Teliosis School equips you for effective
               ministry.
@@ -57,22 +56,22 @@ export default function TeliosisSection() {
               {features.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm"
+                  className="border-light-300 flex items-center gap-3 rounded-2xl border bg-white px-4 py-3 shadow-sm"
                 >
                   <div
                     className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${item.bgColor} ${item.iconColor}`}
                   >
                     {item.icon}
                   </div>
-                  <span className="text-sm font-bold text-gray-700">{item.text}</span>
+                  <span className="text-body-sm text-dark-500 font-semibold">{item.text}</span>
                 </div>
               ))}
             </div>
 
-            <button className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-rose-600 to-indigo-600 px-8 py-4 font-bold text-white transition-transform hover:scale-105">
+            <Button variant="gradient" size="xl" className="group">
               Enroll Now
-              <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
-            </button>
+              <ArrowRight className="transition-transform group-hover:translate-x-1" />
+            </Button>
           </div>
 
           {/* Right Image with Overlays */}
@@ -94,19 +93,19 @@ export default function TeliosisSection() {
             </div>
 
             {/* Stats Overlay - Bottom Overlap */}
-            <div className="absolute -bottom-10 left-1/2 z-20 w-[90%] -translate-x-1/2 rounded-3xl border border-gray-50 bg-white p-8 shadow-xl">
-              <div className="grid grid-cols-3 divide-x divide-gray-100">
+            <div className="border-light-300 absolute -bottom-10 left-1/2 z-20 w-[90%] -translate-x-1/2 rounded-3xl border bg-white p-8 shadow-xl">
+              <div className="divide-light-300 grid grid-cols-3 divide-x">
                 <div className="text-center">
-                  <div className="text-3xl font-black text-gray-900">500+</div>
-                  <div className="text-xs font-medium tracking-wider text-gray-400 uppercase">Graduates</div>
+                  <div className="text-heading-md text-dark-500">500+</div>
+                  <div className="text-body-sm text-muted uppercase">Graduates</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-black text-gray-900">12+</div>
-                  <div className="text-xs font-medium tracking-wider text-gray-400 uppercase">Courses</div>
+                  <div className="text-heading-md text-dark-500">12+</div>
+                  <div className="text-body-sm text-muted uppercase">Courses</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-black text-gray-900">8+</div>
-                  <div className="text-xs font-medium tracking-wider text-gray-400 uppercase">Instructors</div>
+                  <div className="text-heading-md text-dark-500">8+</div>
+                  <div className="text-body-sm text-muted uppercase">Instructors</div>
                 </div>
               </div>
             </div>
