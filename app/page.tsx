@@ -1,6 +1,9 @@
-import { Hero, AboutSection, DevotionalSection, NewHereSection } from "./components";
-import PartnerSection from "./components/PartnerSection";
-import TeliosisSection from "./components/TeliosisSchoolSection";
+import Hero from "./_components/Hero";
+import AboutSection from "./_components/AboutSection";
+import DevotionalSection from "./_components/DevotionalSection";
+import NewHereSection from "./_components/NewHereSection";
+import PartnerSection from "./_components/PartnerSection";
+import TeliosisSection from "./_components/TeliosisSchoolSection";
 
 const Page = () => {
   return (

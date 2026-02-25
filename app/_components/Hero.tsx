@@ -26,7 +26,7 @@ const Hero = () => {
       {/* Content Container */}
       <div className="layout-container relative z-10 flex flex-col items-center pt-20 pb-5 text-center">
         {/* Welcome Badge */}
-        <div className="flex-center mb-8 gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md">
+        <div className="flex-center my-8 gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md">
           <Image src="/assets/welcome-icon.png" alt="Welcome" width={20} height={20} className="h-5 w-5" />
           <span className="text-light-100 text-body-sm">Welcome Home</span>
         </div>
