@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -26,9 +27,11 @@ const JourneySection = () => {
               poured their hearts into building a place where everyone belongs.
             </p>
 
-            <Button variant="brand" size="xl">
-              Read Our Full History
-            </Button>
+            <Link href="/about/history" className="inline-block">
+              <Button variant="brand" size="xl">
+                Read Our Full History
+              </Button>
+            </Link>
           </div>
 
           {/* Right Column - Image with Floating Card */}
@@ -43,9 +46,9 @@ const JourneySection = () => {
               />
 
               {/* Floating Card - Simplified with just years */}
-              <div className="absolute right-0 -bottom-8 left-4 rounded-xl border border-gray-100 bg-white p-8 shadow-lg sm:right-8 sm:left-8 lg:right-auto lg:-bottom-10 lg:left-[-40px]">
+              <div className="absolute right-0 -bottom-8 left-4 rounded-xl border border-gray-100 bg-white p-8 shadow-lg sm:right-8 sm:left-8 lg:right-auto lg:-bottom-10 lg:-left-10">
                 <div className="text-center">
-                  <p className="text-display-sm text-danger-500 mb-2">25+</p>
+                  <p className="text-heading-xl text-danger-500 mb-2">25+</p>
                   <p className="text-body-md text-dark-500 font-medium">Years of Ministry</p>
                 </div>
               </div>

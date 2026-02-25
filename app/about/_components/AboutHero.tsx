@@ -1,13 +1,18 @@
+import Image from "next/image";
 import { Flower2 } from "lucide-react";
 
 const AboutHero = () => {
   return (
     <section className="relative h-[600px] w-full overflow-hidden">
       {/* Background Image with Overlay */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/assets/aboutpage-hero.jpg')" }}
-      >
+      <div className="absolute inset-0">
+        <Image
+          src="/assets/aboutpage-hero.jpg"
+          alt="About page hero"
+          fill
+          priority
+          className="object-cover object-center"
+        />
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
@@ -24,7 +29,7 @@ const AboutHero = () => {
           <h1 className="text-heading-xl text-light-100 mb-6 max-w-4xl">Transforming Lives Through Faith</h1>
 
           {/* Description */}
-          <p className="text-body-xl max-w-3xl text-white/90">
+          <p className="text-body-lg max-w-3xl text-white/90">
             For over 25 years, we've been a beacon of hope and love in our community, dedicated to helping people
             discover their purpose.
           </p>

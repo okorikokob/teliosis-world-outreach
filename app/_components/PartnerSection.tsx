@@ -7,21 +7,21 @@ export default function PartnerSection() {
       title: "Give",
       description: "Your generosity fuels our mission. Every gift helps us reach more people with hope and love.",
       icon: <DollarSign className="h-7 w-7 text-white" />,
-      iconBg: "bg-[#D92D20]",
+      iconBg: "bg-danger-500",
       btnText: "Give Now",
     },
     {
       title: "Serve",
       description: "Use your gifts and talents to make a difference. There's a place for everyone to serve.",
       icon: <Box className="h-7 w-7 text-white" />,
-      iconBg: "bg-[#2970FF]",
+      iconBg: "bg-blue-500",
       btnText: "Find Your Team",
     },
     {
       title: "Partner",
       description: "Join our mission as a ministry partner. Together, we can accomplish more than alone.",
       icon: <Heart className="h-7 w-7 text-white" />,
-      iconBg: "bg-[#F79009]",
+      iconBg: "bg-orange-500",
       btnText: "Become a Partner",
     },
   ];
@@ -59,11 +59,15 @@ export default function PartnerSection() {
               <h3 className="text-heading-sm text-dark-500 mb-4">{card.title}</h3>
               <p className="text-body-lg text-muted mb-10 flex-grow">{card.description}</p>
 
-              {/* Dark Action Button */}
-              <button className="bg-dark-500 flex w-full items-center justify-center gap-2 rounded-2xl py-4.5 text-sm font-bold text-white transition-all hover:bg-zinc-800 active:scale-[0.98]">
+              {/* Dark-styled Action Button (no dark variant available) */}
+              <Button
+                variant="default"
+                size="xl"
+                className="bg-dark-500 w-full justify-center gap-2 text-white hover:bg-zinc-800"
+              >
                 {card.btnText}
                 <ArrowRight size={18} />
-              </button>
+              </Button>
             </div>
           ))}
         </div>
