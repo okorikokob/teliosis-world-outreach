@@ -9,6 +9,25 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const ContactForm = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const name = form.get("name")?.toString().trim() || "";
+    const email = form.get("email")?.toString().trim() || "";
+    const subject = form.get("subject")?.toString().trim() || "";
+    const message = form.get("message")?.toString().trim() || "";
+
+    if (!name || !email || !subject || !message) {
+      // simple validation; could show a toast or message
+      console.warn("All fields are required");
+      return;
+    }
+
+    // TODO: replace with actual submission logic (API call, server action, etc.)
+    console.log({ name, email, subject, message });
+    e.currentTarget.reset();
+  };
+
   return (
     <section className="bg-gray-50 py-16 md:py-24">
       <div className="layout-container">
@@ -21,7 +40,7 @@ const ContactForm = () => {
             </p>
           </div>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Name & Email Row */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="space-y-2">
@@ -30,6 +49,8 @@ const ContactForm = () => {
                 </label>
                 <Input
                   id="name"
+                  name="name"
+                  required
                   placeholder="John Doe"
                   className="focus-visible:ring-danger-500 rounded-xl border-gray-200 bg-gray-50 px-4 py-6"
                 />
@@ -41,7 +62,9 @@ const ContactForm = () => {
                 </label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
+                  required
                   placeholder="john@example.com"
                   className="focus-visible:ring-danger-500 rounded-xl border-gray-200 bg-gray-50 px-4 py-6"
                 />
@@ -55,6 +78,8 @@ const ContactForm = () => {
               </label>
               <Input
                 id="subject"
+                name="subject"
+                required
                 placeholder="How can we help?"
                 className="focus-visible:ring-danger-500 rounded-xl border-gray-200 bg-gray-50 px-4 py-6"
               />
@@ -67,6 +92,8 @@ const ContactForm = () => {
               </label>
               <Textarea
                 id="message"
+                name="message"
+                required
                 placeholder="Write your message here..."
                 rows={5}
                 className="focus-visible:ring-danger-500 resize-none rounded-xl border-gray-200 bg-gray-50 px-4 py-4"
