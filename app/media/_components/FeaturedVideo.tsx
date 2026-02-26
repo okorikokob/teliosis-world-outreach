@@ -1,5 +1,3 @@
-"use client";
-
 import { Youtube, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -24,7 +22,6 @@ const FeaturedVideo = () => {
             </p>
 
             {/* Action Button - asChild allows the Button to act as an <a> tag */}
-            {/* Action Button */}
             <Button
               variant="brand"
               size="xl"
@@ -32,7 +29,7 @@ const FeaturedVideo = () => {
               asChild
             >
               <a
-                href="https://www.youtube.com/@yourchurchhandle"
+                href={process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_URL || "https://www.youtube.com/@yourchurchhandle"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"

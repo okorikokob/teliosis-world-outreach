@@ -1,5 +1,4 @@
-"use client";
-
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const MediaCTA = () => {
@@ -22,9 +21,17 @@ const MediaCTA = () => {
             className="text-danger-500 w-full rounded-full bg-white font-bold shadow-xl hover:bg-gray-50 active:scale-95 sm:w-auto"
             asChild
           >
-            <a href="https://open.spotify.com/show/your-podcast-id" target="_blank" rel="noopener noreferrer">
+            <Link
+              href={
+                process.env.NEXT_PUBLIC_SPOTIFY_PODCAST_ID
+                  ? `https://open.spotify.com/show/${process.env.NEXT_PUBLIC_SPOTIFY_PODCAST_ID}`
+                  : "#"
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Subscribe to Podcast
-            </a>
+            </Link>
           </Button>
 
           {/* Archive Button */}
@@ -33,7 +40,7 @@ const MediaCTA = () => {
             className="w-full rounded-full border-2 border-white bg-black font-bold text-white shadow-xl hover:bg-zinc-900 active:scale-95 sm:w-auto"
             asChild
           >
-            <a href="/media/archive">Browse Archive</a>
+            <Link href="/media/archive">Browse Archive</Link>
           </Button>
         </div>
       </div>
