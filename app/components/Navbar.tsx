@@ -23,7 +23,7 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/devotionals", label: "Devotionals" },
     { href: "/about", label: "About" },
-    { href: "/ministries", label: "Ministries" },
+    { href: "/partner", label: "Partner" },
     { href: "/media", label: "Media" },
     { href: "/contact", label: "Contact" },
     { href: "/give", label: "Give" },
@@ -68,7 +68,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
-            size="icon"
+            size="lg"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`md:hidden ${isScrolled ? "text-gray-900" : "text-white hover:bg-white/10"}`}
             aria-label="Toggle menu"
