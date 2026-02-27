@@ -23,6 +23,7 @@ export default function PartnerModal({ children, defaultInterest = "general" }: 
   const [isOpen, setIsOpen] = useState(false);
   const [isFinancialSponsor, setIsFinancialSponsor] = useState(false);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [tierError, setTierError] = useState(false);
 
   const givingTiers = ["₦500 - ₦5,000", "₦5,000 - ₦10,000", "₦10,000 - ₦50,000", "₦50,000+"];
 
@@ -47,21 +48,37 @@ export default function PartnerModal({ children, defaultInterest = "general" }: 
             className="space-y-6"
             onSubmit={(e) => {
               e.preventDefault();
+              // Validate: if financial sponsor, require a tier
+              if (isFinancialSponsor && !selectedTier) {
+                setTierError(true);
+                return;
+              }
+              setTierError(false);
               setIsOpen(false);
             }}
           >
             {/* ROW 1: Name */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="space-y-2">
-                <label className="text-dark text-xs font-bold">First Name</label>
+                <label htmlFor="firstName" className="text-dark text-xs font-bold">
+                  First Name
+                </label>
                 <Input
+                  id="firstName"
+                  name="firstName"
+                  required
                   placeholder="John"
                   className="focus-visible:ring-danger-500 rounded-xl border-gray-200 bg-gray-50 px-4 py-6"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-dark text-xs font-bold">Last Name</label>
+                <label htmlFor="lastName" className="text-dark text-xs font-bold">
+                  Last Name
+                </label>
                 <Input
+                  id="lastName"
+                  name="lastName"
+                  required
                   placeholder="Doe"
                   className="focus-visible:ring-danger-500 rounded-xl border-gray-200 bg-gray-50 px-4 py-6"
                 />
@@ -139,7 +156,10 @@ export default function PartnerModal({ children, defaultInterest = "general" }: 
                             <button
                               key={tier}
                               type="button"
-                              onClick={() => setSelectedTier(tier)}
+                              onClick={() => {
+                                setSelectedTier(tier);
+                                setTierError(false);
+                              }}
                               className={`flex items-center justify-between rounded-xl border p-4 text-sm font-bold transition-all ${
                                 isSelected
                                   ? "border-danger-500 bg-danger-50 text-danger-500 shadow-sm"
@@ -152,6 +172,9 @@ export default function PartnerModal({ children, defaultInterest = "general" }: 
                           );
                         })}
                       </div>
+                      {tierError && (
+                        <p className="text-danger-500 mt-2 text-xs font-bold">Please select a tier to continue</p>
+                      )}
                     </div>
                   )}
                 </div>
