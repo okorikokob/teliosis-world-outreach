@@ -59,12 +59,14 @@ export async function getAllDevotionals(): Promise<Devotional[]> {
   );
 }
 
-// Fetch featured devotional (today's spotlight)
+// Fetch the devotional for today (the most recent one up to the current moment)
 export async function getFeaturedDevotional(): Promise<Devotional | null> {
   return client.fetch(
-    `*[_type == "devotional" && featured == true] | order(publishedAt desc) [0] {
+    `*[_type == "devotional" && publishedAt <= now()] | order(publishedAt desc) [0] {
       ${devotionalFields}
-    }`
+    }`,
+    // Optional: Next.js caching rule to ensure the site checks for a new devotional every hour (3600 seconds)
+    { next: { revalidate: 3600 } }
   );
 }
 

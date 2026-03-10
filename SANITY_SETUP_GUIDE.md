@@ -3,6 +3,7 @@
 ## ✅ What We've Set Up
 
 Your project now has:
+
 - ✅ Sanity packages installed
 - ✅ Schema definitions for Devotionals and Leadership
 - ✅ Sanity Studio configured at `/studio`
@@ -21,8 +22,10 @@ Your project now has:
    - Use Google/GitHub or email to sign up
 
 2. **Create a new project:**
+
    ```bash
    # Run this command in your terminal
+
    npx sanity@latest init --project-plan free
    ```
 
@@ -45,16 +48,19 @@ Your project now has:
 ### **Step 2: Set Up Environment Variables**
 
 1. **Create `.env.local` file** in your project root:
+
    ```bash
    # Copy the example file
    copy .env.local.example .env.local
    ```
 
 2. **Add your Sanity credentials** to `.env.local`:
+
    ```env
    NEXT_PUBLIC_SANITY_PROJECT_ID=abc123xyz
    NEXT_PUBLIC_SANITY_DATASET=production
    ```
+
    Replace `abc123xyz` with your actual project ID from Step 1.
 
 3. **Restart your development server:**
@@ -67,6 +73,7 @@ Your project now has:
 ### **Step 3: Access Sanity Studio**
 
 1. **Open your browser** and go to:
+
    ```
    http://localhost:3000/studio
    ```
@@ -118,6 +125,7 @@ Your project now has:
 ## 📝 How Content Works
 
 ### Content Flow:
+
 ```
 ┌──────────────┐       ┌───────────────┐       ┌──────────────┐
 │   Studio     │  ───> │ Sanity Cloud  │  ───> │  Your Site   │
@@ -141,7 +149,7 @@ import { getAllDevotionals } from "@/lib/sanity.queries";
 
 export default async function DevotionalsPage() {
   const devotionals = await getAllDevotionals();
-  
+
   return (
     <div>
       {devotionals.map((devotional) => (
@@ -160,14 +168,14 @@ export default async function DevotionalsPage() {
 
 ```typescript
 // Devotionals
-getAllDevotionals()           // Get all devotionals
-getFeaturedDevotional()       // Get today's featured devotional
-getDevotionalBySlug(slug)     // Get specific devotional
-getDevotionalsByTopic(topic)  // Filter by topic
-searchDevotionals(query)      // Search devotionals
+getAllDevotionals(); // Get all devotionals
+getFeaturedDevotional(); // Get today's featured devotional
+getDevotionalBySlug(slug); // Get specific devotional
+getDevotionalsByTopic(topic); // Filter by topic
+searchDevotionals(query); // Search devotionals
 
 // Leadership
-getAllLeaders()               // Get all leaders
+getAllLeaders(); // Get all leaders
 ```
 
 ---
@@ -175,17 +183,21 @@ getAllLeaders()               // Get all leaders
 ## 🎨 Next Steps
 
 ### 1. **Update Devotionals Page** to use real data
+
 Currently, the devotional grid shows hardcoded data. Update it to fetch from Sanity.
 
 ### 2. **Create Individual Devotional Pages**
+
 Create `app/devotionals/[slug]/page.tsx` to show full devotional content.
 
 ### 3. **Update Leadership Section**
+
 Replace hardcoded leadership data with Sanity data.
 
 ### 4. **Add More Schemas** (Optional)
+
 - Sermons
-- Events  
+- Events
 - Impact Statistics
 - Ministry Programs
 
@@ -194,13 +206,16 @@ Replace hardcoded leadership data with Sanity data.
 ## 🆘 Troubleshooting
 
 ### "Cannot find module sanity.config"
+
 - Make sure you've restarted your dev server after setting up environment variables
 
 ### "CORS error" when accessing Studio
+
 - Make sure your project ID and dataset are correct in `.env.local`
 - Check that you've logged into the same Sanity account
 
 ### "403 Forbidden" in Studio
+
 - Go to https://www.sanity.io/manage
 - Select your project
 - Go to "API" → "CORS Origins"
@@ -219,6 +234,7 @@ Replace hardcoded leadership data with Sanity data.
 ## ✨ What's Configured
 
 ### Schemas Created:
+
 1. **Devotional** - Daily devotional content
    - Title, Scripture, Content, Topics, etc.
    - Featured flag for "Today's Reading"
@@ -229,6 +245,7 @@ Replace hardcoded leadership data with Sanity data.
    - Display order control
 
 ### Files Created:
+
 ```
 teliosis-world-outreach/
 ├── sanity.config.ts          # Main Sanity configuration

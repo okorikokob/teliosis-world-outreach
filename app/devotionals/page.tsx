@@ -5,13 +5,19 @@ import DevotionalFilters from "./_components/DevotionalFilter";
 import DevotionalGrid from "./_components/DevotionalGrid";
 import SubscribeSection from "./_components/SubscribeSection";
 
-const page = () => {
+import { getAllDevotionals, getFeaturedDevotional } from "@/lib/sanity.queries";
+
+export const revalidate = 0;
+
+const page = async () => {
+  const [devotionals, featuredDevotional] = await Promise.all([getAllDevotionals(), getFeaturedDevotional()]);
+
   return (
     <main>
       <DevotionalHero />
-      <TodaySpotlight />
+      <TodaySpotlight featuredDevotional={featuredDevotional} />
       <DevotionalFilters />
-      <DevotionalGrid />
+      <DevotionalGrid devotionals={devotionals} />
       <SubscribeSection />
     </main>
   );

@@ -4,7 +4,12 @@ import React from "react";
 import { Clock, Share2, PlayCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const TodaySpotlight = () => {
+interface TodaySpotlightProps {
+  featuredDevotional: any;
+}
+
+const TodaySpotlight = ({ featuredDevotional }: TodaySpotlightProps) => {
+  if (!featuredDevotional) return null;
   return (
     <section className="bg-white py-12 md:py-20">
       <div className="layout-container">
@@ -38,19 +43,16 @@ const TodaySpotlight = () => {
             <div className="lg:col-span-7">
               {/* Scripture Reference */}
               <span className="mb-3 block text-sm font-bold tracking-[0.2em] text-white/40 uppercase">
-                Isaiah 41:10
+                {featuredDevotional.scripture}
               </span>
 
               {/* Title */}
               <h2 className="mb-6 text-4xl leading-[1.1] font-bold tracking-tight md:text-6xl">
-                Walking in Faith, Not Fear
+                {featuredDevotional.title}
               </h2>
 
               {/* Excerpt */}
-              <p className="mb-10 text-lg leading-relaxed font-medium text-white/70">
-                Fear can paralyze us, but faith propels us forward. Today, let's explore how to trust in uncertain
-                times, leaning on the promise that God is with us wherever we go...
-              </p>
+              <p className="mb-10 text-lg leading-relaxed font-medium text-white/70">{featuredDevotional.excerpt}</p>
 
               {/* Call to Actions */}
               <div className="flex flex-col gap-4 border-t border-white/10 pt-8 sm:flex-row">

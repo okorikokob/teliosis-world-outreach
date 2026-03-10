@@ -9,81 +9,25 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
-const devotionals = [
-  {
-    id: 1,
-    label: "Today",
-    date: "Feb 18",
-    readTime: "5 min read",
-    scripture: "Isaiah 41:10",
-    title: "Walking in Faith, Not Fear",
-    excerpt:
-      "Fear can paralyze us, but faith propels us forward. Today, let's explore how to trust in uncertain times...",
-    isFeatured: true,
-  },
-  {
-    id: 2,
-    label: "Yesterday",
-    date: "Feb 17",
-    readTime: "4 min read",
-    scripture: "Psalm 100:4",
-    title: "The Power of Gratitude",
-    excerpt:
-      "A thankful heart transforms our perspective. Discover how cultivating gratitude can change your daily life...",
-    isFeatured: false,
-  },
-  {
-    id: 3,
-    label: "Jan 21",
-    date: "Jan 21",
-    readTime: "6 min read",
-    scripture: "Matthew 11:28",
-    title: "Finding Rest in His Presence",
-    excerpt: "In a world that never stops, God invites us to rest. Learn how to find peace in the midst of chaos...",
-    isFeatured: false,
-  },
-  {
-    id: 4,
-    label: "Jan 20",
-    date: "Jan 20",
-    readTime: "5 min read",
-    scripture: "Ecclesiastes 3:1",
-    title: "Purpose in Every Season",
-    excerpt:
-      "Every season of life carries meaning, whether joy or struggle. Discover God's purpose in your current season...",
-    isFeatured: false,
-  },
-  {
-    id: 5,
-    label: "Jan 19",
-    date: "Jan 19",
-    readTime: "4 min read",
-    scripture: "Proverbs 3:5-6",
-    title: "Trust in the Lord with All Your Heart",
-
-    excerpt:
-      "Every season of life carries meaning, whether joy or struggle. Discover God's purpose in your current season...",
-    isFeatured: false,
-  },
-  {
-    id: 6,
-    label: "Jan 20",
-    date: "Jan 20",
-    readTime: "5 min read",
-    scripture: "Ecclesiastes 3:1",
-    title: "Purpose in Every Season",
-    excerpt:
-      "Every season of life carries meaning, whether joy or struggle. Discover God's purpose in your current season...",
-    isFeatured: false,
-  },
-];
-
-interface DevotionalCardProps {
-  devotional: (typeof devotionals)[0];
+interface DevotionalSectionProps {
+  devotionals: any[];
+  featuredDevotional: any;
 }
 
-const DevotionalCard = ({ devotional }: DevotionalCardProps) => {
-  const { label, readTime, scripture, title, excerpt, isFeatured } = devotional;
+interface DevotionalCardProps {
+  devotional: any;
+  isFeatured: boolean;
+}
+
+const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
+  const scripture = devotional.scripture;
+  const title = devotional.title;
+  const excerpt = devotional.excerpt;
+  const readTime = `${devotional.readTime} min read`;
+
+  const dateObj = new Date(devotional.publishedAt);
+  const isToday = new Date().toDateString() === dateObj.toDateString();
+  const label = isToday ? "Today" : dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
     <Card
@@ -104,6 +48,7 @@ const DevotionalCard = ({ devotional }: DevotionalCardProps) => {
             </div>
           ) : (
             <span
+              suppressHydrationWarning
               className={cn(
                 "text-sm font-medium transition-colors duration-300",
                 "text-gray-600 group-hover:text-gray-300"
@@ -132,7 +77,7 @@ const DevotionalCard = ({ devotional }: DevotionalCardProps) => {
         {/* Scripture Reference */}
         <span
           className={cn(
-            "text-sm font-medium transition-colors duration-300",
+            "text-sm font-medium tracking-wider uppercase transition-colors duration-300",
             isFeatured ? "text-red-400" : "text-danger-500 group-hover:text-red-400"
           )}
         >
@@ -145,7 +90,7 @@ const DevotionalCard = ({ devotional }: DevotionalCardProps) => {
         {/* Excerpt */}
         <p
           className={cn(
-            "text-sm leading-relaxed transition-colors duration-300",
+            "line-clamp-3 text-sm leading-relaxed transition-colors duration-300",
             isFeatured ? "text-gray-300" : "text-gray-500 group-hover:text-gray-300"
           )}
         >
@@ -154,8 +99,9 @@ const DevotionalCard = ({ devotional }: DevotionalCardProps) => {
       </CardContent>
 
       <CardFooter className="mt-auto border-t border-current/10 pt-4">
+        {/* Link to the dynamic reading page! */}
         <Link
-          href={`/devotionals/${devotional.id}`}
+          href={`/devotionals/${devotional.slug.current}`}
           className={cn(
             "inline-flex items-center gap-2 text-sm font-semibold transition-colors duration-300",
             isFeatured ? "text-white hover:text-gray-200" : "text-danger-500 group-hover:text-white"
@@ -169,7 +115,7 @@ const DevotionalCard = ({ devotional }: DevotionalCardProps) => {
   );
 };
 
-const DevotionalSection = () => {
+const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectionProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -179,16 +125,13 @@ const DevotionalSection = () => {
 
   useEffect(() => {
     if (!api) return;
-
     const onSelect = () => {
       setCanScrollPrev(api.canScrollPrev());
       setCanScrollNext(api.canScrollNext());
     };
-
     onSelect();
     api.on("select", onSelect);
     api.on("reInit", onSelect);
-
     return () => {
       api.off("select", onSelect);
       api.off("reInit", onSelect);
@@ -197,7 +140,6 @@ const DevotionalSection = () => {
 
   return (
     <section className="relative overflow-hidden bg-white py-24">
-      {/* Background image */}
       <Image
         src="/assets/mog-background.png"
         alt="MOG background"
@@ -210,13 +152,10 @@ const DevotionalSection = () => {
         {/* Header */}
         <div className="mb-12 flex items-start justify-between">
           <div>
-            {/* Badge */}
             <div className="border-danger-500/20 bg-danger-500/10 text-danger-500 mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium">
               <BookOpen className="h-4 w-4" />
               MOG Daily Devotional
             </div>
-
-            {/* Title */}
             <h2 className="text-heading-lg text-dark-500">Feed Your Soul Daily</h2>
           </div>
 
@@ -246,20 +185,23 @@ const DevotionalSection = () => {
         </div>
 
         {/* Carousel */}
-        <Carousel
-          setApi={setApi}
-          opts={{
-            align: "start",
-            loop: false,
-          }}
-          className="mb-12"
-        >
+        <Carousel setApi={setApi} opts={{ align: "start", loop: false }} className="mb-12">
           <CarouselContent className="-ml-4">
-            {devotionals.map((devotional) => (
-              <CarouselItem key={devotional.id} className="basis-[85%] pl-4 sm:basis-1/2 lg:basis-1/4">
-                <DevotionalCard devotional={devotional} />
+            {/* FIRST CARD: Featured */}
+            {featuredDevotional && (
+              <CarouselItem className="basis-[85%] pl-4 sm:basis-1/2 lg:basis-1/3">
+                <DevotionalCard devotional={featuredDevotional} isFeatured={true} />
               </CarouselItem>
-            ))}
+            )}
+
+            {/* THE REST OF THE CARDS */}
+            {devotionals
+              ?.filter((dev) => dev._id !== featuredDevotional?._id)
+              .map((devotional) => (
+                <CarouselItem key={devotional._id} className="basis-[85%] pl-4 sm:basis-1/2 lg:basis-1/3">
+                  <DevotionalCard devotional={devotional} isFeatured={false} />
+                </CarouselItem>
+              ))}
           </CarouselContent>
         </Carousel>
 
