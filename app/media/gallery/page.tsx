@@ -50,7 +50,7 @@ export default function GalleryPage() {
       {/* 2. INTERACTIVE MASONRY GRID (Powered by shadcn Dialog) */}
       <section className="relative z-10 -mt-8 px-6">
         <div className="mx-auto max-w-7xl rounded-3xl bg-white p-6 shadow-xl md:p-10">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-fr md:grid-cols-3 lg:gap-6">
             {galleryImages.map((image) => (
               <Dialog key={image.id}>
                 {/* The Trigger (The Image Card in the Grid) */}
