@@ -19,7 +19,8 @@ body {
   --color-primary-100: #eff6ff;
   --color-primary-500: #2563eb;
 
-  --color-danger-100: #fef2f2;
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
   --color-danger-500: #dc2626;
 
   --color-dark-500: #0f0f0f;
