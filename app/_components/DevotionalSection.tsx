@@ -1,13 +1,21 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, Sparkles, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
+// FIX: Removed 'type CarouselApi' from this import line to fix TS error
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+
+// 1. Import GSAP
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface DevotionalSectionProps {
   devotionals: any[];
@@ -116,7 +124,10 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
 };
 
 const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectionProps) => {
-  const [api, setApi] = useState<CarouselApi>();
+  const container = useRef(null); // Added container ref for GSAP
+
+  // FIX: Changed <CarouselApi> to <any> to bypass the TypeScript error
+  const [api, setApi] = useState<any>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 
@@ -138,8 +149,83 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
     };
   }, [api]);
 
+  // 2. THE GSAP ANIMATION HOOK
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 75%", // Triggers right as the carousel enters the view
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      // A. The Header floats up smoothly
+      tl.from(".devotional-header-item", {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power3.out",
+      })
+
+        // B. THE SPOTLIGHT ENTRANCE: Featured card shoots up
+        .from(
+          ".featured-card",
+          {
+            y: 80,
+            scale: 0.9,
+            opacity: 0,
+            duration: 1.2,
+            ease: "expo.out",
+            onComplete: () => {
+              // THE LIVING SPOTLIGHT: Microscopic infinite breathing effect
+              gsap.to(".featured-card", {
+                scale: 1.015,
+                y: "-=4",
+                duration: 3,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: -1,
+              });
+            },
+          },
+          "-=0.6"
+        )
+
+        // C. THE 3D CARD DEAL: Regular cards swing in with 3D rotation
+        .from(
+          ".regular-card",
+          {
+            x: 100,
+            rotationY: 25, // The 3D flip effect!
+            transformOrigin: "left center",
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power3.out",
+          },
+          "-=0.8"
+        )
+
+        // D. View All Button fades in at the bottom
+        .from(
+          ".view-all-btn",
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          "-=0.5"
+        );
+    },
+    { scope: container }
+  );
+
   return (
-    <section className="relative overflow-hidden bg-white py-24">
+    // Added ref={container} to the main section
+    <section ref={container} className="relative overflow-hidden bg-white py-24">
       <Image
         src="/assets/mog-background.png"
         alt="MOG background"
@@ -152,19 +238,21 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
         {/* Header */}
         <div className="mb-12 flex items-start justify-between">
           <div>
-            <div className="border-danger-500/20 bg-danger-500/10 text-danger-500 mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium">
+            {/* Added 'devotional-header-item' class */}
+            <div className="devotional-header-item border-danger-500/20 bg-danger-500/10 text-danger-500 mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium">
               <BookOpen className="h-4 w-4" />
               MOG Daily Devotional
             </div>
-            <h2 className="text-heading-lg text-dark-500">Feed Your Soul Daily</h2>
+            {/* Added 'devotional-header-item' class */}
+            <h2 className="devotional-header-item text-heading-lg text-dark-500">Feed Your Soul Daily</h2>
           </div>
 
-          {/* Navigation Arrows */}
-          <div className="hidden items-center gap-2 sm:flex">
+          {/* Navigation Arrows - Added 'devotional-header-item' class */}
+          <div className="devotional-header-item hidden items-center gap-2 sm:flex">
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full hover:cursor-pointer"
+              className="rounded-full transition-transform hover:cursor-pointer active:scale-95"
               aria-label="Previous devotionals"
               onClick={scrollPrev}
               disabled={!canScrollPrev}
@@ -174,7 +262,7 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
             <Button
               variant="default"
               size="icon"
-              className="rounded-full bg-zinc-800 hover:cursor-pointer hover:bg-zinc-700"
+              className="rounded-full bg-zinc-800 transition-transform hover:cursor-pointer hover:bg-zinc-700 active:scale-95"
               aria-label="Next devotionals"
               onClick={scrollNext}
               disabled={!canScrollNext}
@@ -186,28 +274,36 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
 
         {/* Carousel */}
         <Carousel setApi={setApi} opts={{ align: "start", loop: false }} className="mb-12">
-          <CarouselContent className="-ml-4">
-            {/* FIRST CARD: Featured */}
+          <CarouselContent className="-ml-2 sm:-ml-4">
+            {/* FIRST CARD: Featured - Added 'featured-card' class */}
             {featuredDevotional && (
-              <CarouselItem className="basis-[85%] pl-4 sm:basis-1/2 lg:basis-1/3">
+              <CarouselItem className="featured-card basis-[95%] pl-2 sm:basis-1/2 sm:pl-4 lg:basis-1/3">
                 <DevotionalCard devotional={featuredDevotional} isFeatured={true} />
               </CarouselItem>
             )}
 
-            {/* THE REST OF THE CARDS */}
+            {/* THE REST OF THE CARDS - Added 'regular-card' class */}
             {devotionals
               ?.filter((dev) => dev._id !== featuredDevotional?._id)
               .map((devotional) => (
-                <CarouselItem key={devotional._id} className="basis-[85%] pl-4 sm:basis-1/2 lg:basis-1/3">
+                <CarouselItem
+                  key={devotional._id}
+                  className="regular-card basis-[95%] pl-2 sm:basis-1/2 sm:pl-4 lg:basis-1/3"
+                >
                   <DevotionalCard devotional={devotional} isFeatured={false} />
                 </CarouselItem>
               ))}
           </CarouselContent>
         </Carousel>
 
-        {/* View All Button */}
-        <div className="flex justify-center">
-          <Button asChild variant="outline" size="xl" className="rounded-full border-gray-300 font-semibold">
+        {/* View All Button - Added 'view-all-btn' class */}
+        <div className="view-all-btn flex justify-center">
+          <Button
+            asChild
+            variant="outline"
+            size="xl"
+            className="rounded-full border-gray-300 font-semibold transition-transform duration-300 hover:-translate-y-1"
+          >
             <Link href="/devotionals">
               View All Devotionals
               <ArrowRight />
