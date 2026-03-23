@@ -67,6 +67,7 @@ const AboutSection = () => {
 
   return (
     <section
+      id="about"
       ref={container}
       className="bg-light-100 relative z-10 overflow-hidden py-20 shadow-[0_-20px_50px_rgba(0,0,0,0.3)] lg:py-24"
     >
@@ -111,8 +112,8 @@ const AboutSection = () => {
           {/* UPGRADE: Added pb-16 to give the card room to breathe on mobile without overlapping the new button */}
           <div className="relative order-2 pb-12 lg:pb-0">
             <div className="relative mx-auto max-w-md lg:max-w-none">
-              <div className="about-image-wrapper overflow-hidden rounded-2xl">
-                <div className="about-image-inner">
+              <div className="about-image-wrapper">
+                <div className="about-image-inner overflow-hidden rounded-2xl">
                   <Image
                     src="/assets/aboutImage.png"
                     alt="About Teliosis World Outreach"
