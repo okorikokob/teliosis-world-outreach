@@ -1,104 +1,174 @@
-import { Heart, DollarSign, Box, Users, ArrowRight, Sparkles } from "lucide-react";
+"use client";
+
+import { useRef } from "react";
+import { Heart, DollarSign, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+const cards = [
+  {
+    id: "give",
+    title: "Give",
+    description: "Your generosity fuels our mission. Every gift helps us reach more people with hope and love.",
+    icon: <DollarSign className="h-8 w-8 text-white" />,
+    iconBg: "bg-zinc-900",
+    btnText: "Give Now",
+    accent: "text-zinc-900",
+  },
+  {
+    id: "partner",
+    title: "Partner",
+    description: "Join our mission as a ministry partner. Together, we can accomplish more than alone.",
+    icon: <Heart className="h-8 w-8 text-white" />,
+    iconBg: "bg-danger-500",
+    btnText: "Become a Partner",
+    accent: "text-danger-500",
+  },
+];
+
 export default function PartnerSection() {
-  const cards = [
-    {
-      title: "Give",
-      description: "Your generosity fuels our mission. Every gift helps us reach more people with hope and love.",
-      icon: <DollarSign className="h-7 w-7 text-white" />,
-      iconBg: "bg-danger-500",
-      btnText: "Give Now",
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const cardGiveRef = useRef<HTMLDivElement>(null);
+  const cardPartnerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      let mm = gsap.matchMedia();
+
+      // --- DESKTOP & TABLET (Cinematic Corner Reveal) ---
+      mm.add("(min-width: 768px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "+=120%",
+            scrub: 1,
+            pin: true,
+          },
+        });
+
+        tl.to(headerRef.current, { scale: 1.2, opacity: 0, y: -50, duration: 1, ease: "power1.inOut" }, 0);
+
+        tl.fromTo(
+          cardGiveRef.current,
+          { y: "100vh", x: "-20vw", rotation: -15, opacity: 0 },
+          { y: 0, x: 0, rotation: 0, opacity: 1, duration: 1, ease: "power2.out" },
+          0.1
+        );
+
+        tl.fromTo(
+          cardPartnerRef.current,
+          { y: "100vh", x: "20vw", rotation: 15, opacity: 0 },
+          { y: 0, x: 0, rotation: 0, opacity: 1, duration: 1, ease: "power2.out" },
+          0.1
+        );
+      });
+
+      // --- MOBILE (Standard Flowing Entrance Animation) ---
+      // UPGRADE: Removed 'pin' and 'scrub' so the cards can take up as much vertical space as they need!
+      mm.add("(max-width: 767px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        tl.from(headerRef.current, { y: 30, opacity: 0, duration: 0.8, ease: "power3.out" })
+          .from(cardGiveRef.current, { y: 30, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
+          .from(cardPartnerRef.current, { y: 30, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.4");
+      });
+
+      return () => mm.revert();
     },
-    {
-      title: "Serve",
-      description: "Use your gifts and talents to make a difference. There's a place for everyone to serve.",
-      icon: <Box className="h-7 w-7 text-white" />,
-      iconBg: "bg-blue-500",
-      btnText: "Find Your Team",
-    },
-    {
-      title: "Partner",
-      description: "Join our mission as a ministry partner. Together, we can accomplish more than alone.",
-      icon: <Heart className="h-7 w-7 text-white" />,
-      iconBg: "bg-orange-500",
-      btnText: "Become a Partner",
-    },
-  ];
+    { scope: sectionRef }
+  );
 
   return (
-    <section className="relative overflow-hidden bg-white py-24 lg:py-32">
-      {/* Background Glow - Top Left */}
-      <div className="bg-danger-500/20 absolute -top-24 -left-24 h-[500px] w-[500px] rounded-full blur-[120px]" />
+    // UPGRADE: Changed classes to allow natural vertical flow on mobile, and locked 'h-screen' strictly for 'md' screens and up
+    <section
+      ref={sectionRef}
+      className="relative flex w-full flex-col items-center justify-center bg-gray-50 py-24 md:h-screen md:flex-row md:overflow-hidden md:py-0"
+    >
+      {/* Background Decor */}
+      <div className="pointer-events-none absolute top-0 right-0 h-[600px] w-[600px] rounded-full bg-orange-500/5 blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-zinc-900/5 blur-[80px]" />
 
-      <div className="layout-container relative z-10">
-        {/* --- Header Section --- */}
-        <div className="mb-20 text-center">
-          <div className="bg-danger-100 mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2">
-            <Heart size={16} fill="currentColor" className="text-danger-500" />
-            <span className="text-body-sm text-danger-500 font-semibold">Partner With Us</span>
-          </div>
-          <h2 className="text-heading-lg text-dark-500 mb-6">Be Part of Something Greater</h2>
-          <p className="text-body-lg text-muted mx-auto max-w-2xl">
-            When you partner with us, you're investing in transformed lives, stronger families, and a better community.
-          </p>
+      {/* --- State 1: The Initial Header --- */}
+      {/* UPGRADE: Made relative on mobile so it stacks, and absolute on desktop for the cinematic crossfade */}
+      <div
+        ref={headerRef}
+        className="relative z-10 flex flex-col items-center justify-center px-6 text-center md:absolute md:inset-0"
+      >
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-2">
+          <Heart size={16} fill="currentColor" className="text-danger-500" />
+          <span className="text-sm font-bold tracking-widest text-orange-600 uppercase">Make An Impact</span>
         </div>
 
-        {/* --- Card Grid --- */}
-        <div className="mb-28 grid grid-cols-1 gap-8 md:grid-cols-3">
-          {cards.map((card, idx) => (
+        <h2 className="mx-auto max-w-5xl text-[3rem] leading-[0.9] font-black tracking-tighter text-balance text-zinc-950 uppercase sm:text-[4.5rem] lg:text-[6rem]">
+          Be Part of <br /> <span className="text-danger-500">Something</span> Greater
+        </h2>
+
+        <p className="mx-auto mt-8 max-w-2xl animate-pulse font-mono text-lg tracking-widest text-zinc-500 uppercase">
+          Scroll to explore &darr;
+        </p>
+      </div>
+
+      {/* --- State 2: The Action Cards Grid --- */}
+      {/* UPGRADE: Added mt-16 for mobile so it separates nicely from the header */}
+      <div className="layout-container relative z-20 mt-16 w-full md:mt-0">
+        <div className="pointer-events-none mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:gap-10">
+          {/* GIVE CARD */}
+          <div
+            ref={cardGiveRef}
+            className="group pointer-events-auto flex flex-col items-center rounded-[2.5rem] border border-zinc-200/60 bg-white p-10 text-center shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-shadow duration-500 will-change-transform hover:shadow-2xl lg:p-14"
+          >
             <div
-              key={idx}
-              className="group border-light-300 flex flex-col rounded-[2.5rem] border bg-white p-10 shadow-[0_20px_50px_rgba(0,0,0,0.04)] transition-all hover:-translate-y-2 hover:shadow-2xl"
+              className={`mb-10 flex h-20 w-20 items-center justify-center rounded-3xl ${cards[0].iconBg} transform shadow-xl transition-transform duration-500 group-hover:-translate-y-2`}
             >
-              {/* Icon Container */}
-              <div className={`mb-10 flex h-16 w-16 items-center justify-center rounded-2xl ${card.iconBg} shadow-lg`}>
-                {card.icon}
-              </div>
-
-              <h3 className="text-heading-sm text-dark-500 mb-4">{card.title}</h3>
-              <p className="text-body-lg text-muted mb-10 flex-grow">{card.description}</p>
-
-              {/* Dark-styled Action Button (no dark variant available) */}
-              <Button
-                variant="default"
-                size="xl"
-                className="bg-dark-500 w-full justify-center gap-2 text-white hover:bg-zinc-800"
-              >
-                {card.btnText}
-                <ArrowRight size={18} />
-              </Button>
+              {cards[0].icon}
             </div>
-          ))}
-        </div>
-
-        {/* --- Testimonial Section --- */}
-        <div className="relative overflow-hidden rounded-[3.5rem] bg-gray-500 px-6 py-20 text-center text-white md:px-20 lg:py-24">
-          {/* Subtle Sparkle Background Decoration */}
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 opacity-20">
-            <Sparkles size={120} strokeWidth={0.5} />
+            <h3 className={`mb-4 text-3xl font-bold ${cards[0].accent}`}>{cards[0].title}</h3>
+            <p className="mb-10 max-w-sm flex-grow text-lg leading-relaxed text-zinc-500">{cards[0].description}</p>
+            <Button
+              variant="default"
+              size="xl"
+              className="group/btn w-full rounded-full bg-zinc-950 px-10 text-white hover:bg-zinc-800 sm:w-auto"
+            >
+              {cards[0].btnText}
+              <ArrowRight size={18} className="ml-2 transition-transform group-hover/btn:translate-x-1" />
+            </Button>
           </div>
 
-          <div className="relative z-10">
-            <div className="mb-10 flex justify-center opacity-60">
-              <Sparkles size={40} />
+          {/* PARTNER CARD */}
+          <div
+            ref={cardPartnerRef}
+            className="group border-danger-500/10 pointer-events-auto flex flex-col items-center rounded-[2.5rem] border bg-orange-50/50 p-10 text-center shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-shadow duration-500 will-change-transform hover:shadow-2xl lg:p-14"
+          >
+            <div
+              className={`mb-10 flex h-20 w-20 items-center justify-center rounded-3xl ${cards[1].iconBg} transform shadow-xl shadow-orange-500/20 transition-transform duration-500 group-hover:-translate-y-2`}
+            >
+              {cards[1].icon}
             </div>
-
-            <blockquote className="text-heading-md mx-auto max-w-4xl leading-relaxed">
-              "Partnering with this church has been one of the most rewarding decisions of my life. Seeing lives
-              transformed and knowing I played a small part in that—it's incredible."
-            </blockquote>
-
-            <div className="mt-14 flex flex-col items-center gap-4">
-              {/* Avatar */}
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-rose-600 text-xl font-black text-white shadow-xl shadow-black/20">
-                MJ
-              </div>
-              <div>
-                <p className="text-body-lg font-bold">Michael Johnson</p>
-                <p className="text-body-sm text-white/70 uppercase">Partner since 2019</p>
-              </div>
-            </div>
+            <h3 className={`mb-4 text-3xl font-bold ${cards[1].accent}`}>{cards[1].title}</h3>
+            <p className="mb-10 max-w-sm flex-grow text-lg leading-relaxed text-zinc-600">{cards[1].description}</p>
+            <Button
+              variant="default"
+              size="xl"
+              className="group/btn bg-danger-500 hover:bg-danger-600 w-full rounded-full px-10 text-white sm:w-auto"
+            >
+              {cards[1].btnText}
+              <ArrowRight size={18} className="ml-2 transition-transform group-hover/btn:translate-x-1" />
+            </Button>
           </div>
         </div>
       </div>
