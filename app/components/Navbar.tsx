@@ -136,6 +136,7 @@ const Navbar = () => {
                 : "text-white hover:bg-white/10 hover:text-white"
             }`}
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
           >
             {/* Custom 3-Line Hamburger for GSAP Morphing */}
             <div ref={hamburgerRef} className="relative h-5 w-6">
@@ -149,6 +150,7 @@ const Navbar = () => {
 
       {/* Upgraded Dropdown - Tighter max-height and slower duration for visible animation */}
       <div
+        inert={!isMenuOpen}
         className={`overflow-hidden border-t border-gray-100 bg-white transition-all duration-500 ease-in-out md:hidden ${
           isMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
         }`}

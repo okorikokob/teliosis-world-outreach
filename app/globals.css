@@ -357,3 +357,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.devotional-card {
+  will-change: transform, opacity;
+}

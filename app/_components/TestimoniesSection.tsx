@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -39,6 +39,11 @@ export default function TestimoniesSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Clear cardsRef when testimonies array changes
+  useEffect(() => {
+    cardsRef.current = [];
+  }, []); // Empty dependency array since testimonies is static
+
   // The 3D Pinned Scrub Engine
   useGSAP(
     () => {
@@ -65,7 +70,7 @@ export default function TestimoniesSection() {
         gsap.set(card, {
           scale: 1 - index * 0.05, // Each card behind gets 5% smaller
           y: index * 40, // Each card drops down 40px to create depth
-          opacity: 1 - index * 0.3, // Each card fades into the shadows
+          opacity: Math.max(0, Math.min(1, 1 - index * 0.3)), // Each card fades into the shadows, clamped to [0,1]
           zIndex: testimonies.length - index,
         });
       });
@@ -96,7 +101,7 @@ export default function TestimoniesSection() {
               {
                 scale: 1 - step * 0.05,
                 y: step * 40,
-                opacity: 1 - step * 0.3,
+                opacity: Math.max(0, Math.min(1, 1 - step * 0.3)), // Clamped to [0,1] to prevent negative opacity
                 duration: 1,
                 ease: "power2.inOut",
               },
@@ -134,7 +139,11 @@ export default function TestimoniesSection() {
           <div
             key={test.id}
             ref={(el) => {
-              if (el) cardsRef.current[i] = el;
+              if (el) {
+                cardsRef.current[i] = el;
+              } else {
+                cardsRef.current[i] = null;
+              }
             }}
             className="absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-[2rem] border border-white/10 bg-zinc-900/80 p-8 text-center shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] backdrop-blur-md will-change-transform sm:p-12 lg:rounded-[3rem] lg:p-16"
           >

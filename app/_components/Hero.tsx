@@ -28,7 +28,6 @@ const Hero = () => {
 
         .fromTo(".hero-scroll", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1.5, ease: "power2.out" }, 1.2);
 
-      // --- TIMELINE 2: THE NEW SCRUB ANIMATION ---
       const scrubTl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
