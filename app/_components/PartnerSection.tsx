@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -43,7 +44,6 @@ export default function PartnerSection() {
     () => {
       let mm = gsap.matchMedia();
 
-      // --- DESKTOP & TABLET (Cinematic Corner Reveal) ---
       mm.add("(min-width: 768px)", () => {
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -72,8 +72,6 @@ export default function PartnerSection() {
         );
       });
 
-      // --- MOBILE (Standard Flowing Entrance Animation) ---
-      // UPGRADE: Removed 'pin' and 'scrub' so the cards can take up as much vertical space as they need!
       mm.add("(max-width: 767px)", () => {
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -94,7 +92,6 @@ export default function PartnerSection() {
   );
 
   return (
-    // UPGRADE: Changed classes to allow natural vertical flow on mobile, and locked 'h-screen' strictly for 'md' screens and up
     <section
       ref={sectionRef}
       className="relative flex w-full flex-col items-center justify-center bg-gray-50 py-24 md:h-screen md:flex-row md:overflow-hidden md:py-0"
@@ -103,8 +100,6 @@ export default function PartnerSection() {
       <div className="pointer-events-none absolute top-0 right-0 h-[600px] w-[600px] rounded-full bg-orange-500/5 blur-[100px]" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-zinc-900/5 blur-[80px]" />
 
-      {/* --- State 1: The Initial Header --- */}
-      {/* UPGRADE: Made relative on mobile so it stacks, and absolute on desktop for the cinematic crossfade */}
       <div
         ref={headerRef}
         className="relative z-10 flex flex-col items-center justify-center px-6 text-center md:absolute md:inset-0"
@@ -123,8 +118,6 @@ export default function PartnerSection() {
         </p>
       </div>
 
-      {/* --- State 2: The Action Cards Grid --- */}
-      {/* UPGRADE: Added mt-16 for mobile so it separates nicely from the header */}
       <div className="layout-container relative z-20 mt-16 w-full md:mt-0">
         <div className="pointer-events-none mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:gap-10">
           {/* GIVE CARD */}
@@ -140,12 +133,15 @@ export default function PartnerSection() {
             <h3 className={`mb-4 text-3xl font-bold ${cards[0].accent}`}>{cards[0].title}</h3>
             <p className="mb-10 max-w-sm flex-grow text-lg leading-relaxed text-zinc-500">{cards[0].description}</p>
             <Button
+              asChild
               variant="default"
               size="xl"
               className="group/btn w-full rounded-full bg-zinc-950 px-10 text-white hover:bg-zinc-800 sm:w-auto"
             >
-              {cards[0].btnText}
-              <ArrowRight size={18} className="ml-2 transition-transform group-hover/btn:translate-x-1" />
+              <Link href="/give" className="inline-flex items-center gap-2">
+                {cards[0].btnText}
+                <ArrowRight size={18} className="transition-transform group-hover/btn:translate-x-1" />
+              </Link>
             </Button>
           </div>
 
@@ -162,12 +158,15 @@ export default function PartnerSection() {
             <h3 className={`mb-4 text-3xl font-bold ${cards[1].accent}`}>{cards[1].title}</h3>
             <p className="mb-10 max-w-sm flex-grow text-lg leading-relaxed text-zinc-600">{cards[1].description}</p>
             <Button
+              asChild
               variant="default"
               size="xl"
               className="group/btn bg-danger-500 hover:bg-danger-600 w-full rounded-full px-10 text-white sm:w-auto"
             >
-              {cards[1].btnText}
-              <ArrowRight size={18} className="ml-2 transition-transform group-hover/btn:translate-x-1" />
+              <Link href="/partner" className="inline-flex items-center gap-2">
+                {cards[1].btnText}
+                <ArrowRight size={18} className="transition-transform group-hover/btn:translate-x-1" />
+              </Link>
             </Button>
           </div>
         </div>

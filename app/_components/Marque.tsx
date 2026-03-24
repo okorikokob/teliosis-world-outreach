@@ -33,7 +33,7 @@ export default function Marquee({ text }: MarqueeProps) {
         <div ref={textRef1} className="px-4 text-4xl font-black tracking-widest uppercase">
           {text} {text} {text}
         </div>
-        <div ref={textRef2} className="absolute left-[100%] px-4 text-4xl font-black tracking-widest uppercase">
+        <div ref={textRef2} className="px-4 text-4xl font-black tracking-widest uppercase">
           {text} {text} {text}
         </div>
       </div>

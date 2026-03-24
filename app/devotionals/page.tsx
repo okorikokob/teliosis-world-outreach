@@ -1,7 +1,6 @@
 import React from "react";
 import DevotionalHero from "./_components/DevotionalHero";
 import TodaySpotlight from "./_components/TodaySpotlight";
-import DevotionalFilters from "./_components/DevotionalFilter";
 import DevotionalGrid from "./_components/DevotionalGrid";
 import SubscribeSection from "./_components/SubscribeSection";
 
@@ -16,7 +15,7 @@ const page = async () => {
     <main>
       <DevotionalHero />
       <TodaySpotlight featuredDevotional={featuredDevotional} />
-      <DevotionalFilters />
+
       <DevotionalGrid devotionals={devotionals} />
       <SubscribeSection />
     </main>
