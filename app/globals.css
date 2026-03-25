@@ -349,6 +349,11 @@ body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Temporary will-change for animations */
+.devotional-card.is-animating {
+  will-change: transform, opacity;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -356,8 +361,4 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-}
-
-.devotional-card {
-  will-change: transform, opacity;
 }

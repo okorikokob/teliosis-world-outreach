@@ -78,7 +78,7 @@ const AboutSection = () => {
           {/* Left Column - Text Content */}
           <div className="order-1">
             <div className="mb-4 overflow-hidden pb-2 sm:mb-6">
-              <h2 className="about-heading-line text-heading-lg text-dark-500 block">
+              <h2 className="text-3xl font-black text-zinc-900 md:text-4xl">
                 About <span className="text-danger-500">Us</span>
               </h2>
             </div>

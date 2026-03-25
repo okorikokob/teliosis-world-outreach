@@ -20,7 +20,7 @@ const DevotionalFilters = ({ activeTopic, setActiveTopic, searchQuery, setSearch
   const topics = ["All", "Faith", "Growth", "Prayer", "Marriage", "Purpose", "Healing", "Prosperity", "Grace"];
 
   return (
-    <nav className="relative top-0 z-40 w-full border-y border-gray-100 bg-white/80 backdrop-blur-xl transition-all">
+    <nav className="sticky top-0 z-40 w-full border-y border-gray-100 bg-white/80 backdrop-blur-xl transition-all">
       <div className="layout-container py-4">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           {/* TOPIC PILLS */}

@@ -178,7 +178,7 @@ const NewHereSection = () => {
               New Here?
             </div>
 
-            <h2 className="new-here-text text-heading-lg mb-6 text-white">
+            <h2 className="mb-6 text-3xl font-black text-white md:text-4xl">
               We Can&apos;t Wait to
               <br />
               Meet You

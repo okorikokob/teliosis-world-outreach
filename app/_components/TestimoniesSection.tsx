@@ -39,11 +39,6 @@ export default function TestimoniesSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Clear cardsRef when testimonies array changes
-  useEffect(() => {
-    cardsRef.current = [];
-  }, []); // Empty dependency array since testimonies is static
-
   // The 3D Pinned Scrub Engine
   useGSAP(
     () => {
@@ -139,11 +134,7 @@ export default function TestimoniesSection() {
           <div
             key={test.id}
             ref={(el) => {
-              if (el) {
-                cardsRef.current[i] = el;
-              } else {
-                cardsRef.current[i] = null;
-              }
+              cardsRef.current[i] = el;
             }}
             className="absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-[2rem] border border-white/10 bg-zinc-900/80 p-8 text-center shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] backdrop-blur-md will-change-transform sm:p-12 lg:rounded-[3rem] lg:p-16"
           >

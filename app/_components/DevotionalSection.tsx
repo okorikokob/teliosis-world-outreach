@@ -244,7 +244,7 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
               MOG Daily Devotional
             </div>
             {/* Added 'devotional-header-item' class */}
-            <h2 className="devotional-header-item text-heading-lg text-dark-500">Feed Your Soul Daily</h2>
+            <h2 className="text-3xl font-black text-zinc-900 md:text-4xl">Feed Your Soul Daily</h2>
           </div>
 
           {/* Navigation Arrows - Added 'devotional-header-item' class */}
