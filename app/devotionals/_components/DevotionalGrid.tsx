@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { Clock as ClockIcon, ArrowRight as ArrowIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
   const container = useRef(null);
   const [activeTopic, setActiveTopic] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const isFirstRender = useRef(true);
 
   // 1. Pagination State: Start with 9 or 12 (divisible by 3 for the grid)
   const [displayLimit, setDisplayLimit] = useState(3);
@@ -34,7 +36,8 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
         const scripture = (item.scripture ?? "").toString().toLowerCase();
         const topics = item.topics ?? [];
 
-        const matchesTopic = activeTopic === "All" || topics.includes(activeTopic.toLowerCase());
+        const matchesTopic =
+          activeTopic === "All" || topics.some((topic: string) => topic.toLowerCase() === activeTopic.toLowerCase());
         const matchesSearch =
           title.includes(searchQuery.toLowerCase()) || scripture.includes(searchQuery.toLowerCase());
 
@@ -69,8 +72,13 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
   // 4. GSAP: Filter & Load More Transition
   useGSAP(
     () => {
+      if (isFirstRender.current) {
+        isFirstRender.current = false;
+        return;
+      }
       if (visibleDevotionals.length > 0) {
         gsap.killTweensOf(".devotional-card");
+        document.querySelectorAll(".devotional-card").forEach((el) => el.classList.add("is-animating"));
         gsap.fromTo(
           ".devotional-card",
           { opacity: 0, y: 30, scale: 0.98 },
@@ -82,6 +90,9 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
             stagger: 0.05,
             ease: "back.out(1.2)",
             clearProps: "all",
+            onComplete: () => {
+              document.querySelectorAll(".devotional-card").forEach((el) => el.classList.remove("is-animating"));
+            },
           }
         );
       }
@@ -116,14 +127,14 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
           alt="MOG background"
           fill
           className="pointer-events-none object-cover opacity-30"
-          priority
         />
 
         <div className="layout-container">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {visibleDevotionals.map((item, idx) => (
-              <div
+              <Link
                 key={item._id || idx}
+                href={`/devotionals/${item.slug?.current || item._id}`}
                 className="devotional-card group hover:border-danger-100 flex cursor-pointer flex-col rounded-[2.5rem] border border-gray-100 bg-white p-10 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
               >
                 <div className="mb-8 flex items-center justify-between">
@@ -152,7 +163,7 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
                     <ArrowIcon size={16} className="transition-transform group-hover/link:translate-x-1" />
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 

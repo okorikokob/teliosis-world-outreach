@@ -5,8 +5,7 @@ import NewHereSection from "./_components/NewHereSection";
 
 import TeliosisSection from "./_components/TeliosisSchoolSection";
 import { getAllDevotionals, getFeaturedDevotional } from "@/lib/sanity.queries";
-import Marquee from "./_components/Marque";
-import TestimoniesSection from "./_components/TestimoniesSection";
+
 import PartnerSection from "./_components/PartnerSection";
 
 const devotionals = await getAllDevotionals();
@@ -22,7 +21,7 @@ const Page = () => {
       <NewHereSection />
 
       <TeliosisSection />
-      <TestimoniesSection />
+
       <PartnerSection />
     </div>
   );

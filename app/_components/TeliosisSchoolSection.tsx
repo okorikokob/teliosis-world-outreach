@@ -99,8 +99,8 @@ export default function TeliosisSection() {
               <span className="font-bold text-gray-900">Teliosis School</span>
             </div>
 
-            <h2 className="tel-text text-heading-lg text-dark-500 mb-6">
-              The Teliosis <br /> School of the <br /> Teaching Ministry
+            <h2 className="text-dark-500 mb-6 text-3xl font-black text-zinc-900 md:text-4xl">
+              The Teliosis School of the <br /> Teaching Ministry
             </h2>
 
             <p className="tel-text text-body-lg text-muted max-w-xl">

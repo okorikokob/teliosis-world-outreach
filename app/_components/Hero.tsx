@@ -73,7 +73,7 @@ const Hero = () => {
       <div className="hero-blur blur-purple absolute top-0 right-0 h-[500px] w-[500px] translate-x-1/3 -translate-y-1/4" />
 
       {/* 4. Added 'hero-content' class here to fade everything out cleanly on scroll */}
-      <div className="hero-content layout-container relative z-10 flex h-full flex-col items-center justify-center pt-24 pb-10 text-center md:pt-20">
+      <div className="hero-content layout-container relative z-10 flex h-full flex-col items-center justify-center text-center md:pt-20">
         <div className="hero-badge flex-center my-6 gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md sm:my-8">
           <Image src="/assets/welcome-icon.png" alt="Welcome" width={20} height={20} className="h-5 w-5" />
           <span className="text-light-100 sm:text-body-sm text-xs">Welcome Home</span>
@@ -94,7 +94,7 @@ const Hero = () => {
         </p>
 
         {/* Buttons Wrapper */}
-        <div className="mb-20 flex w-full flex-col items-center gap-4 px-4 sm:mb-20 sm:w-auto sm:flex-row sm:gap-6 sm:px-0">
+        <div className="flex w-full flex-col items-center gap-4 px-4 sm:mb-20 sm:w-auto sm:flex-row sm:gap-6 sm:px-0">
           <div className="hero-btn w-full sm:w-auto">
             <Button
               asChild
@@ -120,14 +120,14 @@ const Hero = () => {
                 <div className="bg-danger-500 flex h-8 w-8 items-center justify-center rounded-full shadow-[0_0_15px_rgba(239,68,68,0.5)]">
                   <Play className="h-4 w-4 pl-0.5 text-white" />
                 </div>
-                Watch Latest Service
+                Audio Messages
               </Link>
             </Button>
           </div>
         </div>
 
         {/* Discover More */}
-        <div className="absolute right-0 bottom-8 left-0 z-20 mt-20 flex justify-center">
+        <div className="absolute right-0 bottom-8 left-0 z-20 flex justify-center">
           <button
             onClick={() => {
               document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });

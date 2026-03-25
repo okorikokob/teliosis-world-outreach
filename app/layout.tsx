@@ -12,7 +12,10 @@ const inter = localFont({
 
 export const metadata: Metadata = {
   // Add this line to resolve social images correctly
-  metadataBase: new URL(process.env.NODE_ENV === "production" ? "https://www.teliosis.org" : "http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ||
+      (process.env.NODE_ENV === "production" ? "https://www.teliosis.org" : "http://localhost:3000")
+  ),
   title: {
     template: "%s | Teliosis World Outreach",
     default: "Teliosis World Outreach",

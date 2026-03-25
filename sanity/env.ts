@@ -11,7 +11,7 @@ export const projectId = assertValue(
 );
 
 function assertValue<T>(v: T | undefined, errorMessage: string): T {
-  if (v === undefined) {
+  if (v === undefined || v === null || (typeof v === "string" && v.trim() === "")) {
     throw new Error(errorMessage);
   }
 
