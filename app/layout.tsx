@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Navbar, Footer } from "./components";
 import ScrollResetter from "./_components/ScrollResetter";
+import { Toaster } from "sonner";
 
 const inter = localFont({
   src: "./fonts/inter/interVF.ttf",
@@ -66,6 +67,7 @@ export default function RootLayout({
         <ScrollResetter />
         <Navbar />
         <main className="">{children}</main>
+        <Toaster position="bottom-center" richColors />
         <Footer />
       </body>
     </html>

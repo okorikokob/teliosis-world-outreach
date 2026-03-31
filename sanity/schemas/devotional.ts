@@ -36,6 +36,19 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "verseText",
+      title: "Key Verse Text",
+      type: "text",
+      description: "The actual words of the scripture for the top box.",
+      validation: (Rule) => Rule.required(),
+    }),
+    // defineField({
+    //   name: "meditation",
+    //   title: "Daily Meditation",
+    //   type: "text",
+    //   description: "The closing reflection or prayer.",
+    // }),
+    defineField({
       name: "excerpt",
       title: "Excerpt",
       type: "text",
@@ -83,6 +96,29 @@ export default defineType({
       type: "number",
       description: "Estimated read time in minutes",
       validation: (Rule) => Rule.required().min(1).max(30),
+    }),
+
+    defineField({
+      name: "confession",
+      title: "Daily Confession",
+      type: "text", // Great for the "In Jesus name..." part
+    }),
+    defineField({
+      name: "pray",
+      title: "Prayer",
+      type: "text",
+    }),
+    defineField({
+      name: "meditationScripture",
+      title: "Meditation Scripture",
+      type: "string",
+      description: "E.g., 2Tim.1.7",
+    }),
+    defineField({
+      name: "meditationText",
+      title: "Meditation Text",
+      type: "text",
+      description: "The actual words of the meditation scripture.",
     }),
     defineField({
       name: "audioUrl",

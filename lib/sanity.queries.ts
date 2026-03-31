@@ -8,6 +8,11 @@ export interface Devotional {
   publishedAt: string;
   scripture: string;
   excerpt: string;
+  verseText: string;
+  confession?: string;
+  pray?: string;
+  meditationScripture?: string;
+  meditationText?: string;
   content: any;
   readTime: number;
   audioUrl?: string;
@@ -38,6 +43,11 @@ const devotionalFields = `
   audioUrl,
   topics,
   featured,
+  verseText,
+  confession,
+  pray,
+  meditationScripture,
+  meditationText,
   coverImage
 `;
 
