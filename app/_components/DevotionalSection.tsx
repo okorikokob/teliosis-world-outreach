@@ -180,14 +180,6 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
             ease: "expo.out",
             onComplete: () => {
               // THE LIVING SPOTLIGHT: Microscopic infinite breathing effect
-              gsap.to(".featured-card", {
-                scale: 1.015,
-                y: "-=4",
-                duration: 3,
-                ease: "sine.inOut",
-                yoyo: true,
-                repeat: -1,
-              });
             },
           },
           "-=0.6"

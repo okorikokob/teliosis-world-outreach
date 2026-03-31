@@ -8,7 +8,8 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: process.env.NODE_ENV === "production",
+  // useCdn: process.env.NODE_ENV === "production",
+  useCdn: false, // Always fetch fresh data for development and production to ensure real-time updates
 });
 
 const builder = createImageUrlBuilder(client);

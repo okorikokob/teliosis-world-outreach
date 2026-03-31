@@ -25,10 +25,8 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const isFirstRender = useRef(true);
 
-  // 1. Pagination State: Start with 9 or 12 (divisible by 3 for the grid)
   const [displayLimit, setDisplayLimit] = useState(3);
 
-  // 2. Filtering Logic + Slice for Pagination
   const { allMatching, visibleDevotionals } = useMemo(() => {
     const filtered =
       devotionals?.filter((item) => {
@@ -50,7 +48,6 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
     };
   }, [devotionals, activeTopic, searchQuery, displayLimit]);
 
-  // 3. GSAP: Initial entrance
   useGSAP(
     () => {
       gsap.from(".devotional-card", {
@@ -69,7 +66,6 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
     { scope: container }
   );
 
-  // 4. GSAP: Filter & Load More Transition
   useGSAP(
     () => {
       if (isFirstRender.current) {
@@ -112,12 +108,12 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
         activeTopic={activeTopic}
         setActiveTopic={(topic) => {
           setActiveTopic(topic);
-          setDisplayLimit(9); // Reset limit when filter changes
+          setDisplayLimit(9);
         }}
         searchQuery={searchQuery}
         setSearchQuery={(query) => {
           setSearchQuery(query);
-          setDisplayLimit(9); // Reset limit when searching
+          setDisplayLimit(9);
         }}
       />
 
