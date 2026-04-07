@@ -11,21 +11,46 @@ export default function GiveSection() {
   const accountDetails = {
     bank: "UBA BANK",
     accountName: "TELIOSIS WORLD OUTREACH",
-    accountNumber: "1022971000",
+    accountNumber: "1022971000 ",
   };
 
-  const handleCopy = () => {
-    // 2. The actual copy logic
-    navigator.clipboard.writeText(accountDetails.accountNumber);
+  const handleCopy = async () => {
+    const textToCopy = accountDetails.accountNumber.trim();
 
-    // 3. Trigger the Toast
-    toast.success("Copied to clipboard", {
-      description: `${accountDetails.accountNumber} is ready to paste.`,
-      duration: 3000,
-    });
+    if (!textToCopy) {
+      toast.error("Account number is empty and cannot be copied.");
+      return;
+    }
 
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(textToCopy);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.select();
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        if (!successful) {
+          throw new Error("Document copy command failed");
+        }
+      }
+
+      toast.success("Copied to clipboard", {
+        description: `${textToCopy} is ready to paste.`,
+        duration: 3000,
+      });
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (error) {
+      console.error("Copy failed", error);
+      toast.error("Failed to copy account number. Please copy it manually.");
+      setIsCopied(false);
+    }
   };
 
   return (

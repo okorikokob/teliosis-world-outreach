@@ -3,56 +3,57 @@ import { Target, Eye, Heart } from "lucide-react";
 const MissionVisionSection = () => {
   const cards = [
     {
-      icon: <Target className="h-8 w-8" />,
+      icon: <Target className="h-7 w-7 sm:h-8 sm:w-8" />,
       title: "Our Mission",
       description:
-        "To make disciples who love God, love people, and transform the world through the power of the Gospel.",
+        "We preach the Gospel of the Kingdom, make disciples through the consistent teaching of God’s Word, establish outreach centers for discipleship, raise believers through prayer and practical ministry training, demonstrate the power of the Holy Spirit, and care for the disadvantaged in our communities.",
       iconBg: "bg-danger-100",
       iconColor: "text-danger-500",
     },
     {
-      icon: <Eye className="h-8 w-8" />,
+      icon: <Eye className="h-7 w-7 sm:h-8 sm:w-8" />,
       title: "Our Vision",
       description:
-        "A community where every person experiences the life-changing love of God-given Jesus Christ and discovers their purpose.",
+        "To draw men and women all over the world into an intimate knowledge and fellowship with the Lord Jesus Christ; to teach them the reality of the power of the Word of God; and to show them how to live the God-life.",
       iconBg: "bg-danger-100",
       iconColor: "text-danger-500",
     },
     {
-      icon: <Heart className="h-8 w-8" />,
+      icon: <Heart className="h-7 w-7 sm:h-8 sm:w-8" />,
       title: "Our Values",
       description:
-        "Faith, Love, Community, Service, Excellence, and Authenticity guide everything we do.",
+        "At Teliosis, our lives and ministry are shaped by intimacy with Jesus, the power of God’s Word, effectual prayer, practical discipleship, the demonstration of the Holy Spirit, and love expressed through service to others.",
       iconBg: "bg-danger-100",
       iconColor: "text-danger-500",
     },
   ];
 
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white py-16 sm:py-20">
       <div className="layout-container">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="mb-10 max-w-2xl">
+          <div className="border-danger-500/20 bg-danger-500/10 text-danger-500 mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-2">
+            <span className="text-body-sm font-medium">What We Believe</span>
+          </div>
+
+          <h2 className="text-dark-500 text-3xl font-semibold tracking-tight sm:text-4xl">
+            Our mission, vision, and values
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-3">
           {cards.map((card, idx) => (
             <div
               key={idx}
-              className="rounded-3xl bg-light-200 p-10 transition-all hover:shadow-lg"
+              className="bg-light-200 h-full rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
             >
-              {/* Icon */}
-              <div
-                className={`mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${card.iconBg}`}
-              >
+              <div className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl ${card.iconBg}`}>
                 <div className={card.iconColor}>{card.icon}</div>
               </div>
 
-              {/* Title */}
-              <h3 className="text-heading-sm text-dark-500 mb-4">
-                {card.title}
-              </h3>
+              <h3 className="text-dark-500 mb-3 text-2xl font-semibold">{card.title}</h3>
 
-              {/* Description */}
-              <p className="text-body-lg text-muted leading-relaxed">
-                {card.description}
-              </p>
+              <p className="text-muted text-base leading-7">{card.description}</p>
             </div>
           ))}
         </div>

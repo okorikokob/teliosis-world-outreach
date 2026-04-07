@@ -12,10 +12,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"; // 1. Added ScrollTrigger
 
 gsap.registerPlugin(ScrollTrigger); // 2. Registered the plugin
 
-// ... imports
-
-// ... imports
-
 const Hero = () => {
   const container = useRef(null);
 
