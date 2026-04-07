@@ -3,29 +3,19 @@ import Link from "next/link";
 
 const CTASection = () => {
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-16 sm:py-20 lg:py-24">
       <div className="layout-container">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Heading */}
-          <h2 className="text-heading-lg text-dark-500 mb-6">Ready to Be Part of Our Story?</h2>
+          <h2 className="text-dark-500 mb-6 text-3xl font-semibold tracking-tight sm:text-4xl">Ready to Join Us?</h2>
 
-          {/* Description */}
-          <p className="text-body-lg text-muted mb-10">
-            Join us this Sunday and experience what it means to be part of a loving, faith-filled community.
+          <p className="text-muted mb-10 text-base leading-7 sm:text-lg">
+            Join us this Sunday and experience the power of God’s Word, prayer, and a community committed to spiritual
+            growth.
           </p>
 
-          {/* Buttons */}
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button asChild variant="brand" size="xl" className="shadow-xl">
-              <Link href="/visit">Plan Your Visit</Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="xl"
-              className="text-dark-500 rounded-full bg-gray-100 hover:bg-gray-200"
-            >
-              <Link href="#journey">Learn Our History</Link>
+              <Link href="/contact">Plan Your Visit</Link>
             </Button>
           </div>
         </div>

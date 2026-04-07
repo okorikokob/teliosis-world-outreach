@@ -17,6 +17,7 @@ export default function PartnerPage() {
       <PartnerHero />
       <PartnershipDetails />
       <MinistryArms />
+
       <PartnerCTA />
     </main>
   );

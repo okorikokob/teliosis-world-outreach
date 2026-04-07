@@ -1,12 +1,12 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import PartnerModal from "./PartnerModal"; // Import the modal
+import PartnerModal from "./PartnerModal";
 
 const MinistryArms = () => {
   const arms = [
     {
-      id: "mission", // Added an ID to match the Select dropdown values
+      id: "mission",
       category: "Global Outreach",
       title: "Mission",
       description:
@@ -65,15 +65,15 @@ const MinistryArms = () => {
         <div className="mb-14 text-center">
           <h2 className="text-heading-md text-dark mb-4">Partner Impact</h2>
           <p className="text-body-md text-muted font-normal">
-            See how your partnerships are changing lives globally through our ministry arms.
+            Support the work God is doing through our ministry arms and help extend the reach of the Gospel.
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {arms.map((arm, idx) => (
+          {arms.map((arm) => (
             <div
-              key={idx}
-              className="group flex flex-col justify-between rounded-[2rem] bg-black p-8 transition-transform hover:-translate-y-1 hover:shadow-2xl"
+              key={arm.id}
+              className="group flex flex-col justify-between rounded-[2rem] bg-neutral-900 p-8 transition-transform hover:-translate-y-1 hover:shadow-2xl"
             >
               <div>
                 <span className="text-danger-500 mb-4 block text-[10px] font-bold tracking-widest uppercase">
@@ -89,9 +89,8 @@ const MinistryArms = () => {
                   <span className="text-xs font-medium tracking-wider text-gray-500 uppercase">{arm.metricLabel}</span>
                 </div>
 
-                {/* NEW: Partner Button mapped to this specific card */}
                 <PartnerModal defaultInterest={arm.id}>
-                  <button className="hover:bg-danger-500 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white/10 py-3 text-sm font-bold text-white transition-colors">
+                  <button className="hover:bg-danger-500 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/10 py-3 text-sm font-bold text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
                     Partner with {arm.title} <ArrowRight size={16} />
                   </button>
                 </PartnerModal>
