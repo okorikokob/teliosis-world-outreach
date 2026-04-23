@@ -112,7 +112,7 @@ const AboutSection = () => {
 
           {/* Right Column - Image with Floating Card */}
           {/* UPGRADE: Added pb-16 to give the card room to breathe on mobile without overlapping the new button */}
-          <div className="relative order-2 pb-12 lg:pb-0">
+          <div className="relative order-2 pb-16 lg:pb-0">
             <div className="relative mx-auto max-w-md lg:max-w-none">
               <div className="about-image-wrapper">
                 <div className="about-image-inner overflow-hidden rounded-2xl">

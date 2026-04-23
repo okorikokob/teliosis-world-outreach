@@ -12,10 +12,20 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "title",
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "speaker",
       title: "Speaker",
       type: "string",
-      initialValue: "Senior Pastor",
+      initialValue: "Pastor Peter E. Nwoji",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -50,6 +60,12 @@ export default defineType({
         "Paste the direct .mp3 link from Cloudflare R2 here. This single link powers both the audio player and the download button.",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "published",
+      title: "Published",
+      type: "boolean",
+      initialValue: true,
+    }),
   ],
   preview: {
     select: {
@@ -59,7 +75,7 @@ export default defineType({
     },
     prepare({ title, subtitle, date }) {
       return {
-        title: title,
+        title,
         subtitle: `${subtitle} • ${date ? new Date(date).toLocaleDateString() : ""}`,
       };
     },

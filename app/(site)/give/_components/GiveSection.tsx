@@ -24,7 +24,22 @@ export default function GiveSection() {
 
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(textToCopy);
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+        } catch {
+          const textArea = document.createElement("textarea");
+          textArea.value = textToCopy;
+          textArea.style.position = "fixed";
+          textArea.style.opacity = "0";
+          document.body.appendChild(textArea);
+          textArea.select();
+          const successful = document.execCommand("copy");
+          document.body.removeChild(textArea);
+
+          if (!successful) {
+            throw new Error("Document copy command failed");
+          }
+        }
       } else {
         const textArea = document.createElement("textarea");
         textArea.value = textToCopy;
