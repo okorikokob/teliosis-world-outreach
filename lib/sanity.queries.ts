@@ -67,10 +67,10 @@ export async function getAllDevotionals(): Promise<Devotional[]> {
 
 // Fetch the most recent devotional up to now
 export async function getFeaturedDevotional(): Promise<Devotional | null> {
-  // Cast options to any to silence the TypeScript error for `next`:
   return client.fetch(
     `*[_type == "devotional" && publishedAt <= now()] | order(publishedAt desc)[0] { ${devotionalFields} }`,
-    { next: { revalidate: 3600 } } as any
+    undefined,
+    { next: { revalidate: 3600 } }
   );
 }
 
