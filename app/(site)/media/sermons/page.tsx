@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { Headphones, ArrowLeft } from "lucide-react";
-import RecentSermons from "../_components/RecentSermons";
+import { getAllSermons } from "@/lib/sanity.queries";
+import SermonsArchive from "./_components/SermonsArchive";
 
-export default function SermonsPage() {
+export default async function SermonsPage() {
+  const sermons = await getAllSermons();
+
   return (
     <main className="min-h-screen bg-gray-50 pb-24">
       <section className="bg-zinc-900 py-20 text-center text-white">
@@ -33,7 +36,7 @@ export default function SermonsPage() {
       </section>
 
       <div className="relative z-10 -mt-8">
-        <RecentSermons />
+        <SermonsArchive sermons={sermons} />
       </div>
     </main>
   );
