@@ -51,6 +51,19 @@ const devotionalFields = `
   coverImage
 `;
 
+const sermonFields = `
+  _id,
+  title,
+  slug,
+  speaker,
+  series,
+  description,
+  date,
+  duration,
+  audioUrl,
+  published
+`;
+
 const leaderFields = `
   _id,
   name,
@@ -60,6 +73,18 @@ const leaderFields = `
   order
 `;
 
+export interface Sermon {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  speaker: string;
+  series?: string;
+  description?: string;
+  date: string;
+  duration?: string;
+  audioUrl: string;
+  published?: boolean;
+}
 // Fetch all devotionals (sorted by date, newest first)
 export async function getAllDevotionals(): Promise<Devotional[]> {
   return client.fetch(`*[_type == "devotional"] | order(publishedAt desc) { ${devotionalFields} }`);
@@ -107,5 +132,22 @@ export async function searchDevotionals(term: string): Promise<Devotional[]> {
       scripture match $term
     )] | order(publishedAt desc) { ${devotionalFields} }`,
     { term: `*${term}*` }
+  );
+}
+
+// Fetch all published sermons (sorted by date, newest first)
+export async function getAllSermons(limit?: number): Promise<Sermon[]> {
+  const slice = typeof limit === "number" ? `[0...${limit}]` : "";
+
+  return client.fetch(
+    `*[_type == "sermon" && (!defined(published) || published == true)] | order(date desc) ${slice} { ${sermonFields} }`
+  );
+}
+
+// Fetch single sermon by slug
+export async function getSermonBySlug(slug: string): Promise<Sermon | null> {
+  return client.fetch(
+    `*[_type == "sermon" && slug.current == $slug && (!defined(published) || published == true)][0] { ${sermonFields} }`,
+    { slug }
   );
 }

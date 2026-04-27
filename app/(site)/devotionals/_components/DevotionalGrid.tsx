@@ -27,17 +27,29 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
 
   const [displayLimit, setDisplayLimit] = useState(3);
 
+  const topicOptions = useMemo(() => {
+    const allTopics =
+      devotionals?.flatMap((item) => (Array.isArray(item.topics) ? item.topics.filter(Boolean) : [])) ?? [];
+
+    const uniqueTopics = Array.from(new Set(allTopics));
+
+    return ["All", ...uniqueTopics];
+  }, [devotionals]);
+
   const { allMatching, visibleDevotionals } = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
     const filtered =
       devotionals?.filter((item) => {
         const title = (item.title ?? "").toString().toLowerCase();
         const scripture = (item.scripture ?? "").toString().toLowerCase();
-        const topics = item.topics ?? [];
+        const excerpt = (item.excerpt ?? "").toString().toLowerCase();
+        const topics = Array.isArray(item.topics) ? item.topics : [];
 
         const matchesTopic =
           activeTopic === "All" || topics.some((topic: string) => topic.toLowerCase() === activeTopic.toLowerCase());
-        const matchesSearch =
-          title.includes(searchQuery.toLowerCase()) || scripture.includes(searchQuery.toLowerCase());
+
+        const matchesSearch = !query || title.includes(query) || scripture.includes(query) || excerpt.includes(query);
 
         return matchesTopic && matchesSearch;
       }) ?? [];
@@ -72,9 +84,11 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
         isFirstRender.current = false;
         return;
       }
+
       if (visibleDevotionals.length > 0) {
         gsap.killTweensOf(".devotional-card");
         document.querySelectorAll(".devotional-card").forEach((el) => el.classList.add("is-animating"));
+
         gsap.fromTo(
           ".devotional-card",
           { opacity: 0, y: 30, scale: 0.98 },
@@ -105,6 +119,7 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
   return (
     <div ref={container}>
       <DevotionalFilters
+        topics={topicOptions}
         activeTopic={activeTopic}
         setActiveTopic={(topic) => {
           setActiveTopic(topic);
@@ -147,9 +162,11 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
                   <span className="text-danger-500 mb-3 block text-xs font-bold tracking-wider uppercase">
                     {item.scripture}
                   </span>
+
                   <h3 className="text-dark group-hover:text-danger-500 mb-4 text-2xl leading-tight font-bold transition-colors">
                     {item.title}
                   </h3>
+
                   <p className="text-muted mb-8 line-clamp-3 text-sm leading-relaxed">{item.excerpt}</p>
                 </div>
 
@@ -166,6 +183,7 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
           {visibleDevotionals.length === 0 && (
             <div className="py-20 text-center">
               <p className="text-muted text-lg">No devotionals found matching your criteria.</p>
+
               <Button
                 variant="ghost"
                 onClick={() => {
@@ -180,7 +198,6 @@ const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {
             </div>
           )}
 
-          {/* LOAD MORE BUTTON */}
           {hasMore && (
             <div className="mt-20 flex justify-center">
               <Button
