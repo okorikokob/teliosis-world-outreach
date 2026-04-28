@@ -20,6 +20,13 @@ const formatTime = (time: number) => {
   return `${minutes}:${seconds}`;
 };
 
+const getSafeFileName = (title: string) => {
+  return `${title
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .toLowerCase()}.mp3`;
+};
+
 const RecentSermons = ({ sermons }: RecentSermonsProps) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -30,6 +37,7 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
 
   const [currentTime, setCurrentTime] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   const handlePlayPause = async (sermon: Sermon) => {
     const audio = audioRef.current;
@@ -70,7 +78,6 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
       setIsPlaying(true);
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") {
-        // Harmless when switching streams quickly; browser canceled prior request.
         return;
       }
 
@@ -102,6 +109,39 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
     const nextTime = Math.min(Math.max(audio.currentTime + seconds, 0), audio.duration || 0);
     audio.currentTime = nextTime;
     setCurrentTime(nextTime);
+  };
+
+  const handleDownload = async (sermon: Sermon) => {
+    if (!sermon.audioUrl) return;
+
+    try {
+      setDownloadingId(sermon._id);
+
+      const response = await fetch(sermon.audioUrl);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch audio");
+      }
+
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = getSafeFileName(sermon.title);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
+
+      // Fallback if the remote host/R2 CORS blocks blob download.
+      window.open(sermon.audioUrl, "_blank", "noopener,noreferrer");
+    } finally {
+      setDownloadingId(null);
+    }
   };
 
   if (!sermons.length) {
@@ -146,6 +186,7 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
           {sermons.map((sermon) => {
             const isActive = activeSermonId === sermon._id;
             const durationToShow = audioDuration || 0;
+            const isDownloading = downloadingId === sermon._id;
 
             return (
               <div
@@ -188,7 +229,7 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
 
                     <div className="flex items-center gap-2">
                       <Clock className="size-4" />
-                      <span>{sermon.duration || "N/A"}</span>
+                      <span>{sermon.duration || "Audio"}</span>
                     </div>
                   </div>
 
@@ -208,7 +249,8 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
                       {playbackError && <p className="mb-3 text-xs font-semibold text-red-600">{playbackError}</p>}
 
                       <div className="mb-3 flex items-center justify-between gap-3">
-                        {/* <p className="text-danger-500 text-xs font-bold tracking-[0.2em] uppercase">Audio Player</p> */}
+                        <p className="text-danger-500 text-xs font-bold tracking-[0.2em] uppercase">Audio Player</p>
+
                         <p className="text-muted text-xs font-semibold">
                           {formatTime(currentTime)} / {formatTime(durationToShow)}
                         </p>
@@ -249,15 +291,15 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
 
                 <div className="w-full shrink-0 md:w-auto">
                   <Button
-                    asChild
+                    type="button"
                     size="xl"
                     variant="secondary"
+                    onClick={() => handleDownload(sermon)}
+                    disabled={isDownloading}
                     className="text-dark w-full rounded-full bg-gray-200 font-bold hover:bg-gray-300 md:w-auto"
                   >
-                    <a href={sermon.audioUrl} download={`${sermon.title}.mp3`}>
-                      <Download className="mr-2 size-5" />
-                      Download
-                    </a>
+                    <Download className="mr-2 size-5" />
+                    {isDownloading ? "Downloading..." : "Download"}
                   </Button>
                 </div>
               </div>

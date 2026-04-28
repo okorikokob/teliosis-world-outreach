@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -141,7 +141,7 @@ export default function TestimoniesSection() {
             <Quote className="text-danger-500 mb-6 h-12 w-12 flex-shrink-0 rotate-180 sm:mb-8 lg:h-16 lg:w-16" />
 
             <h3 className="mb-8 font-serif text-2xl leading-snug tracking-tight text-balance text-white sm:mb-12 sm:text-3xl sm:leading-[1.3] md:text-4xl lg:text-[2.75rem]">
-              "{test.quote}"
+              &ldquo;{test.quote}&rdquo;
             </h3>
 
             <div className="mt-auto flex flex-col items-center gap-2">

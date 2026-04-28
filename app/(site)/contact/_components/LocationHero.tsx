@@ -26,12 +26,12 @@ const LocationHero = () => {
 
         {/* Main Heading */}
         <h1 className="text-heading-lg md:text-heading-xl mb-6 text-white">
-          We're Easy to <span className="text-danger-500">Find</span>
+          We’re Easy to <span className="text-danger-500">Find</span>
         </h1>
 
         {/* Subtext */}
         <p className="text-body-lg text-light-70 mx-auto max-w-2xl">
-          Located in the heart of Springfield, we're accessible by car, bus, or bike. Plenty of free parking available.
+          Located in the heart of Abuja, we’re accessible by car, bus, or bike. Plenty of free parking available.
         </p>
       </div>
     </section>

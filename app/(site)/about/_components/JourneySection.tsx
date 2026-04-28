@@ -1,7 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+
 import { Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const JourneySection = () => {
   return (

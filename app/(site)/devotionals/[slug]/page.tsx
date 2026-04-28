@@ -1,9 +1,8 @@
 import { client } from "@/sanity/lib/client";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft, Calendar, Clock, BookOpen } from "lucide-react";
+
+// import { ArrowLeft } from "lucide-react";
 
 // app/devotionals/[slug]/page.tsx
 
@@ -88,7 +87,9 @@ export default async function DevotionalPage({ params }: { params: Promise<{ slu
             <span className="mb-4 block text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase">
               Verse of the Day
             </span>
-            <p className="text-lg leading-relaxed font-medium text-gray-600 italic">"{devotional.verseText}"</p>
+            <p className="text-lg leading-relaxed font-medium text-gray-600 italic">
+              &ldquo;{devotional.verseText}&rdquo;
+            </p>
             <p className="text-danger-500 mt-4 font-bold">{devotional.scripture}</p>
           </div>
 

@@ -9,6 +9,8 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 // FIX: Removed 'type CarouselApi' from this import line to fix TS error
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import type { Devotional } from "@/lib/sanity.queries";
+import type { UseEmblaCarouselType } from "embla-carousel-react";
 
 // 1. Import GSAP
 import gsap from "gsap";
@@ -18,12 +20,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 interface DevotionalSectionProps {
-  devotionals: any[];
-  featuredDevotional: any;
+  devotionals: Devotional[];
+  featuredDevotional: Devotional | null;
 }
 
 interface DevotionalCardProps {
-  devotional: any;
+  devotional: Devotional;
   isFeatured: boolean;
 }
 
@@ -127,7 +129,8 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
   const container = useRef(null); // Added container ref for GSAP
 
   // FIX: Changed <CarouselApi> to <any> to bypass the TypeScript error
-  const [api, setApi] = useState<any>();
+  type CarouselApi = UseEmblaCarouselType[1];
+  const [api, setApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 

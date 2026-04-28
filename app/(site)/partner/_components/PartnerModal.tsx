@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { HeartHandshake, CheckCircle2, Copy, Check, ArrowLeft } from "lucide-react";
+import { HeartHandshake, CheckCircle2, Copy, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,7 +28,7 @@ const accountDetails: Record<string, { bank: string; accountNumber: string; acco
     bank: "UBA Bank",
     accountNumber: "1029794288",
     accountName: "TELIOSIS ETERNAL LIFE GLO ASS CHILDREN BIBLE CLUB",
-    label: "Children's Ministry",
+    label: "Children’s Ministry",
   },
   devotional: {
     bank: "UBA Bank",
@@ -184,7 +184,7 @@ export default function PartnerModal({ children, defaultInterest = "general" }: 
                       <SelectItem value="radio">Radio Broadcast</SelectItem>
                       <SelectItem value="storehouse">Storehouse (Community Provision)</SelectItem>
                       <SelectItem value="devotional">Daily Devotional</SelectItem>
-                      <SelectItem value="children">Children's Ministry</SelectItem>
+                      <SelectItem value="children">Children’s Ministry</SelectItem>
                       <SelectItem value="nachadava">Nachadava (Youth Empowerment)</SelectItem>
                     </SelectContent>
                   </Select>

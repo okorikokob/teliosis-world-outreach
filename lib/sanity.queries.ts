@@ -13,12 +13,12 @@ export interface Devotional {
   pray?: string;
   meditationScripture?: string;
   meditationText?: string;
-  content: any;
+  content: unknown;
   readTime: number;
   audioUrl?: string;
   topics?: string[];
   featured: boolean;
-  coverImage?: any;
+  coverImage?: unknown;
 }
 
 export interface Leader {
@@ -26,7 +26,7 @@ export interface Leader {
   name: string;
   role: string;
   description: string;
-  image: any;
+  image: unknown;
   order: number;
 }
 
@@ -135,7 +135,6 @@ export async function searchDevotionals(term: string): Promise<Devotional[]> {
   );
 }
 
-// Fetch all published sermons (sorted by date, newest first)
 export async function getAllSermons(limit?: number): Promise<Sermon[]> {
   const slice = typeof limit === "number" ? `[0...${limit}]` : "";
 
@@ -144,7 +143,6 @@ export async function getAllSermons(limit?: number): Promise<Sermon[]> {
   );
 }
 
-// Fetch single sermon by slug
 export async function getSermonBySlug(slug: string): Promise<Sermon | null> {
   return client.fetch(
     `*[_type == "sermon" && slug.current == $slug && (!defined(published) || published == true)][0] { ${sermonFields} }`,

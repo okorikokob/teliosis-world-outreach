@@ -117,7 +117,8 @@ export default function GiveSection() {
             </div>
 
             <p className="mt-6 text-center text-xs font-medium text-gray-400 italic">
-              "Honour the LORD with thy substance, and with the firstfruits of all thine increase." — Proverbs 3:9
+              &ldquo;Honour the LORD with thy substance, and with the firstfruits of all thine increase.&rdquo; —
+              Proverbs 3:9
             </p>
           </div>
         </div>
