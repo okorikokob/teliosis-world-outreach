@@ -1,8 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import PartnerModal from "./PartnerModal";
-
 const PartnerCTA = () => {
   return (
     <section className="bg-danger-500 py-20 text-center md:py-28">

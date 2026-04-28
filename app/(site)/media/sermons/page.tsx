@@ -4,7 +4,7 @@ import { getAllSermons } from "@/lib/sanity.queries";
 import SermonsArchive from "./_components/SermonsArchive";
 
 export default async function SermonsPage() {
-  const sermons = await getAllSermons();
+  const sermons = await getAllSermons(8);
 
   return (
     <main className="min-h-screen bg-gray-50 pb-24">

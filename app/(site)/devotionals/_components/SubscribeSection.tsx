@@ -63,7 +63,7 @@ const SubscribeSection = () => {
           ) : (
             /* Success State */
             <div className="animate-in fade-in zoom-in mx-auto max-w-md rounded-2xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-sm duration-300">
-              <h3 className="mb-1 text-xl font-bold">You're on the list!</h3>
+              <h3 className="mb-1 text-xl font-bold">You’re on the list!</h3>
               <p className="text-sm font-medium opacity-80">Check your inbox tomorrow morning.</p>
             </div>
           )}

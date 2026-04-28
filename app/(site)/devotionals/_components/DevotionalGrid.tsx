@@ -10,13 +10,14 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import DevotionalFilters from "./DevotionalFilter";
+import type { Devotional } from "@/lib/sanity.queries";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 interface DevotionalGridProps {
-  devotionals: any[];
+  devotionals: Devotional[];
 }
 
 const DevotionalGrid = ({ devotionals }: DevotionalGridProps) => {

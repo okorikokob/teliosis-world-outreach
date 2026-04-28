@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Play, ChevronDown, ArrowRight } from "lucide-react";
+import { Play, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import gsap from "gsap";
@@ -17,7 +17,6 @@ const Hero = () => {
 
   useGSAP(
     () => {
-      // --- 1. SET INITIAL STATE TO AVOID FLASH ---
       gsap.set([".hero-badge", ".hero-p", ".hero-btn", ".hero-scroll"], { opacity: 0 });
 
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
@@ -94,7 +93,7 @@ const Hero = () => {
           </Button>
 
           <Button asChild variant="glass" size="xl" className="hero-btn w-full sm:w-auto">
-            <Link href="/media" className="flex items-center gap-2">
+            <Link href="/media/sermons" className="flex items-center gap-2">
               <Play className="h-4 w-4 fill-current" />
               Audio Messages
             </Link>

@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import { Clock, Share2, PlayCircle, ArrowRight } from "lucide-react";
+import { Clock, Share2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import type { Devotional } from "@/lib/sanity.queries";
 
 interface TodaySpotlightProps {
-  featuredDevotional: any;
+  featuredDevotional: Devotional | null;
 }
 
 const TodaySpotlight = ({ featuredDevotional }: TodaySpotlightProps) => {
@@ -19,7 +20,7 @@ const TodaySpotlight = ({ featuredDevotional }: TodaySpotlightProps) => {
             <div className="flex items-center gap-4">
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-[10px] font-black tracking-widest uppercase backdrop-blur-md">
                 <span className="bg-danger-500 h-2 w-2 animate-pulse rounded-full" />
-                Today's Reading
+                Today’s Reading
               </div>
 
               <div className="flex items-center gap-2 text-xs font-medium text-white/50">
@@ -28,7 +29,11 @@ const TodaySpotlight = ({ featuredDevotional }: TodaySpotlightProps) => {
             </div>
 
             <div className="flex items-center gap-3">
-              <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20">
+              <button
+                type="button"
+                aria-label="Share devotional"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
+              >
                 <Share2 size={18} />
               </button>
             </div>
@@ -40,7 +45,6 @@ const TodaySpotlight = ({ featuredDevotional }: TodaySpotlightProps) => {
                 {featuredDevotional.scripture}
               </span>
 
-              {/* Title */}
               <h2 className="mb-6 text-4xl leading-[1.1] font-bold tracking-tight md:text-6xl">
                 {featuredDevotional.title}
               </h2>

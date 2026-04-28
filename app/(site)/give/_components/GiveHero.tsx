@@ -27,8 +27,8 @@ const GiveHero = () => {
           </h1>
 
           <p className="text-body-lg max-w-3xl text-white/90">
-            "And God will generously provide all you need. Then you will always have everything you need and plenty left
-            over to share with others."
+            &ldquo;And God will generously provide all you need. Then you will always have everything you need and
+            plenty left over to share with others.&rdquo;
           </p>
 
           <span className="mt-4 block text-sm font-bold tracking-widest text-white/90 uppercase">
