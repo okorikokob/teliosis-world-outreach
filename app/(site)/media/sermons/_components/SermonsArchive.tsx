@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
 import type { Sermon } from "@/lib/sanity.queries";
 import RecentSermons from "./RecentSermons";
+import FeaturedSermon from "./FeaturedSermon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -20,18 +21,25 @@ const SermonsArchive = ({ sermons }: SermonsArchiveProps) => {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
 
+  const featuredSermon = sermons[0];
+
+  const archiveSermons = useMemo(() => {
+    if (!featuredSermon) return sermons;
+    return sermons.filter((sermon) => sermon._id !== featuredSermon._id);
+  }, [sermons, featuredSermon]);
+
   const seriesOptions = useMemo(() => {
-    return Array.from(new Set(sermons.map((sermon) => sermon.series).filter(Boolean))) as string[];
-  }, [sermons]);
+    return Array.from(new Set(archiveSermons.map((sermon) => sermon.series).filter(Boolean))) as string[];
+  }, [archiveSermons]);
 
   const speakerOptions = useMemo(() => {
-    return Array.from(new Set(sermons.map((sermon) => sermon.speaker).filter(Boolean)));
-  }, [sermons]);
+    return Array.from(new Set(archiveSermons.map((sermon) => sermon.speaker).filter(Boolean)));
+  }, [archiveSermons]);
 
   const filteredSermons = useMemo(() => {
     const search = searchTerm.trim().toLowerCase();
 
-    return sermons
+    return archiveSermons
       .filter((sermon) => {
         const matchesSearch =
           !search ||
@@ -51,7 +59,7 @@ const SermonsArchive = ({ sermons }: SermonsArchiveProps) => {
 
         return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
       });
-  }, [sermons, searchTerm, selectedSeries, selectedSpeaker, sortOrder]);
+  }, [archiveSermons, searchTerm, selectedSeries, selectedSpeaker, sortOrder]);
 
   const visibleSermons = filteredSermons.slice(0, visibleCount);
   const hasMore = visibleCount < filteredSermons.length;
@@ -73,6 +81,8 @@ const SermonsArchive = ({ sermons }: SermonsArchiveProps) => {
 
   return (
     <>
+      {featuredSermon && <FeaturedSermon sermon={featuredSermon} />}
+
       <section className="bg-white pt-10">
         <div className="layout-container">
           <div className="mb-10 text-center">
