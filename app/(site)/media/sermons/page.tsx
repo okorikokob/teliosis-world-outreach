@@ -2,6 +2,31 @@ import Link from "next/link";
 import { Headphones, ArrowLeft } from "lucide-react";
 import { getAllSermons } from "@/lib/sanity.queries";
 import SermonsArchive from "./_components/SermonsArchive";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Audio Sermons",
+  description: "Listen to recent sermon messages from Teliosis World Outreach and grow in faith through God’s Word.",
+  openGraph: {
+    title: "Audio Sermons – Teliosis World Outreach",
+    description: "Listen to recent sermon messages from Teliosis World Outreach and grow in faith through God’s Word.",
+    url: "/media/sermons",
+    images: [
+      {
+        url: "/assets/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Teliosis World Outreach Audio Sermons",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Audio Sermons – Teliosis World Outreach",
+    description: "Listen to recent sermon messages from Teliosis World Outreach and grow in faith through God’s Word.",
+    images: ["/assets/logo.png"],
+  },
+};
 
 export default async function SermonsPage() {
   const sermons = await getAllSermons(8);
@@ -10,7 +35,7 @@ export default async function SermonsPage() {
     <main className="min-h-screen bg-gray-50 pb-24">
       <section className="bg-zinc-900 py-20 text-center text-white">
         <div className="mx-auto max-w-4xl px-6">
-          <div className="mb-10 flex justify-center">
+          <div className="mt-10 mb-10 flex justify-center">
             <Link
               href="/media"
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white"

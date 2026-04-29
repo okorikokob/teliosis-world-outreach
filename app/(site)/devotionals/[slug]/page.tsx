@@ -1,12 +1,7 @@
 import { client } from "@/sanity/lib/client";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { notFound } from "next/navigation";
-
-// import { ArrowLeft } from "lucide-react";
-
-// app/devotionals/[slug]/page.tsx
-
-// app/devotionals/[slug]/page.tsx
+import type { Metadata } from "next";
 
 const DEVOTIONAL_QUERY = `*[_type == "devotional" && slug.current == $slug][0]{
   title,
@@ -14,33 +9,72 @@ const DEVOTIONAL_QUERY = `*[_type == "devotional" && slug.current == $slug][0]{
   scripture,
   verseText,
   content,
-  confession,   
-  pray,        // This matches your schema
-  meditationScripture,  // CHANGED: Match your schema name
-  meditationText,       // CHANGED: Match your schema name
+  confession,
+  pray,
+  meditationScripture,
+  meditationText,
   readTime,
+  excerpt,
   "imageUrl": coverImage.asset->url,
   topics
 }`;
-// 1. Metadata: This plugs into your Root Layout's %s template
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const devotional = await client.fetch(`*[_type == "devotional" && slug.current == $slug][0]{title, excerpt}`, {
-    slug,
-  });
 
-  if (!devotional) return { title: "Devotional Not Found" };
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+
+  const devotional = await client.fetch(
+    `*[_type == "devotional" && slug.current == $slug][0]{
+      title,
+      excerpt,
+      "imageUrl": coverImage.asset->url
+    }`,
+    { slug }
+  );
+
+  if (!devotional) {
+    return {
+      title: "Devotional Not Found",
+      description: "The devotional you are looking for could not be found.",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = devotional.title;
+  const description = devotional.excerpt || "Daily devotional from Teliosis World Outreach.";
+  const image = devotional.imageUrl || "/assets/og-default.jpg";
+  const url = `/devotionals/${slug}`;
 
   return {
-    title: devotional.title, // Will show as "Title | Teliosis World Outreach"
-    description: devotional.excerpt,
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "article",
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
   };
 }
 
-// 2. Custom Scripture & Body Styling
 const components: PortableTextComponents = {
   block: {
-    // Elegant Scripture Quotes
     blockquote: ({ children }) => (
       <div className="border-danger-500 relative my-12 overflow-hidden rounded-2xl border-l-4 bg-gray-50 px-8 py-10 md:px-12">
         <span className="text-danger-500/10 absolute -top-2 left-4 font-serif text-8xl leading-none select-none">
@@ -56,8 +90,6 @@ const components: PortableTextComponents = {
   },
 };
 
-// app/devotionals/[slug]/page.tsx
-
 export default async function DevotionalPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const devotional = await client.fetch(DEVOTIONAL_QUERY, { slug });
@@ -66,12 +98,9 @@ export default async function DevotionalPage({ params }: { params: Promise<{ slu
 
   return (
     <main className="min-h-screen bg-white pb-20">
-      {/* 1. THE TOPIC (Header) */}
-      {/* 1. TOPIC & DATE (Header) */}
       <header className="bg-dark py-25 text-center text-white">
         <div className="layout-container px-6">
           <p className="text-danger-500 mb-4 text-xs font-bold tracking-widest uppercase">
-            {/* Formats: THURSDAY, MARCH 12, 2026 */}
             {new Date(devotional.publishedAt)
               .toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })
               .toUpperCase()}
@@ -82,7 +111,6 @@ export default async function DevotionalPage({ params }: { params: Promise<{ slu
 
       <article className="layout-container -mt-8 mb-20 px-6">
         <div className="mx-auto max-w-4xl rounded-[2.5rem] border border-gray-50 bg-white p-8 shadow-2xl md:p-16">
-          {/* 2. VERSE Section */}
           <div className="mb-6 border-b border-gray-50 pb-6 text-center">
             <span className="mb-4 block text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase">
               Verse of the Day
@@ -93,7 +121,6 @@ export default async function DevotionalPage({ params }: { params: Promise<{ slu
             <p className="text-danger-500 mt-4 font-bold">{devotional.scripture}</p>
           </div>
 
-          {/* 3. DISCUSSION Section */}
           <div className="prose prose-lg prose-p:text-gray-600 prose-p:leading-loose mb-6 max-w-none">
             <h3 className="text-dark mb-6 flex items-center gap-4 text-xs font-black tracking-widest uppercase">
               Discussion <div className="h-px flex-1 bg-gray-100" />
@@ -101,7 +128,6 @@ export default async function DevotionalPage({ params }: { params: Promise<{ slu
             <PortableText value={devotional.content} components={components} />
           </div>
 
-          {/* 4. CONFESSION (The Bold Box) */}
           {devotional.confession && (
             <div className="bg-danger-600 mb-6 transform rounded-[2rem] p-8 shadow-xl transition-transform hover:scale-[1.02] md:p-10">
               <h4 className="mb-4 text-[10px] font-black tracking-[0.2em] uppercase opacity-80">Confession</h4>
@@ -116,7 +142,6 @@ export default async function DevotionalPage({ params }: { params: Promise<{ slu
             </div>
           )}
 
-          {/* 5. MEDITATION (The Closing Word) */}
           {devotional.meditationText && (
             <div className="rounded-[2rem] border border-gray-100 bg-gray-50 p-8">
               <div className="mb-4 flex items-center gap-3">

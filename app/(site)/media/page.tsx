@@ -2,6 +2,31 @@ import React from "react";
 import Link from "next/link";
 import { Headphones, Image as ImageIcon, Youtube, Music, Instagram, Smartphone, ArrowRight } from "lucide-react";
 import MediaHero from "./_components/MediaHero";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Media Hub",
+  description: "Watch and listen to sermons, worship moments, and ministry highlights from Teliosis World Outreach.",
+  openGraph: {
+    title: "Media Hub – Teliosis World Outreach",
+    description: "Watch and listen to sermons, worship moments, and ministry highlights from Teliosis World Outreach.",
+    url: "/media",
+    images: [
+      {
+        url: "/assets/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Teliosis World Outreach Media Hub",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Media Hub – Teliosis World Outreach",
+    description: "Watch and listen to sermons, worship moments, and ministry highlights from Teliosis World Outreach.",
+    images: ["/assets/logo.png"],
+  },
+};
 
 export default function MediaHubPage() {
   return (
