@@ -20,12 +20,10 @@ const formatTime = (time: number) => {
   return `${minutes}:${seconds}`;
 };
 
-const getSafeFileName = (title: string) => {
-  return `${title
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .toLowerCase()}.mp3`;
-};
+const SURFACE_CARD = "rounded-[2rem] border border-gray-200/80 bg-white shadow-sm";
+const SURFACE_CARD_ACTIVE = "border-danger-500/25 bg-white shadow-md shadow-danger-500/10";
+const CTA_BUTTON_BASE =
+  "inline-flex items-center justify-center rounded-full font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger-500 focus-visible:ring-offset-2 active:scale-[0.98]";
 
 const RecentSermons = ({ sermons }: RecentSermonsProps) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -37,8 +35,29 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
 
   const [currentTime, setCurrentTime] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
+
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
+  const handleDownload = async (audioUrl: string, title: string, id: string) => {
+    try {
+      setDownloadingId(id);
+      const response = await fetch(audioUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${title}.mp3`;
+      a.click();
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+        a.remove();
+      }, 1000);
+    } catch (error) {
+      console.error("Download failed:", error);
+    } finally {
+      setDownloadingId(null);
+    }
+  };
   const handlePlayPause = async (sermon: Sermon) => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -78,6 +97,7 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
       setIsPlaying(true);
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") {
+        // Harmless when switching streams quickly; ignore noisy browser cancellation.
         return;
       }
 
@@ -107,41 +127,9 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
     if (!audio) return;
 
     const nextTime = Math.min(Math.max(audio.currentTime + seconds, 0), audio.duration || 0);
+
     audio.currentTime = nextTime;
     setCurrentTime(nextTime);
-  };
-
-  const handleDownload = async (sermon: Sermon) => {
-    if (!sermon.audioUrl) return;
-
-    try {
-      setDownloadingId(sermon._id);
-
-      const response = await fetch(sermon.audioUrl);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch audio");
-      }
-
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = getSafeFileName(sermon.title);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error("Download failed:", error);
-
-      // Fallback if the remote host/R2 CORS blocks blob download.
-      window.open(sermon.audioUrl, "_blank", "noopener,noreferrer");
-    } finally {
-      setDownloadingId(null);
-    }
   };
 
   if (!sermons.length) {
@@ -186,20 +174,17 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
           {sermons.map((sermon) => {
             const isActive = activeSermonId === sermon._id;
             const durationToShow = audioDuration || 0;
-            const isDownloading = downloadingId === sermon._id;
 
             return (
               <div
                 key={sermon._id}
-                className={`group flex flex-col items-start gap-8 rounded-[2rem] border p-6 transition-all md:flex-row md:items-center md:p-8 lg:p-10 ${
-                  isActive
-                    ? "border-danger-500/30 bg-danger-50/40 shadow-danger-500/10 shadow-lg"
-                    : "border-gray-100 bg-gray-50 hover:bg-gray-100"
+                className={`group ${SURFACE_CARD} flex flex-col items-start gap-8 p-6 transition-all md:flex-row md:items-center md:p-8 lg:p-10 ${
+                  isActive ? SURFACE_CARD_ACTIVE : "hover:-translate-y-0.5 hover:shadow-md"
                 }`}
               >
                 <button
                   type="button"
-                  className="bg-danger-500 shadow-danger-500/20 flex size-20 shrink-0 cursor-pointer items-center justify-center rounded-full text-white shadow-xl transition-transform hover:scale-105 active:scale-95"
+                  className="bg-danger-500 shadow-danger-500/20 hover:bg-danger-600 focus-visible:ring-danger-500 flex size-20 shrink-0 cursor-pointer items-center justify-center rounded-full text-white shadow-lg transition-all duration-200 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95"
                   aria-label={`${isActive && isPlaying ? "Pause" : "Play"} ${sermon.title}`}
                   onClick={() => handlePlayPause(sermon)}
                 >
@@ -229,7 +214,7 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
 
                     <div className="flex items-center gap-2">
                       <Clock className="size-4" />
-                      <span>{sermon.duration || "Audio"}</span>
+                      <span>{sermon.duration || "N/A"}</span>
                     </div>
                   </div>
 
@@ -245,9 +230,8 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
                   </p>
 
                   {isActive && (
-                    <div className="border-danger-500/10 rounded-2xl border bg-white p-4">
+                    <div className="rounded-[1.25rem] border border-gray-200/80 bg-gray-50 p-4">
                       {playbackError && <p className="mb-3 text-xs font-semibold text-red-600">{playbackError}</p>}
-
                       <div className="mb-3 flex items-center justify-between gap-3">
                         <p className="text-danger-500 text-xs font-bold tracking-[0.2em] uppercase">Audio Player</p>
 
@@ -270,7 +254,7 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
                         <button
                           type="button"
                           onClick={() => skipBy(-10)}
-                          className="text-dark flex cursor-pointer items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-xs font-bold transition hover:bg-gray-200"
+                          className={`${CTA_BUTTON_BASE} text-dark bg-white px-4 py-2 text-xs shadow-sm hover:bg-gray-100`}
                         >
                           <RotateCcw className="size-4" />
                           10s
@@ -279,7 +263,7 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
                         <button
                           type="button"
                           onClick={() => skipBy(10)}
-                          className="text-dark flex cursor-pointer items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-xs font-bold transition hover:bg-gray-200"
+                          className={`${CTA_BUTTON_BASE} text-dark bg-white px-4 py-2 text-xs shadow-sm hover:bg-gray-100`}
                         >
                           10s
                           <RotateCw className="size-4" />
@@ -294,12 +278,12 @@ const RecentSermons = ({ sermons }: RecentSermonsProps) => {
                     type="button"
                     size="xl"
                     variant="secondary"
-                    onClick={() => handleDownload(sermon)}
-                    disabled={isDownloading}
-                    className="text-dark w-full rounded-full bg-gray-200 font-bold hover:bg-gray-300 md:w-auto"
+                    onClick={() => handleDownload(sermon.audioUrl, sermon.title, sermon._id)}
+                    disabled={downloadingId === sermon._id}
+                    className={`${CTA_BUTTON_BASE} text-dark w-full bg-white shadow-sm hover:bg-gray-100 md:w-auto`}
                   >
                     <Download className="mr-2 size-5" />
-                    {isDownloading ? "Downloading..." : "Download"}
+                    {downloadingId === sermon._id ? "Downloading..." : "Download"}
                   </Button>
                 </div>
               </div>
