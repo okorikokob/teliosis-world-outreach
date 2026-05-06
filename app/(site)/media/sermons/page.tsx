@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: "/media/sermons",
     images: [
       {
-        url: "/assets/logo.png",
+        url: "/assets/og-default.jpg",
         width: 1200,
         height: 630,
         alt: "Teliosis World Outreach Audio Sermons",
@@ -24,12 +24,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Audio Sermons – Teliosis World Outreach",
     description: "Listen to recent sermon messages from Teliosis World Outreach and grow in faith through God’s Word.",
-    images: ["/assets/logo.png"],
+    images: ["/assets/og-default.jpg"],
   },
 };
 
 export default async function SermonsPage() {
-  const sermons = await getAllSermons(8);
+  const sermons = await getAllSermons();
 
   return (
     <main className="min-h-screen bg-gray-50 pb-24">

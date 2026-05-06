@@ -85,12 +85,12 @@ const SermonsArchive = ({ sermons }: SermonsArchiveProps) => {
 
       <section className="bg-white pt-10">
         <div className="layout-container">
-          <div className="mb-10 text-center">
+          {/* <div className="mb-10 text-center">
             <h2 className="text-heading-md text-dark mb-4">Recent Sermons</h2>
             <p className="text-body-md text-muted font-normal">Listen to our latest messages and teachings</p>
-          </div>
+          </div> */}
 
-          <div className="rounded-[2rem] border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
+          <div className="mt-8 rounded-[2rem] border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.6fr_1fr_1fr_auto]">
               <div className="relative">
                 <Search
