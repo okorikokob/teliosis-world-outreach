@@ -36,11 +36,11 @@ const AboutSection = () => {
       )
         .fromTo(".about-image-inner", { scale: 1.4 }, { scale: 1, duration: 1.5, ease: "power4.inOut" }, 0)
 
-        // 2. MASKED TEXT
+        // 2. MASKED HEADING — now correctly targets .about-heading-line
         .from(".about-heading-line", { y: 100, duration: 1, ease: "expo.out" }, 0.1)
         .from(".about-p", { opacity: 0, y: 20, duration: 1, stagger: 0.15, ease: "power3.out" }, 0.3)
 
-        // 3. THE BUTTON (Animated specifically so both mobile and desktop versions pop in beautifully)
+        // 3. BUTTON
         .from(".about-btn", { opacity: 0, y: 20, duration: 1, ease: "power3.out" }, 0.6)
 
         // 4. STATS CARD
@@ -53,7 +53,7 @@ const AboutSection = () => {
             ease: "back.out(1.5)",
             onComplete: () => {
               gsap.to(".about-stats", {
-                y: "-=8", // Slightly smaller hover for mobile compatibility
+                y: "-=8",
                 duration: 2,
                 ease: "sine.inOut",
                 yoyo: true,
@@ -77,24 +77,28 @@ const AboutSection = () => {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
           {/* Left Column - Text Content */}
           <div className="order-1">
+            {/* FIX 1 & 6: Added about-heading-line class to h2 so GSAP animation targets it correctly */}
             <div className="mb-4 overflow-hidden pb-2 sm:mb-6">
-              <h2 className="text-3xl font-black text-zinc-900 md:text-4xl">
+              <h2 className="about-heading-line text-3xl font-black text-zinc-900 md:text-4xl">
                 About <span className="text-danger-500">Us</span>
               </h2>
             </div>
 
-            <p className="about-p text-muted text-body-lg mb-6 max-w-xl">
-              Teliosis World Outreach is a vibrant community of believers committed to spreading the Gospel and making
-              disciples of all nations. Our mission is rooted in love, faith, and the transformative power of God&apos;s
-              Word.
+            {/* FIX 5: Replaced text-body-lg (20px) with text-base/md:text-lg for better column fit */}
+            {/* CONTENT: Updated to match the About page text */}
+            <p className="about-p text-muted mb-6 max-w-xl text-base leading-relaxed md:text-lg">
+              Teliosis World Outreach is a fellowship of maturing saints and a school of discipleship, committed to
+              raising people into intimate fellowship with Jesus Christ through the teaching of God&apos;s Word,
+              effectual prayer, and practical discipleship.
             </p>
 
-            <p className="about-p text-muted text-body-lg mb-8 max-w-xl">
-              We believe in creating an atmosphere where everyone can experience God&apos;s presence, grow in their
-              faith, and discover their God-given purpose.
+            <p className="about-p text-muted mb-8 max-w-xl text-base leading-relaxed md:text-lg">
+              Through the ministry of Pastor Peter E. Nwoji and the labor of the Teliosis family, believers are built
+              up, empowered, and equipped to dominate their world through the Word of God and prayer — impacting lives
+              through campuses and fellowship centres across the world.
             </p>
 
-            {/* UPGRADE: Desktop Button - Hidden on mobile, visible on large screens */}
+            {/* Desktop Button */}
             <div className="about-btn hidden lg:inline-block">
               <Button
                 asChild
@@ -110,36 +114,36 @@ const AboutSection = () => {
             </div>
           </div>
 
-          {/* Right Column - Image with Floating Card */}
-          {/* UPGRADE: Added pb-16 to give the card room to breathe on mobile without overlapping the new button */}
+          {/* Right Column - Image with Floating Stats Card */}
           <div className="relative order-2 pb-16 lg:pb-0">
             <div className="relative mx-auto max-w-md lg:max-w-none">
-              <div className="about-image-wrapper">
-                <div className="about-image-inner overflow-hidden rounded-2xl">
+              {/* FIX 3: overflow-hidden + rounded-2xl moved to wrapper so scale animation
+                  doesn't bleed outside rounded corners during the 1.4 → 1 transition */}
+              <div className="about-image-wrapper overflow-hidden rounded-2xl">
+                <div className="about-image-inner">
+                  {/* FIX 4: Fixed height so the image column doesn't collapse or
+                      mismatch the text column height based on image aspect ratio */}
                   <Image
                     src="/assets/aboutImage.png"
                     alt="About Teliosis World Outreach"
                     width={600}
                     height={500}
-                    className="h-auto w-full object-cover"
+                    className="h-[350px] w-full object-cover lg:h-[500px]"
                   />
                 </div>
               </div>
 
-              {/* UPGRADE: Compact Mobile Stats Card */}
-              {/* Force flex-row, smaller text, and tighter padding on small screens */}
+              {/* Floating Stats Card */}
               <div className="about-stats absolute right-4 -bottom-8 left-4 rounded-xl border border-gray-100 bg-white p-3 shadow-xl sm:right-8 sm:-bottom-10 sm:left-8 lg:right-auto lg:-bottom-10 lg:left-[-40px] lg:p-6">
                 <div className="flex flex-row items-center justify-between gap-2 sm:gap-4">
                   <div className="text-center sm:text-left">
-                    <p className="text-dark-500 sm:text-heading-sm text-base font-bold">15+</p>
-                    {/* Mobile-only short text */}
+                    <p className="text-dark-500 sm:text-heading-sm text-base font-bold">8+</p>
                     <p className="text-muted text-[10px] sm:hidden">Years</p>
-                    {/* Desktop/Tablet full text */}
-                    <p className="text-muted sm:text-body-sm hidden text-xs sm:block">Of Faithful Ministry</p>
+                    <p className="text-muted sm:text-body-sm hidden text-xs sm:block">Years of Ministry</p>
                   </div>
                   <div className="h-6 w-px bg-gray-200 sm:h-12" />
                   <div className="text-center sm:text-left">
-                    <p className="text-dark-500 sm:text-heading-sm text-base font-bold">5k+</p>
+                    <p className="text-dark-500 sm:text-heading-sm text-base font-bold">200+</p>
                     <p className="text-muted text-[10px] sm:hidden">Members</p>
                     <p className="text-muted sm:text-body-sm hidden text-xs sm:block">Community Members</p>
                   </div>
@@ -155,6 +159,7 @@ const AboutSection = () => {
           </div>
         </div>
 
+        {/* Mobile Button */}
         <div className="about-btn mt-8 flex justify-center px-4 lg:hidden">
           <Button
             asChild
