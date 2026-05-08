@@ -268,7 +268,12 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
         </div>
 
         {/* Carousel */}
-        <Carousel setApi={setApi} opts={{ align: "start", loop: false }} className="mb-12">
+        <Carousel
+          setApi={setApi}
+          opts={{ align: "start", loop: false }}
+          className="mb-12"
+          style={{ perspective: "1000px" }}
+        >
           <CarouselContent className="-ml-2 sm:-ml-4">
             {/* FIRST CARD: Featured - Added 'featured-card' class */}
             {featuredDevotional && (

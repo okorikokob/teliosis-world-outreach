@@ -186,7 +186,7 @@ body {
 @utility blur-red {
   background-color: rgba(220, 38, 38, 0.2);
   border-radius: var(--radius-full);
-  filter: blur(400px);
+  filter: blur(120px); /* was 400px */
 }
 
 @utility blur-orange {
@@ -198,9 +198,8 @@ body {
 @utility blur-purple {
   background-color: rgba(168, 85, 247, 0.2);
   border-radius: var(--radius-full);
-  filter: blur(400px);
+  filter: blur(120px); /* was 400px */
 }
-
 /* Overlay utility */
 @utility overlay-dark {
   background-color: rgba(0, 0, 0, 0.6);
