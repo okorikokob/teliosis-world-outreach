@@ -44,9 +44,9 @@ const LocationDetails = () => {
               <div>
                 <h3 className="text-dark mb-1 text-base font-bold">Contact</h3>
                 <p className="text-body-sm text-muted">
-                  (555) 123-4567
+                  +234 701 914 5771 / +234 814 629 0513
                   <br />
-                  hello@teliosis.org
+                  teliosisworldoutreach@gmail.com
                 </p>
               </div>
             </div>
@@ -58,9 +58,9 @@ const LocationDetails = () => {
               <div>
                 <h3 className="text-dark mb-1 text-base font-bold">Service Times</h3>
                 <p className="text-body-sm text-muted">
-                  Sunday: 9:00 AM & 11:00 AM
+                  Sunday: 8:00 AM & 10:00 AM
                   <br />
-                  Wednesday: 7:00 PM
+                  Wednesday: 6:00 PM
                 </p>
               </div>
             </div>

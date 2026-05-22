@@ -23,6 +23,8 @@ const buttonVariants = cva(
         glass:
           "rounded-full border border-white/20 bg-white/10 text-white font-medium backdrop-blur-md hover:bg-white/20 hover:text-white",
         gradient: "rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold hover:opacity-90",
+        ministry:
+          "rounded-full bg-gradient-to-r from-red-600 to-blue-600 text-white font-semibold shadow-lg hover:from-red-700 hover:to-blue-700 hover:shadow-xl",
       },
       size: {
         default: "h-9 px-4 has-[>svg]:px-3",
