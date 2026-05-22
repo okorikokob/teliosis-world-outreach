@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { GraduationCap, BookOpen, Users, Award, Users2, Sparkles, ArrowRight } from "lucide-react";
+import { GraduationCap, BookOpen, Users, Award, Users2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -134,8 +134,8 @@ export default function TeliosisSection() {
 
             <p className="tel-text text-muted max-w-xl text-base leading-relaxed md:text-lg">
               Deepen your understanding of Scripture and develop your teaching gifts through our comprehensive ministry
-              training program. Whether you&apos;re called to teach, lead, or serve, Teliosis School equips you for
-              effective ministry.
+              training program. Whether you&apos;re called to teach, lead, or serve, the Teliosis School of the Teaching
+              Ministry equips you for effective ministry.
             </p>
 
             {/* Feature Cards */}

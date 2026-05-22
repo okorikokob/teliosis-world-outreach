@@ -60,7 +60,7 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/devotionals", label: "Devotionals" },
     { href: "/about", label: "About" },
-    { href: "/partner", label: "Partner" },
+    // { href: "/partner", label: "Partner" },
     { href: "/media", label: "Media" },
     { href: "/contact", label: "Contact" },
     { href: "/give", label: "Give" },
@@ -83,7 +83,7 @@ const Navbar = () => {
               className="h-12 w-12 sm:h-14 sm:w-14 lg:h-[60px] lg:w-[60px]"
             />
             <span
-              className={`hidden text-sm font-bold tracking-wide transition-colors duration-300 sm:block md:text-base lg:text-lg ${
+              className={`text-sm font-bold tracking-wide transition-colors duration-300 sm:block md:text-base lg:text-lg ${
                 isScrolled || isMenuOpen ? "text-gray-900" : "text-white"
               }`}
             >
@@ -117,7 +117,7 @@ const Navbar = () => {
             })}
           </div>
 
-          <Button asChild variant="gradient" size="lg" className="hidden gap-2 md:flex">
+          <Button asChild variant="ministry" size="lg" className="hidden gap-2 md:flex">
             <Link href="/partner">
               <Heart className="h-4 w-4" />
               Partner
@@ -172,7 +172,7 @@ const Navbar = () => {
             );
           })}
           <div className="pt-4">
-            <Button asChild variant="gradient" size="lg" className="w-full gap-2">
+            <Button asChild variant="ministry" size="lg" className="w-full gap-2">
               <Link href="/partner" onClick={() => setIsMenuOpen(false)}>
                 <Heart className="h-4 w-4" />
                 Partner

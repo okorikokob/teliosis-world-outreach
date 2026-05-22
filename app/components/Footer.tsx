@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Youtube, Twitter, MapPin, Phone, Mail, LucideIcon } from "lucide-react";
+import { Facebook, Instagram, Youtube, MapPin, Phone, Mail } from "lucide-react";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -45,13 +45,6 @@ const Footer = () => {
     { scope: containerRef }
   );
 
-  const iconMap: Record<string, LucideIcon> = {
-    facebook: Facebook,
-    instagram: Instagram,
-    youtube: Youtube,
-    twitter: Twitter,
-  };
-
   const quickLinks = [
     { href: "/about", label: "About Us" },
     { href: "/devotionals", label: "Devotionals" },
@@ -62,10 +55,41 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { href: "https://facebook.com", label: "Facebook", icon: "facebook" },
-    { href: "https://instagram.com", label: "Instagram", icon: "instagram" },
-    { href: "https://youtube.com", label: "YouTube", icon: "youtube" },
-    { href: "https://twitter.com", label: "Twitter", icon: "twitter" },
+    {
+      href: "https://www.facebook.com/share/1B9VJCDzmJ/",
+      label: "Facebook",
+      icon: Facebook, // lucide — fine
+    },
+    {
+      href: "https://www.instagram.com/reel/DWwQPG7iGFw/?igsh=czUxeWxlZjQ1M204",
+      label: "Instagram",
+      icon: Instagram, // lucide — fine
+    },
+    {
+      href: "https://www.youtube.com/@teliosisworldoutreach",
+      label: "YouTube",
+      icon: Youtube, // lucide — fine
+    },
+    {
+      href: "https://podcasters.spotify.com/pod/show/osikhenadavid1",
+      label: "Spotify",
+      icon: null, // custom SVG
+      svg: (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+        </svg>
+      ),
+    },
+    {
+      href: "https://t.me/teliosisworldoutreach",
+      label: "Telegram",
+      icon: null, // custom SVG
+      svg: (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+        </svg>
+      ),
+    },
   ];
 
   return (
@@ -96,7 +120,8 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               {socialLinks.map((link) => {
-                const IconComponent = iconMap[link.icon];
+                const IconComponent = link.icon;
+
                 return (
                   <a
                     key={link.label}
@@ -106,7 +131,7 @@ const Footer = () => {
                     aria-label={link.label}
                     className="text-light-100 hover:bg-danger-500 hover:border-danger-500 hover:shadow-danger-500/20 flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                   >
-                    <IconComponent className="h-5 w-5" />
+                    {IconComponent ? <IconComponent className="h-5 w-5" /> : link.svg}
                   </a>
                 );
               })}
@@ -159,25 +184,27 @@ const Footer = () => {
                   <MapPin className="h-4 w-4" />
                 </div>
                 <span className="leading-relaxed">
-                  123 Church Street,
+                  Teliosis Tudunwada Campus,
                   <br />
-                  City, State 12345
+                  After Catholic Church, Sauka Road,
+                  <br />
+                  Tudunwada FHA Lugbe, Abuja.
                 </span>
               </div>
               <div className="group flex items-center gap-3 transition-colors hover:text-white">
                 <div className="bg-danger-500/10 text-danger-500 group-hover:bg-danger-500/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors">
                   <Phone className="h-4 w-4" />
                 </div>
-                <a href="tel:+1234567890" className="transition-colors">
-                  (123) 456-7890
+                <a href="tel:+2347019145771" className="transition-colors">
+                  +234 701 914 5771 / +234 814 629 0513
                 </a>
               </div>
               <div className="group flex items-center gap-3 transition-colors hover:text-white">
                 <div className="bg-danger-500/10 text-danger-500 group-hover:bg-danger-500/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors">
                   <Mail className="h-4 w-4" />
                 </div>
-                <a href="mailto:info@teliosisworldoutreach.org" className="truncate transition-colors">
-                  info@teliosisworldoutreach.org
+                <a href="mailto:teliosisworldoutreach@gmail.com" className="truncate transition-colors">
+                  teliosisworldoutreach@gmail.com
                 </a>
               </div>
             </div>

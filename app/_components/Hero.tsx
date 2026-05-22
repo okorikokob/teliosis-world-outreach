@@ -87,12 +87,13 @@ const Hero = () => {
             <span className="hero-title-line block">A Place Where</span>
           </div>
           <div className="overflow-hidden">
-            <span className="hero-title-line text-danger-500 block">Faith Comes Alive</span>
+            <span className="hero-title-line text-danger-500 block">Men Are Perfected</span>
           </div>
         </h1>
 
         <p className="hero-p text-light-70 text-body-lg mb-10 max-w-lg leading-relaxed md:text-lg">
-          Join a vibrant community of believers growing together in faith, love, and purpose.
+          Experience the transforming power of God&apos;s Word in an atmosphere of intense teaching, fervent prayers,
+          and the manifestation of the Spirit.
         </p>
 
         <div className="flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row sm:gap-6">

@@ -4,8 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: "Inter", sans-serif;
+  overflow-x: hidden;
 }
 
 /* Ensure Navbar stays transparent across scroll/overlays */
@@ -233,8 +238,15 @@ body {
   max-width: 85rem;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .layout-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 
 @theme inline {
