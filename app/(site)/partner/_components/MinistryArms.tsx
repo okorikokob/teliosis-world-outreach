@@ -11,8 +11,6 @@ const MinistryArms = () => {
       title: "Mission",
       description:
         "Supporting missionaries planting churches and spreading the Gospel in unreached areas across the globe.",
-      metric: "50+",
-      metricLabel: "Active Missionaries",
     },
     {
       id: "radio",
@@ -20,8 +18,6 @@ const MinistryArms = () => {
       title: "Radio",
       description:
         "Reaching thousands daily with the message of hope, faith, and salvation through our broadcast networks.",
-      metric: "10k+",
-      metricLabel: "Daily Listeners",
     },
     {
       id: "storehouse",
@@ -29,16 +25,12 @@ const MinistryArms = () => {
       title: "Storehouse",
       description:
         "Providing food, clothing, and essential resources to families in need within our local communities.",
-      metric: "5,000",
-      metricLabel: "Families Fed",
     },
     {
       id: "devotional",
       category: "Spiritual Growth",
       title: "Devotional",
       description: "Equipping believers worldwide with daily scripture readings and faith-building teachings.",
-      metric: "1,200",
-      metricLabel: "Daily Readers",
     },
     {
       id: "children",
@@ -46,16 +38,12 @@ const MinistryArms = () => {
       title: "Children",
       description:
         "Laying a strong biblical foundation for the youngest members of our community in a safe, fun environment.",
-      metric: "500+",
-      metricLabel: "Kids Reached",
     },
     {
       id: "nachadava",
       category: "Youth Empowerment",
       title: "Nachadava",
       description: "Empowering young people with skills, mentorship, and the undeniable truth of the Gospel.",
-      metric: "1,000",
-      metricLabel: "Youth Empowered",
     },
   ];
 
@@ -84,11 +72,6 @@ const MinistryArms = () => {
               </div>
 
               <div className="mt-auto border-t border-white/10 pt-6">
-                <div className="mb-6">
-                  <span className="text-danger-500 mb-1 block text-4xl font-black tracking-tight">{arm.metric}</span>
-                  <span className="text-xs font-medium tracking-wider text-gray-500 uppercase">{arm.metricLabel}</span>
-                </div>
-
                 <PartnerModal defaultInterest={arm.id}>
                   <button className="hover:bg-danger-500 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white/10 py-3 text-sm font-bold text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
                     Partner with {arm.title} <ArrowRight size={16} />

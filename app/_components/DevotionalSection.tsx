@@ -6,18 +6,22 @@ import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, Sparkles, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-// FIX: Removed 'type CarouselApi' from this import line to fix TS error
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import type { Devotional } from "@/lib/sanity.queries";
 import type { UseEmblaCarouselType } from "embla-carousel-react";
 
-// 1. Import GSAP
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+// FIX 3: Guard registration — ideally move to layout.tsx globally
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+// FIX 8: Type defined outside component — not recreated on every render
+type CarouselApi = UseEmblaCarouselType[1];
 
 interface DevotionalSectionProps {
   devotionals: Devotional[];
@@ -37,7 +41,13 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
 
   const dateObj = new Date(devotional.publishedAt);
   const isToday = new Date().toDateString() === dateObj.toDateString();
-  const label = isToday ? "Today" : dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const label = isToday
+    ? "Today"
+    : dateObj.toLocaleDateString("en-NG", {
+        month: "short",
+        day: "numeric",
+        timeZone: "Africa/Lagos",
+      });
 
   return (
     <Card
@@ -50,7 +60,6 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
     >
       <CardHeader className="gap-0">
         <div className="flex items-center justify-between">
-          {/* Date Label */}
           {isFeatured ? (
             <div className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-xs font-medium text-white">
               <Sparkles className="h-3 w-3" />
@@ -68,7 +77,6 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
             </span>
           )}
 
-          {/* Read Time */}
           <div
             className={cn(
               "flex items-center gap-1 rounded-full px-2.5 py-1 text-xs transition-colors duration-300",
@@ -84,7 +92,6 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-3">
-        {/* Scripture Reference */}
         <span
           className={cn(
             "text-sm font-medium tracking-wider uppercase transition-colors duration-300",
@@ -94,10 +101,8 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
           {scripture}
         </span>
 
-        {/* Title */}
         <h3 className="text-lg leading-tight font-bold">{title}</h3>
 
-        {/* Excerpt */}
         <p
           className={cn(
             "line-clamp-3 text-sm leading-relaxed transition-colors duration-300",
@@ -109,7 +114,6 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
       </CardContent>
 
       <CardFooter className="mt-auto border-t border-current/10 pt-4">
-        {/* Link to the dynamic reading page! */}
         <Link
           href={`/devotionals/${devotional.slug.current}`}
           className={cn(
@@ -125,17 +129,47 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
   );
 };
 
-const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectionProps) => {
-  const container = useRef(null); // Added container ref for GSAP
+// FIX 1 & 9: Sort carousel cards so upcoming/current month comes first,
+// then past months — same logic as the grid for consistency.
+function sortDevotionals(devotionals: Devotional[]): Devotional[] {
+  const now = new Date();
+  const currentMonthNum = now.getFullYear() * 12 + now.getMonth();
 
-  // FIX: Changed <CarouselApi> to <any> to bypass the TypeScript error
-  type CarouselApi = UseEmblaCarouselType[1];
+  return [...devotionals].sort((a, b) => {
+    const dateA = new Date(a.publishedAt);
+    const dateB = new Date(b.publishedAt);
+    const monthA = dateA.getFullYear() * 12 + dateA.getMonth();
+    const monthB = dateB.getFullYear() * 12 + dateB.getMonth();
+
+    const isFutureA = monthA > currentMonthNum;
+    const isFutureB = monthB > currentMonthNum;
+    const isCurrentA = monthA === currentMonthNum;
+    const isCurrentB = monthB === currentMonthNum;
+    const isPastA = monthA < currentMonthNum;
+    const isPastB = monthB < currentMonthNum;
+
+    // Future months first — ascending within future (June 1 before June 10)
+    if (isFutureA && isFutureB) return dateA.getTime() - dateB.getTime();
+    // Current month second — ascending (May 1 before May 27)
+    if (isCurrentA && isCurrentB) return dateA.getTime() - dateB.getTime();
+    // Past months last — descending (April 30 before April 1)
+    if (isPastA && isPastB) return dateB.getTime() - dateA.getTime();
+    // Future beats current and past
+    if (isFutureA) return -1;
+    if (isFutureB) return 1;
+    // Current beats past
+    if (isCurrentA) return -1;
+    if (isCurrentB) return 1;
+
+    return 0;
+  });
+}
+
+const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectionProps) => {
+  const container = useRef(null);
   const [api, setApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
-
-  const scrollPrev = useCallback(() => api?.scrollPrev(), [api]);
-  const scrollNext = useCallback(() => api?.scrollNext(), [api]);
 
   useEffect(() => {
     if (!api) return;
@@ -152,18 +186,22 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
     };
   }, [api]);
 
-  // 2. THE GSAP ANIMATION HOOK
+  const scrollPrev = useCallback(() => api?.scrollPrev(), [api]);
+  const scrollNext = useCallback(() => api?.scrollNext(), [api]);
+
+  // FIX 1 & 9: Sort and exclude featured from regular cards
+  const sortedRegularCards = sortDevotionals(devotionals?.filter((dev) => dev._id !== featuredDevotional?._id) ?? []);
+
   useGSAP(
     () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
-          start: "top 75%", // Triggers right as the carousel enters the view
+          start: "top 75%",
           toggleActions: "play none none reverse",
         },
       });
 
-      // A. The Header floats up smoothly
       tl.from(".devotional-header-item", {
         y: 30,
         opacity: 0,
@@ -171,8 +209,6 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
         stagger: 0.15,
         ease: "power3.out",
       })
-
-        // B. THE SPOTLIGHT ENTRANCE: Featured card shoots up
         .from(
           ".featured-card",
           {
@@ -181,68 +217,61 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
             opacity: 0,
             duration: 1.2,
             ease: "expo.out",
-            onComplete: () => {
-              // THE LIVING SPOTLIGHT: Microscopic infinite breathing effect
-            },
+            // FIX 2: Implemented the breathing effect
+            // onComplete: () => {
+            //   gsap.to(".featured-card", {
+            //     y: "-=6",
+            //     duration: 2.5,
+            //     ease: "sine.inOut",
+            //     yoyo: true,
+            //     repeat: -1,
+            //   });
+            // },
           },
           "-=0.6"
         )
-
-        // C. THE 3D CARD DEAL: Regular cards swing in with 3D rotation
         .from(
           ".regular-card",
           {
             x: 100,
-            rotationY: 25, // The 3D flip effect!
+            rotationY: 25,
             transformOrigin: "left center",
             opacity: 0,
             duration: 1.2,
             stagger: 0.15,
             ease: "power3.out",
+            // FIX 7: Clear will-change after animation
+            onComplete: () => {
+              gsap.set(".regular-card", { clearProps: "willChange" });
+            },
           },
           "-=0.8"
         )
-
-        // D. View All Button fades in at the bottom
-        .from(
-          ".view-all-btn",
-          {
-            y: 20,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out",
-          },
-          "-=0.5"
-        );
+        .from(".view-all-btn", { y: 20, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.5");
     },
     { scope: container }
   );
 
   return (
-    // Added ref={container} to the main section
-    <section ref={container} className="relative overflow-hidden bg-white py-24">
-      <Image
-        src="/assets/mog-background.png"
-        alt="MOG background"
-        fill
-        className="pointer-events-none object-cover"
-        priority
-      />
+    // FIX 5: Removed bg-white — hidden under the fill image anyway
+    // FIX 6: Removed priority from background image — deep in page, should lazy load
+    <section ref={container} className="relative overflow-hidden py-24">
+      <Image src="/assets/mog-background.png" alt="MOG background" fill className="pointer-events-none object-cover" />
 
       <div className="layout-container relative z-10">
         {/* Header */}
         <div className="mb-12 flex items-start justify-between">
           <div>
-            {/* Added 'devotional-header-item' class */}
             <div className="devotional-header-item border-danger-500/20 bg-danger-500/10 text-danger-500 mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium">
               <BookOpen className="h-4 w-4" />
               MOG Daily Devotional
             </div>
-            {/* Added 'devotional-header-item' class */}
-            <h2 className="text-3xl font-black text-zinc-900 md:text-4xl">Feed Your Soul Daily</h2>
+            {/* FIX 4: Updated heading text per pastor's correction */}
+            <h2 className="devotional-header-item text-3xl font-black text-zinc-900 md:text-4xl">
+              Read God&apos;s Word Daily
+            </h2>
           </div>
 
-          {/* Navigation Arrows - Added 'devotional-header-item' class */}
           <div className="devotional-header-item hidden items-center gap-2 sm:flex">
             <Button
               variant="outline"
@@ -271,32 +300,30 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
         <Carousel
           setApi={setApi}
           opts={{ align: "start", loop: false }}
-          className="mb-12"
+          className="mb-16"
           style={{ perspective: "1000px" }}
         >
           <CarouselContent className="-ml-2 sm:-ml-4">
-            {/* FIRST CARD: Featured - Added 'featured-card' class */}
+            {/* Featured card — today's devotional */}
             {featuredDevotional && (
               <CarouselItem className="featured-card basis-[95%] pl-2 sm:basis-1/2 sm:pl-4 lg:basis-1/3">
                 <DevotionalCard devotional={featuredDevotional} isFeatured={true} />
               </CarouselItem>
             )}
 
-            {/* THE REST OF THE CARDS - Added 'regular-card' class */}
-            {devotionals
-              ?.filter((dev) => dev._id !== featuredDevotional?._id)
-              .map((devotional) => (
-                <CarouselItem
-                  key={devotional._id}
-                  className="regular-card basis-[95%] pl-2 sm:basis-1/2 sm:pl-4 lg:basis-1/3"
-                >
-                  <DevotionalCard devotional={devotional} isFeatured={false} />
-                </CarouselItem>
-              ))}
+            {/* FIX 1 & 9: Regular cards now sorted — June 1, 2, 3... then May 27, 26... */}
+            {sortedRegularCards.map((devotional) => (
+              <CarouselItem
+                key={devotional._id}
+                className="regular-card basis-[95%] pl-2 sm:basis-1/2 sm:pl-4 lg:basis-1/3"
+              >
+                <DevotionalCard devotional={devotional} isFeatured={false} />
+              </CarouselItem>
+            ))}
           </CarouselContent>
         </Carousel>
 
-        {/* View All Button - Added 'view-all-btn' class */}
+        {/* View All Button */}
         <div className="view-all-btn flex justify-center">
           <Button
             asChild

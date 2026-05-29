@@ -44,7 +44,7 @@ const page = async () => {
       <DevotionalHero />
       <TodaySpotlight featuredDevotional={featuredDevotional} />
 
-      <DevotionalGrid devotionals={devotionals} />
+      <DevotionalGrid devotionals={devotionals} featuredId={featuredDevotional?._id} />
       <SubscribeSection />
     </main>
   );

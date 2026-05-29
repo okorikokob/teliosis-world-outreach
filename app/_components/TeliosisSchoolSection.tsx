@@ -175,7 +175,7 @@ export default function TeliosisSection() {
                 size="xl"
                 className="group mt-8 rounded-full transition-transform hover:-translate-y-1"
               >
-                <Link href="/contact">
+                <Link href="https://www.tstm.org.ng/" target="_blank" rel="noopener noreferrer">
                   Enroll Now
                   <ArrowRight className="transition-transform group-hover:translate-x-1" />
                 </Link>
@@ -194,7 +194,7 @@ export default function TeliosisSection() {
             {/* FIX 6: Added priority prop — large image adjacent to viewport should not lazy load */}
             <div className="tel-img relative overflow-hidden rounded-[2rem]">
               <Image
-                src="/assets/teliosis-school.png"
+                src="/assets/tstm.jpeg"
                 alt="Students in a Teliosis School classroom"
                 width={800}
                 height={600}
@@ -250,7 +250,7 @@ export default function TeliosisSection() {
             size="lg"
             className="group h-auto rounded-full px-10 py-4 transition-transform hover:-translate-y-1 sm:w-auto sm:px-12"
           >
-            <Link href="/contact">
+            <Link href="https://www.tstm.org.ng/">
               Enroll Now
               <ArrowRight className="transition-transform group-hover:translate-x-1" />
             </Link>

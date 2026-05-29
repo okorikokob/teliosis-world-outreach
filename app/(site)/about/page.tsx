@@ -1,5 +1,5 @@
 import AboutHero from "./_components/AboutHero";
-import MissionVisionSection from "./_components/MissionVisionSection";
+
 import JourneySection from "./_components/JourneySection";
 import LeadershipSection from "./_components/LeadershipSection";
 import ImpactSection from "./_components/ImpactSection";
@@ -22,7 +22,7 @@ export default function AboutPage() {
   return (
     <main>
       <AboutHero />
-      <MissionVisionSection />
+
       <JourneySection />
       <LeadershipSection />
       <ImpactSection />
