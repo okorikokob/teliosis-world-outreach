@@ -30,6 +30,19 @@ export interface Leader {
   order: number;
 }
 
+export interface Sermon {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  speaker: string;
+  series?: string;
+  description?: string;
+  date: string;
+  duration?: string;
+  audioUrl: string;
+  published?: boolean;
+}
+
 // GROQ field selections
 const devotionalFields = `
   _id,
@@ -73,71 +86,122 @@ const leaderFields = `
   order
 `;
 
-export interface Sermon {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  speaker: string;
-  series?: string;
-  description?: string;
-  date: string;
-  duration?: string;
-  audioUrl: string;
-  published?: boolean;
-}
-// Fetch all devotionals (sorted by date, newest first)
+// ─────────────────────────────────────────────
+// DEVOTIONALS
+// ─────────────────────────────────────────────
+
+/**
+ * Fetch all devotionals sorted ASCENDING (oldest first: Day 1 → Day 30).
+ * This makes the grid show June 1 first, June 2 second, etc.
+ * Load More then reveals June 10, 11... in order.
+ */
 export async function getAllDevotionals(): Promise<Devotional[]> {
-  return client.fetch(`*[_type == "devotional"] | order(publishedAt desc) { ${devotionalFields} }`);
+  return client.fetch(`*[_type == "devotional"] { ${devotionalFields} }`);
 }
 
-// Fetch the most recent devotional up to now
+/**
+ * AUTOMATIC TODAY'S SPOTLIGHT.
+ *
+ * No manual "featured" toggle needed. Just post all your devotionals
+ * with the correct publishedAt date for each day (e.g. June 1 → June 30).
+ *
+ * This query finds whichever devotional falls within today's date window
+ * in WAT (West Africa Time, UTC+1). At midnight WAT each day, the next
+ * devotional automatically becomes the spotlight.
+ *
+ * HOW TO SET DATES IN SANITY:
+ * Set each devotional's publishedAt to: 2025-06-01T00:00:00+01:00
+ * (replace the date for each entry — the +01:00 ensures WAT alignment)
+ *
+ * Revalidates every hour so the switch happens within 60 mins of midnight.
+ */
 export async function getFeaturedDevotional(): Promise<Devotional | null> {
-  return client.fetch(
-    `*[_type == "devotional" && publishedAt <= now()] | order(publishedAt desc)[0] { ${devotionalFields} }`,
-    undefined,
-    { next: { revalidate: 3600 } }
+  // Build today's date window in WAT (UTC+1)
+  const now = new Date();
+
+  // Start of today in WAT: set to midnight UTC+1
+  const todayWAT = new Date(now.toLocaleString("en-US", { timeZone: "Africa/Lagos" }));
+  todayWAT.setHours(0, 0, 0, 0);
+
+  // End of today = start of tomorrow WAT
+  const tomorrowWAT = new Date(todayWAT);
+  tomorrowWAT.setDate(todayWAT.getDate() + 1);
+
+  const todayISO = todayWAT.toISOString();
+  const tomorrowISO = tomorrowWAT.toISOString();
+
+  const result = await client.fetch<Devotional | null>(
+    `*[_type == "devotional" && publishedAt >= $today && publishedAt < $tomorrow] | order(publishedAt desc)[0] { ${devotionalFields} }`,
+    { today: todayISO, tomorrow: tomorrowISO },
+    { next: { revalidate: 3600 } } // recheck every hour
   );
+
+  // Fallback: if no devotional is found for today (e.g. a gap in posting),
+  // show the most recent past devotional so the spotlight is never empty.
+  if (!result) {
+    return client.fetch<Devotional | null>(
+      `*[_type == "devotional" && publishedAt < $tomorrow] | order(publishedAt desc)[0] { ${devotionalFields} }`,
+      { tomorrow: tomorrowISO },
+      { next: { revalidate: 3600 } }
+    );
+  }
+
+  return result;
 }
 
-// Fetch single devotional by slug
+/**
+ * Fetch a single devotional by slug for the detail page.
+ */
 export async function getDevotionalBySlug(slug: string): Promise<Devotional | null> {
   return client.fetch(`*[_type == "devotional" && slug.current == $slug][0] { ${devotionalFields} }`, { slug });
 }
 
-// Fetch devotionals by topic
+/**
+ * Fetch devotionals filtered by topic.
+ */
 export async function getDevotionalsByTopic(topic: string): Promise<Devotional[]> {
-  return client.fetch(
-    `*[_type == "devotional" && $topic in topics] | order(publishedAt desc) { ${devotionalFields} }`,
-    { topic }
-  );
+  return client.fetch(`*[_type == "devotional" && $topic in topics] | order(publishedAt asc) { ${devotionalFields} }`, {
+    topic,
+  });
 }
 
-// Fetch recent devotionals (for archive grid)
+/**
+ * Fetch recent devotionals for preview sections (e.g. homepage carousel).
+ * These show newest first since it's a "recent" preview.
+ */
 export async function getRecentDevotionals(limit = 6): Promise<Devotional[]> {
   return client.fetch(`*[_type == "devotional"] | order(publishedAt desc)[0...${limit}] { ${devotionalFields} }`);
 }
 
-// Fetch all leaders (sorted by display order)
-export async function getAllLeaders(): Promise<Leader[]> {
-  return client.fetch(`*[_type == "leader"] | order(order asc) { ${leaderFields} }`);
-}
-
-// Search devotionals by title/excerpt/scripture
+/**
+ * Full-text search across title, excerpt, and scripture.
+ * Returns ascending order so results feel like browsing the archive.
+ */
 export async function searchDevotionals(term: string): Promise<Devotional[]> {
-  // Use a different parameter name (`term`) and pass it as `$term` to avoid confusion
   return client.fetch(
     `*[_type == "devotional" && (
       title match $term ||
       excerpt match $term ||
       scripture match $term
-    )] | order(publishedAt desc) { ${devotionalFields} }`,
+    )] | order(publishedAt asc) { ${devotionalFields} }`,
     { term: `*${term}*` }
   );
 }
 
+// ─────────────────────────────────────────────
+// LEADERS
+// ─────────────────────────────────────────────
+
+export async function getAllLeaders(): Promise<Leader[]> {
+  return client.fetch(`*[_type == "leader"] | order(order asc) { ${leaderFields} }`);
+}
+
+// ─────────────────────────────────────────────
+// SERMONS
+// ─────────────────────────────────────────────
+
 export async function getAllSermons(limit?: number): Promise<Sermon[]> {
   const slice = typeof limit === "number" ? `[0...${limit}]` : "";
-
   return client.fetch(
     `*[_type == "sermon" && (!defined(published) || published == true)] | order(date desc) ${slice} { ${sermonFields} }`
   );

@@ -22,7 +22,7 @@ const DevotionalHero = () => {
         </div>
 
         <h1 className="text-heading-lg md:text-heading-xl mb-6 text-white">
-          Feed Your <span className="text-danger-500">Soul</span> Daily
+          Read <span className="text-danger-500"> God&apos;s Word </span> Daily
         </h1>
 
         <p className="text-body-lg text-light-70 mx-auto max-w-2xl">

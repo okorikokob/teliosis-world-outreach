@@ -217,7 +217,7 @@ const Footer = () => {
             <p className="text-muted text-body-sm text-center md:text-left">
               © {new Date().getFullYear()} Teliosis World Outreach. All rights reserved.
             </p>
-            <div className="flex gap-6">
+            {/* <div className="flex gap-6">
               <Link
                 href="/privacy"
                 className="group text-muted relative w-fit text-sm transition-colors duration-200 hover:text-white"
@@ -232,7 +232,7 @@ const Footer = () => {
                 Terms of Service
                 <span className="bg-danger-500 absolute -bottom-1 left-0 h-px w-0 transition-all duration-300 group-hover:w-full" />
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
