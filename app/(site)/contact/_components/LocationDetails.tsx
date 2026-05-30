@@ -18,7 +18,7 @@ const CAMPUSES = [
     mapLink: "https://www.google.com/maps/search/?api=1&query=Suite+350+Dominion+Hub+Rock+of+Ages+Mall+Jabi+Abuja",
     phone: "+234 701 914 5771 / +234 814 629 0513",
     email: "teliosisworldoutreach@gmail.com",
-    serviceTimes: [{ day: "Saturday", time: "4:00 PM – 7:00 PM" }],
+    serviceTimes: [{ day: "Last Saturday of Every Month", time: "4:00 PM – 7:00 PM" }],
   },
   {
     id: "tudunwada",

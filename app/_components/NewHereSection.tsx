@@ -27,7 +27,7 @@ const infoCards = [
     id: "expect",
     icon: Heart,
     title: "What to Expect",
-    description: "Warm welcomes, uplifting worship, and relevant teaching. Come as you are.",
+    description: "Warm welcomes, uplifting worship, and relevant teaching.",
     iconBg: "bg-gradient-to-br from-purple-500 to-violet-600",
   },
   {
