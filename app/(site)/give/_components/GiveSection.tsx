@@ -26,8 +26,8 @@ const CAMPUS_ACCOUNTS = [
     id: "zhidu",
     campus: "Zhidu Campus",
     bank: "UBA BANK",
-    accountName: "TELIOSIS ETERNAL LIFE GLOBAL ASSEMBLY",
-    accountNumber: "10297960001",
+    accountName: "TELIOSIS ETERNAL LIFE GLOBAL ASSEMBLY CAMPUS 3",
+    accountNumber: "1029794817",
   },
   // City Campus — uncomment and fill when ready
   // {
