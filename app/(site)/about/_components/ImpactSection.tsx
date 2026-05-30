@@ -1,4 +1,4 @@
-import { Users, Globe, Heart, Award } from "lucide-react";
+import { Users, Globe, Heart } from "lucide-react";
 
 const ImpactSection = () => {
   const stats = [

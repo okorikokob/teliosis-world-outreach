@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 // ─────────────────────────────────────────────
-// Data — defined outside component
+// Data
 // ─────────────────────────────────────────────
 const GENERAL_ACCOUNT = {
   bank: "UBA BANK",
@@ -29,7 +29,7 @@ const CAMPUS_ACCOUNTS = [
     accountName: "TELIOSIS ETERNAL LIFE GLOBAL ASSEMBLY",
     accountNumber: "10297960001",
   },
-  // City Campus — add account details here when ready
+  // City Campus — uncomment and fill when ready
   // {
   //   id: "city",
   //   campus: "City Campus",
@@ -63,7 +63,6 @@ const useCopy = () => {
       toast.error("Account number is empty and cannot be copied.");
       return;
     }
-
     try {
       if (navigator.clipboard?.writeText) {
         try {
@@ -74,9 +73,7 @@ const useCopy = () => {
       } else {
         fallbackCopy(trimmed);
       }
-
       toast.success("Copied to clipboard", {
-        description: `${trimmed} is ready to paste.`,
         duration: 3000,
       });
       setIsCopied(true);
@@ -98,54 +95,64 @@ const GeneralGivingCard = () => {
   const { isCopied, handleCopy } = useCopy();
 
   return (
-    <div className="group hover:shadow-danger-500/10 relative overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-2xl transition-all md:p-12">
+    <div className="group hover:shadow-danger-500/10 relative overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-6 shadow-2xl transition-all sm:p-8 md:p-12">
       <Heart className="absolute -top-10 -right-10 h-64 w-64 text-gray-50 opacity-50 transition-transform group-hover:scale-110" />
 
       <div className="relative z-10">
-        <div className="mb-8 flex items-center gap-5">
-          <div className="bg-danger-50 text-danger-500 flex h-16 w-16 items-center justify-center rounded-2xl shadow-inner">
-            <Landmark size={32} />
+        {/* Header */}
+        <div className="mb-8 flex items-center gap-4">
+          <div className="bg-danger-50 text-danger-500 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-inner sm:h-16 sm:w-16">
+            <Landmark size={28} />
           </div>
           <div>
-            <h3 className="text-3xl font-black tracking-tight text-zinc-900"> General Giving</h3>
-            <p className="text-sm font-bold tracking-widest text-gray-400 uppercase">Tithes & Offerings</p>
+            <h3 className="text-2xl font-black tracking-tight text-zinc-900 sm:text-3xl">General Giving</h3>
+            <p className="text-xs font-bold tracking-widest text-gray-400 uppercase sm:text-sm">Tithes & Offerings</p>
           </div>
         </div>
 
-        <div className="border-danger-500 mb-10 space-y-2 border-l-4 pl-6">
-          <p className="text-danger-600 text-xl font-black tracking-tight">{GENERAL_ACCOUNT.bank}</p>
-          <p className="text-lg leading-tight font-bold text-zinc-800">{GENERAL_ACCOUNT.accountName}</p>
+        {/* Bank & Account Name */}
+        <div className="border-danger-500 mb-8 space-y-1 border-l-4 pl-5">
+          <p className="text-danger-600 text-lg font-black tracking-tight sm:text-xl">{GENERAL_ACCOUNT.bank}</p>
+          <p className="text-base leading-tight font-bold text-zinc-800 sm:text-lg">{GENERAL_ACCOUNT.accountName}</p>
         </div>
 
+        {/* Copy Area — stacks on mobile, side by side on sm+ */}
         <div
           onClick={() => handleCopy(GENERAL_ACCOUNT.accountNumber)}
-          className="hover:border-danger-200 relative flex cursor-pointer items-center justify-between rounded-3xl border-2 border-dashed border-gray-200 bg-gray-50/50 p-6 transition-colors"
+          className="hover:border-danger-200 flex cursor-pointer flex-col gap-4 rounded-3xl border-2 border-dashed border-gray-200 bg-gray-50/50 p-5 transition-colors sm:flex-row sm:items-center sm:justify-between sm:p-6"
         >
+          {/* Account number */}
           <div className="flex flex-col">
             <span className="mb-1 text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase">
-              Account Number (Tap to copy)
+              Account Number — Tap to copy
             </span>
-            <span className="font-mono text-3xl font-black tracking-[0.15em] text-zinc-900 md:text-4xl">
+            <span className="font-mono text-2xl font-black tracking-[0.12em] text-zinc-900 sm:text-3xl md:text-4xl">
               {GENERAL_ACCOUNT.accountNumber}
             </span>
           </div>
 
+          {/* Copy button — full width on mobile, fixed size on sm+ */}
           <div
             className={cn(
-              "flex h-16 w-16 items-center justify-center rounded-2xl shadow-lg transition-all duration-300",
+              "flex h-14 w-full items-center justify-center gap-2 rounded-2xl shadow-lg transition-all duration-300 sm:h-16 sm:w-16 sm:shrink-0",
               isCopied
-                ? "scale-110 bg-green-500 text-white shadow-green-500/30"
+                ? "scale-105 bg-green-500 text-white shadow-green-500/30"
                 : "bg-danger-500 shadow-danger-500/30 text-white"
             )}
           >
-            {isCopied ? <CheckCircle2 size={28} /> : <Copy size={28} />}
+            {isCopied ? (
+              <>
+                <CheckCircle2 size={24} />
+                <span className="text-sm font-bold sm:hidden">Copied!</span>
+              </>
+            ) : (
+              <>
+                <Copy size={24} />
+                <span className="text-sm font-bold sm:hidden">Tap to Copy</span>
+              </>
+            )}
           </div>
         </div>
-
-        {/* <p className="mt-6 text-center text-xs font-medium text-gray-400 italic">
-          &ldquo;Honour the LORD with thy substance, and with the firstfruits of all thine increase.&rdquo; — Proverbs
-          3:9
-        </p> */}
       </div>
     </div>
   );
@@ -161,7 +168,7 @@ const CampusCard = ({ campus }: { campus: (typeof CAMPUS_ACCOUNTS)[0] }) => {
     <div className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Campus label */}
       <div className="mb-5 flex items-center gap-2">
-        <div className="bg-danger-50 text-danger-500 flex h-9 w-9 items-center justify-center rounded-xl">
+        <div className="bg-danger-50 text-danger-500 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl">
           <MapPin size={18} />
         </div>
         <div>
@@ -176,25 +183,37 @@ const CampusCard = ({ campus }: { campus: (typeof CAMPUS_ACCOUNTS)[0] }) => {
         <p className="text-sm leading-tight font-bold text-zinc-700">{campus.accountName}</p>
       </div>
 
-      {/* Copy area */}
+      {/* Copy area — stacked on mobile */}
       <div
         onClick={() => handleCopy(campus.accountNumber)}
-        className="hover:border-danger-200 flex cursor-pointer items-center justify-between rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/50 px-5 py-4 transition-colors"
+        className="hover:border-danger-200 flex cursor-pointer flex-col gap-3 rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/50 p-4 transition-colors sm:flex-row sm:items-center sm:justify-between"
       >
         <div className="flex flex-col">
           <span className="mb-0.5 text-[9px] font-black tracking-[0.2em] text-gray-400 uppercase">Tap to copy</span>
-          <span className="font-mono text-xl font-black tracking-widest text-zinc-900">{campus.accountNumber}</span>
+          <span className="font-mono text-lg font-black tracking-widest text-zinc-900 sm:text-xl">
+            {campus.accountNumber}
+          </span>
         </div>
 
         <div
           className={cn(
-            "flex h-11 w-11 items-center justify-center rounded-xl shadow-md transition-all duration-300",
+            "flex h-12 w-full items-center justify-center gap-2 rounded-xl shadow-md transition-all duration-300 sm:h-11 sm:w-11 sm:shrink-0",
             isCopied
-              ? "scale-110 bg-green-500 text-white shadow-green-500/30"
+              ? "scale-105 bg-green-500 text-white shadow-green-500/30"
               : "bg-danger-500 shadow-danger-500/30 text-white"
           )}
         >
-          {isCopied ? <CheckCircle2 size={20} /> : <Copy size={20} />}
+          {isCopied ? (
+            <>
+              <CheckCircle2 size={18} />
+              <span className="text-xs font-bold sm:hidden">Copied!</span>
+            </>
+          ) : (
+            <>
+              <Copy size={18} />
+              <span className="text-xs font-bold sm:hidden">Tap to Copy</span>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -207,8 +226,7 @@ const CampusCard = ({ campus }: { campus: (typeof CAMPUS_ACCOUNTS)[0] }) => {
 export default function GiveSection() {
   return (
     <div className="bg-gray-50">
-      {/* ── General Giving — centered, full width max-w-2xl ── */}
-      {/* FIX: Removed -mt-20 overlap — card now sits cleanly below the hero */}
+      {/* ── General Giving ── */}
       <section className="px-6 py-16 md:py-20">
         <div className="layout-container">
           <div className="mx-auto max-w-2xl">
@@ -217,10 +235,9 @@ export default function GiveSection() {
         </div>
       </section>
 
-      {/* ── Campus Giving — 3-col row ── */}
+      {/* ── Campus Giving ── */}
       <section className="border-t border-gray-100 pb-16 md:pb-20">
         <div className="layout-container">
-          {/* Header */}
           <div className="mb-10 text-center">
             <div className="border-danger-500/20 bg-danger-500/10 text-danger-500 mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium">
               <MapPin className="h-4 w-4" />
@@ -232,17 +249,11 @@ export default function GiveSection() {
             </p>
           </div>
 
-          {/* Campus Cards — 3-col ready, currently 2 cards */}
-          <div className="lg:grid-cols- mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {CAMPUS_ACCOUNTS.map((campus) => (
               <CampusCard key={campus.id} campus={campus} />
             ))}
           </div>
-
-          {/* <p className="mt-10 text-center text-xs font-medium text-gray-400 italic">
-            &ldquo;Give, and it shall be given unto you; good measure, pressed down, and shaken together, and running
-            over.&rdquo; — Luke 6:38
-          </p> */}
         </div>
       </section>
     </div>

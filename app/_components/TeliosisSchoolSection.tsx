@@ -217,7 +217,7 @@ export default function TeliosisSection() {
             >
               <div className="flex flex-row items-center justify-between gap-2 sm:gap-4">
                 <div className="flex-1 text-center">
-                  <div className="text-lg font-bold text-gray-900 sm:text-xl lg:text-3xl">500+</div>
+                  <div className="text-lg font-bold text-gray-900 sm:text-xl lg:text-3xl">12</div>
                   <div className="mt-1 text-[9px] font-medium tracking-widest text-gray-500 uppercase sm:text-[10px] lg:text-xs">
                     Graduates
                   </div>
@@ -248,11 +248,11 @@ export default function TeliosisSection() {
             asChild
             variant="brand"
             size="lg"
-            className="group h-auto rounded-full px-10 py-4 transition-transform hover:-translate-y-1 sm:w-auto sm:px-12"
+            className="group h-auto w-full rounded-full px-8 py-4 transition-transform duration-300 hover:-translate-y-1 sm:w-auto"
           >
             <Link href="https://www.tstm.org.ng/">
               Enroll Now
-              <ArrowRight className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>

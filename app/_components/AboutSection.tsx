@@ -165,7 +165,7 @@ const AboutSection = () => {
             asChild
             variant="brand"
             size="lg"
-            className="group h-auto rounded-full px-8 py-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:py-3"
+            className="group h-auto w-full rounded-full px-8 py-4 transition-transform duration-300 hover:-translate-y-1 sm:w-auto"
           >
             <Link href="/about">
               Learn More About Us

@@ -324,12 +324,12 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
         </Carousel>
 
         {/* View All Button */}
-        <div className="view-all-btn flex justify-center">
+        <div className="view-all-btn flex justify-center px-4 sm:px-0">
           <Button
             asChild
             variant="outline"
             size="xl"
-            className="rounded-full border-gray-300 font-semibold transition-transform duration-300 hover:-translate-y-1"
+            className="w-full rounded-full border-gray-300 font-semibold transition-transform duration-300 hover:-translate-y-1 sm:w-auto"
           >
             <Link href="/devotionals">
               View All Devotionals
