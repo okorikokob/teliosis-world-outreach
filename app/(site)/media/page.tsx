@@ -89,7 +89,7 @@ export default function MediaHubPage() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {/* YouTube */}
             <a
-              href="https://youtube.com"
+              href="https://www.youtube.com/@teliosisworldoutreach"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center rounded-3xl border border-gray-100 bg-gray-50 p-8 text-center transition-all hover:-translate-y-1 hover:border-red-200 hover:bg-white hover:shadow-xl"
@@ -103,7 +103,7 @@ export default function MediaHubPage() {
 
             {/* Spotify */}
             <a
-              href="https://spotify.com"
+              href="https://podcasters.spotify.com/pod/show/osikhenadavid1"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center rounded-3xl border border-gray-100 bg-gray-50 p-8 text-center transition-all hover:-translate-y-1 hover:border-green-200 hover:bg-white hover:shadow-xl"
@@ -117,7 +117,7 @@ export default function MediaHubPage() {
 
             {/* Instagram */}
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/reel/DWwQPG7iGFw/?igsh=czUxeWxlZjQ1M204"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center rounded-3xl border border-gray-100 bg-gray-50 p-8 text-center transition-all hover:-translate-y-1 hover:border-pink-200 hover:bg-white hover:shadow-xl"
@@ -131,7 +131,7 @@ export default function MediaHubPage() {
 
             {/* TikTok */}
             <a
-              href="https://tiktok.com"
+              href="https://www.tiktok.com/@teliosisworldoutreach"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center rounded-3xl border border-gray-100 bg-gray-50 p-8 text-center transition-all hover:-translate-y-1 hover:border-zinc-300 hover:bg-white hover:shadow-xl"

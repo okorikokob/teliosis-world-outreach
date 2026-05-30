@@ -6,7 +6,7 @@ import { Users, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // ─────────────────────────────────────────────
-// Data — defined outside component
+// Data
 // ─────────────────────────────────────────────
 const LEAD_PASTOR = {
   name: "Pastor Peter E. Nwoji",
@@ -45,10 +45,12 @@ const PASTORS = [
 ];
 
 // ─────────────────────────────────────────────
-// Pastor Card — hover/tap overlay
+// Pastor Card
+// Tap → dark overlay covers image, full bio slides up
+// Tap again or press Close → bio slides back down
+// Works on both mobile (tap) and desktop (hover + click)
 // ─────────────────────────────────────────────
 const PastorCard = ({ pastor }: { pastor: (typeof PASTORS)[0] }) => {
-  // Mobile tap state — desktop uses pure CSS hover
   const [tapped, setTapped] = useState(false);
 
   return (
@@ -56,74 +58,70 @@ const PastorCard = ({ pastor }: { pastor: (typeof PASTORS)[0] }) => {
       className="group relative h-[420px] cursor-pointer overflow-hidden rounded-3xl sm:h-[460px]"
       onClick={() => setTapped((prev) => !prev)}
     >
-      {/* ── Photo ── */}
+      {/* Photo */}
       <Image
         src={pastor.image}
         alt={pastor.name}
         fill
         className={cn(
           "object-cover object-[center_20%] transition-transform duration-700",
-          // Scale up slightly on hover/tap for depth
-          "group-hover:scale-105",
-          tapped && "scale-105"
+          tapped ? "scale-105" : "group-hover:scale-105"
         )}
       />
 
-      {/* ── Always-visible bottom gradient + name/role ── */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-      {/* Name & role — always visible at bottom */}
+      {/* Overlay — gradient normally, dark when bio is open */}
       <div
         className={cn(
-          "absolute inset-x-0 bottom-0 p-6 transition-all duration-500 ease-in-out",
-          // On hover/tap — slide name up to make room for bio
-          "group-hover:translate-y-0 group-hover:pb-4",
-          tapped ? "translate-y-0 pb-4" : ""
+          "absolute inset-0 transition-all duration-500",
+          tapped ? "bg-black/85" : "bg-gradient-to-t from-black/80 via-black/20 to-transparent"
+        )}
+      />
+
+      {/* Name & role — moves to top when bio opens */}
+      <div
+        className={cn(
+          "absolute inset-x-0 p-6 transition-all duration-500 ease-in-out",
+          tapped ? "top-6 bottom-auto" : "bottom-0"
         )}
       >
         <p className="text-danger-500 text-xs font-bold tracking-widest uppercase">{pastor.role}</p>
         <h3 className="mt-1 text-xl font-black text-white">{pastor.name}</h3>
 
-        {/* Mobile hint — only shown before first tap */}
-        {!tapped && <p className="text-md mt-1 font-medium text-white/40 md:hidden">Tap to read bio</p>}
+        {/* Tap hint — only when bio is closed */}
+        {!tapped && (
+          <p className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-medium text-white/50">
+            Tap to read bio
+            <ChevronUp className="h-3 w-3 rotate-180" />
+          </p>
+        )}
       </div>
 
-      {/* ── Bio overlay — slides up on hover/tap ── */}
+      {/* Full Bio Panel — slides up from bottom */}
       <div
         className={cn(
-          // Base: sits fully below the card (translateY 100%)
-          "absolute inset-x-0 bottom-0 rounded-b-3xl bg-zinc-900/95 px-6 pt-5 pb-6 backdrop-blur-sm",
-          "transition-all duration-500 ease-in-out",
-          // Desktop hover
-          "translate-y-full group-hover:translate-y-0",
-          // Mobile tap
-          tapped ? "translate-y-0" : ""
+          "absolute inset-x-0 bottom-0 px-6 pt-4 pb-6 transition-all duration-500 ease-in-out",
+          tapped ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
         )}
       >
-        {/* Role + name repeated inside overlay so context is clear */}
-        <div className="mb-3 flex items-start justify-between gap-2">
-          <div>
-            <p className="text-danger-500 text-[10px] font-bold tracking-widest uppercase">{pastor.role}</p>
-            <h3 className="text-sm font-black text-white">{pastor.name}</h3>
-          </div>
-          {/* Tap to close hint on mobile */}
-          <button
-            className="text-white/40 md:hidden"
-            aria-label="Close bio"
-            onClick={(e) => {
-              e.stopPropagation();
-              setTapped(false);
-            }}
-          >
-            <ChevronUp className="h-4 w-4" />
-          </button>
-        </div>
-
         {/* Divider */}
-        <div className="bg-danger-500/30 mb-3 h-px w-full" />
+        <div className="bg-danger-500/50 mb-3 h-px w-full" />
 
         {/* Bio text — scrollable if too long */}
-        <p className="line-clamp-6 text-sm leading-relaxed text-gray-300 sm:line-clamp-none">{pastor.bio}</p>
+        <p className="max-h-[260px] overflow-y-auto pr-1 text-sm leading-relaxed text-gray-200 sm:max-h-[300px]">
+          {pastor.bio}
+        </p>
+
+        {/* Close button */}
+        <button
+          className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-white/60 transition-colors hover:text-white"
+          onClick={(e) => {
+            e.stopPropagation(); // prevent card toggle from firing
+            setTapped(false);
+          }}
+        >
+          <ChevronUp className="h-3 w-3" />
+          Close
+        </button>
       </div>
     </div>
   );
@@ -135,7 +133,7 @@ const PastorCard = ({ pastor }: { pastor: (typeof PASTORS)[0] }) => {
 const LeadershipSection = () => {
   return (
     <>
-      {/* ── Section Header — white bg ── */}
+      {/* ── Section Header ── */}
       <section className="bg-white pt-16 pb-16 lg:pt-8">
         <div className="layout-container">
           <div className="text-center">
@@ -198,7 +196,7 @@ const LeadershipSection = () => {
         </div>
       </section>
 
-      {/* ── Pastoral Team Grid — white bg ── */}
+      {/* ── Pastoral Team Grid ── */}
       <section className="bg-white pt-16 pb-16 sm:pb-20 lg:pb-24">
         <div className="layout-container">
           <div className="mb-12 flex items-center gap-4">

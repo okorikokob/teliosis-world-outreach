@@ -103,7 +103,7 @@ const DevotionalGrid = ({ devotionals, featuredId }: DevotionalGridProps) => {
       allMatching: sorted,
       visibleDevotionals: sorted.slice(0, displayLimit),
     };
-  }, [devotionals, activeTopic, searchQuery, displayLimit]);
+  }, [devotionals, activeTopic, searchQuery, displayLimit, featuredId]);
 
   // FIX 2: Mark mounted after first client render
   useEffect(() => {
