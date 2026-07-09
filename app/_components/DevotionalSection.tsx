@@ -40,7 +40,11 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
   const readTime = `${devotional.readTime} min read`;
 
   const dateObj = new Date(devotional.publishedAt);
-  const isToday = new Date().toDateString() === dateObj.toDateString();
+  // Compare WAT calendar dates directly (as YYYY-MM-DD strings) instead of
+  // toDateString(), which compares in the server's local runtime timezone —
+  // correct on a WAT machine, but off by a day on Vercel's UTC runtime.
+  const watFormatter = new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Lagos" });
+  const isToday = watFormatter.format(new Date()) === watFormatter.format(dateObj);
   const label = isToday
     ? "Today"
     : dateObj.toLocaleDateString("en-NG", {
