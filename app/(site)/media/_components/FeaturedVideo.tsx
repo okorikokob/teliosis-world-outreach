@@ -32,7 +32,7 @@ const FeaturedVideo = () => {
               asChild
             >
               <a
-                href="https://www.youtube.com/@yourchurchhandle"
+                href="https://www.youtube.com/@teliosisworldoutreach"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
