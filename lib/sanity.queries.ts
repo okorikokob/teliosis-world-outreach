@@ -115,16 +115,25 @@ export async function getAllDevotionals(): Promise<Devotional[]> {
  * Revalidates every hour so the switch happens within 60 mins of midnight.
  */
 export async function getFeaturedDevotional(): Promise<Devotional | null> {
-  // Build today's date window in WAT (UTC+1)
+  // Build today's date window in WAT (UTC+1), independent of the server's
+  // runtime timezone. Previously this used toLocaleString + setHours, which
+  // zeroes the hour in the *server's local* timezone — correct on a machine
+  // set to WAT, but off by a day on Vercel's UTC runtime.
   const now = new Date();
+  const watParts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Africa/Lagos",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const watYear = Number(watParts.find((p) => p.type === "year")?.value);
+  const watMonth = Number(watParts.find((p) => p.type === "month")?.value);
+  const watDay = Number(watParts.find((p) => p.type === "day")?.value);
 
-  // Start of today in WAT: set to midnight UTC+1
-  const todayWAT = new Date(now.toLocaleString("en-US", { timeZone: "Africa/Lagos" }));
-  todayWAT.setHours(0, 0, 0, 0);
-
-  // End of today = start of tomorrow WAT
-  const tomorrowWAT = new Date(todayWAT);
-  tomorrowWAT.setDate(todayWAT.getDate() + 1);
+  // Midnight WAT expressed as a UTC instant (WAT is UTC+1, no DST).
+  const WAT_OFFSET_MS = 60 * 60 * 1000;
+  const todayWAT = new Date(Date.UTC(watYear, watMonth - 1, watDay, 0, 0, 0) - WAT_OFFSET_MS);
+  const tomorrowWAT = new Date(todayWAT.getTime() + 24 * 60 * 60 * 1000);
 
   const todayISO = todayWAT.toISOString();
   const tomorrowISO = tomorrowWAT.toISOString();
