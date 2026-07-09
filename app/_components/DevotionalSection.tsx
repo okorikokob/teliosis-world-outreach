@@ -129,40 +129,12 @@ const DevotionalCard = ({ devotional, isFeatured }: DevotionalCardProps) => {
   );
 };
 
-// FIX 1 & 9: Sort carousel cards so upcoming/current month comes first,
-// then past months — same logic as the grid for consistency.
+// Sort carousel cards most-recent-first. getAllDevotionals() already excludes
+// future-dated entries, so this only ever orders today/past devotionals.
 function sortDevotionals(devotionals: Devotional[]): Devotional[] {
-  const now = new Date();
-  const currentMonthNum = now.getFullYear() * 12 + now.getMonth();
-
-  return [...devotionals].sort((a, b) => {
-    const dateA = new Date(a.publishedAt);
-    const dateB = new Date(b.publishedAt);
-    const monthA = dateA.getFullYear() * 12 + dateA.getMonth();
-    const monthB = dateB.getFullYear() * 12 + dateB.getMonth();
-
-    const isFutureA = monthA > currentMonthNum;
-    const isFutureB = monthB > currentMonthNum;
-    const isCurrentA = monthA === currentMonthNum;
-    const isCurrentB = monthB === currentMonthNum;
-    const isPastA = monthA < currentMonthNum;
-    const isPastB = monthB < currentMonthNum;
-
-    // Future months first — ascending within future (June 1 before June 10)
-    if (isFutureA && isFutureB) return dateA.getTime() - dateB.getTime();
-    // Current month second — ascending (May 1 before May 27)
-    if (isCurrentA && isCurrentB) return dateA.getTime() - dateB.getTime();
-    // Past months last — descending (April 30 before April 1)
-    if (isPastA && isPastB) return dateB.getTime() - dateA.getTime();
-    // Future beats current and past
-    if (isFutureA) return -1;
-    if (isFutureB) return 1;
-    // Current beats past
-    if (isCurrentA) return -1;
-    if (isCurrentB) return 1;
-
-    return 0;
-  });
+  return [...devotionals].sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
 }
 
 const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectionProps) => {

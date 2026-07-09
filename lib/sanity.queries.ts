@@ -91,12 +91,11 @@ const leaderFields = `
 // ─────────────────────────────────────────────
 
 /**
- * Fetch all devotionals sorted ASCENDING (oldest first: Day 1 → Day 30).
- * This makes the grid show June 1 first, June 2 second, etc.
- * Load More then reveals June 10, 11... in order.
+ * Fetch devotionals published up to now — future-dated entries (written ahead
+ * of time for upcoming days) are excluded until their date actually arrives.
  */
 export async function getAllDevotionals(): Promise<Devotional[]> {
-  return client.fetch(`*[_type == "devotional"] { ${devotionalFields} }`);
+  return client.fetch(`*[_type == "devotional" && publishedAt <= now()] { ${devotionalFields} }`);
 }
 
 /**

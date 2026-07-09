@@ -22,7 +22,7 @@ const MediaCTA = () => {
             className="text-danger-500 w-full rounded-full bg-white font-bold shadow-xl hover:bg-gray-50 active:scale-95 sm:w-auto"
             asChild
           >
-            <a href="https://open.spotify.com/show/your-podcast-id" target="_blank" rel="noopener noreferrer">
+            <a href="https://podcasters.spotify.com/pod/show/osikhenadavid1" target="_blank" rel="noopener noreferrer">
               Subscribe to Podcast
             </a>
           </Button>
@@ -33,7 +33,7 @@ const MediaCTA = () => {
             className="w-full rounded-full border-2 border-white bg-black font-bold text-white shadow-xl hover:bg-zinc-900 active:scale-95 sm:w-auto"
             asChild
           >
-            <a href="/media/archive">Browse Archive</a>
+            <a href="/media/sermons">Browse Archive</a>
           </Button>
         </div>
       </div>

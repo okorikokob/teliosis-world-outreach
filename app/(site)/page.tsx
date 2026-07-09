@@ -6,10 +6,9 @@ import NewHereSection from "../_components/NewHereSection";
 import PartnerSection from "../_components/PartnerSection";
 import TeliosisSection from "../_components/TeliosisSchoolSection";
 
-const devotionals = await getAllDevotionals();
-const featuredDevotional = await getFeaturedDevotional();
+const Page = async () => {
+  const [devotionals, featuredDevotional] = await Promise.all([getAllDevotionals(), getFeaturedDevotional()]);
 
-const Page = () => {
   return (
     <div>
       <Hero />

@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { Send } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 // Assuming you have these Shadcn UI components setup.
@@ -9,23 +11,42 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const ContactForm = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
+    const currentForm = e.currentTarget;
+    const form = new FormData(currentForm);
     const name = form.get("name")?.toString().trim() || "";
     const email = form.get("email")?.toString().trim() || "";
     const subject = form.get("subject")?.toString().trim() || "";
     const message = form.get("message")?.toString().trim() || "";
 
     if (!name || !email || !subject || !message) {
-      // simple validation; could show a toast or message
-      console.warn("All fields are required");
+      toast.error("Please fill in all fields.");
       return;
     }
 
-    // TODO: replace with actual submission logic (API call, server action, etc.)
-    console.log({ name, email, subject, message });
-    e.currentTarget.reset();
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || "Failed to send message.");
+      }
+
+      toast.success("Message sent! We'll get back to you soon.");
+      currentForm.reset();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -104,9 +125,10 @@ const ContactForm = () => {
             <Button
               type="submit"
               size="xl"
-              className="bg-danger-500 shadow-danger-500/20 hover:bg-danger-600 w-full rounded-full font-bold text-white shadow-lg active:scale-95"
+              disabled={isSubmitting}
+              className="bg-danger-500 shadow-danger-500/20 hover:bg-danger-600 w-full rounded-full font-bold text-white shadow-lg active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Send Message
+              {isSubmitting ? "Sending..." : "Send Message"}
               <Send className="ml-2 size-5" />
             </Button>
           </form>
