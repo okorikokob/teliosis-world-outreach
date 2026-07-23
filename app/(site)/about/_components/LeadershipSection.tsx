@@ -13,10 +13,12 @@ const LEAD_PASTOR = {
   role: "Lead Pastor / Teacher",
   image: "/assets/pastor-peter2.jpeg",
   bio: [
-    'Pastor Peter E. Nwoji is the Lead Pastor of Teliosis World Outreach, aka Eternal Life Global Assemblies, a dynamic ministry with multiple campuses and fellowship centers. A passionate and dedicated servant of God, Pastor Nwoji is driven by his divine mandate to "perfect the saints" as outlined in Ephesians 4:11-13.',
-    "Known for his profound teaching of the Word, Pastor Nwoji inspires believers to grow spiritually and live Christ-centered lives. His messages are transformational, rooted in sound biblical principles, and aimed at equipping individuals for their God-given purposes.",
-    "Pastor Peter has written several impactful books that provide guidance on Christian living, spiritual growth, and fulfilling divine purpose. His writings reflect his commitment to empowering believers with knowledge and understanding of the scriptures.",
-    "Pastor Peter E. Nwoji is not just a leader; he is a visionary, teacher, and servant dedicated to advancing the Kingdom of God and making a lasting impact on the world. He is married to Pastor Adama Nwoji, who serves with him in ministry. They are blessed with three sons.",
+    'Peter E. Nwoji is the Lead Pastor of Teliosis Eternal Life Global Assemblies, aka; Teliosis World Outreach; a dynamic ministry with multiple campuses and home fellowship centres. A passionate and dedicated servant of God, Pastor Peter is driven by the divine mandate to "perfect the saints" as outlined in Ephesians 4:11-13.',
+    "Pastor Peter's teachings reflect his commitment to drawing all men into intimate knowledge of Jesus, teaching them to know the reality of the power of the Word of God, and showing them how to live the God-kind of life.",
+    "He is the author of a number of books like; the Perfect Law of Intimacy, A practical guide to effective bible teaching, Meditations of the God-Kind (a daily devotional), and several Theological textbooks currently in use in the Teliosis School of the Teaching Ministry, an affiliate school of the Institute of Continuing Theological Education (ICTE), where he serves as Chairman of the Board.",
+    "Pastor Peter also serves as Chairman of the board of NATCHADAVAR Foundation (A National Non-Governmental Organization registered and actively pursuant of the reorientation of character and values in the Nigerian populace). He also serves on the governing board of several church ministry organizations.",
+    "Pastor Peter holds a bachelor's degree in Geology, a bachelor's degree in Theology, and a master's degree in Theology. He is currently pursuing doctorate degrees in Theology, and Psychology with biblical counseling.",
+    "He is married to Pastor Adama Nwoji, who serves with him in life and ministry. They are blessed with three sons.",
   ],
 };
 
@@ -24,16 +26,16 @@ const PASTORS = [
   {
     id: "joshua",
     name: "Pastor Joshua Andrew",
-    role: "Campus Pastor, Tudunwada Campus",
+    role: "Pastor, Tudunwada Campus",
     image: "/assets/pastor-josh.jpeg",
     bio: "The Campus Pastor of Teliosis World Outreach, Tudunwada Campus, serves with a commitment to teaching the Word of God and nurturing believers in their walk with Christ. Through faithful ministry, discipleship, and pastoral care, he helps members grow in spiritual understanding and practical Christian living. He is devoted to advancing the vision of Teliosis World Outreach and raising disciples who are grounded in the scriptures. He is happily married and serves alongside his beautiful wife in the work of the ministry.",
   },
   {
     id: "samuel",
     name: "Pastor Samuel O. Durojaiye",
-    role: "Campus Pastor, Zhidu Campus",
+    role: "Pastor, Zhidu Campus",
     image: "/assets/pastor-sam.jpeg",
-    bio: "The Campus Pastor of Teliosis World Outreach, Zhidu Campus, is dedicated to the ministry of the Word, prayer, and discipleship. His passion is to see believers established in the faith and equipped to live out the realities of the Gospel in their daily lives. With a heart for people and a commitment to the vision of Teliosis World Outreach, he labours to build a community of believers who know Christ, grow in His Word, and make Him known to others. He is happily married and continuously serving faithfully in ministry.",
+    bio: "The Campus Pastor of Teliosis World Outreach, Zhidu Campus, is dedicated to the ministry of the Word, prayer, and discipleship. His passion is to see believers established in the faith and equipped to live out the realities of the Gospel in their daily lives. With a heart for people and a commitment to the vision of Teliosis World Outreach, he labours to build a community of believers who know Christ, grow in His Word, and make Him known to others. He is happily married and blessed with a son.",
   },
   {
     id: "olamilekan",
