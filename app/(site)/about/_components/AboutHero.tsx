@@ -49,14 +49,10 @@ const AboutHero = () => {
             <span className="text-body-sm sm:text-body-md font-medium text-white">About Teliosis</span>
           </div>
 
-          <h1 className="about-hero-reveal text-light-100 mb-4 max-w-4xl text-4xl leading-tight font-semibold sm:mb-6 sm:text-5xl md:text-6xl">
-            Transforming lives through faith, truth, and community
+          <h1 className="about-hero-reveal text-light-100 mb-4 max-w-5xl text-3xl leading-tight font-semibold sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
+            Transforming lives through the teaching of{" "}
+            <span className="text-danger-500">God&apos;s word</span>, effectual prayer and practical discipleship
           </h1>
-
-          <p className="about-hero-reveal text-body-sm sm:text-body-lg max-w-2xl leading-7 text-white/90">
-            Teliosis World Outreach is a Christ-centered community committed to raising disciples, building lives, and
-            helping people discover their God-given purpose.
-          </p>
         </div>
       </div>
     </section>

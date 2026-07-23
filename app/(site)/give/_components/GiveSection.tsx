@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Copy, CheckCircle2, Heart, Landmark, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { CAMPUSES } from "@/lib/campuses";
 
 // ─────────────────────────────────────────────
 // Data
@@ -14,30 +15,15 @@ const GENERAL_ACCOUNT = {
   accountNumber: "1022971000",
 };
 
-const CAMPUS_ACCOUNTS = [
-  {
-    id: "tudunwada",
-    campus: "Tudunwada Campus",
-    bank: "UBA BANK",
-    accountName: "TELIOSIS ETERNAL LIFE GLOBAL ASSEMBLY",
-    accountNumber: "1029796000",
-  },
-  {
-    id: "zhidu",
-    campus: "Zhidu Campus",
-    bank: "UBA BANK",
-    accountName: "TELIOSIS ETERNAL LIFE GLOBAL ASSEMBLY CAMPUS 3",
-    accountNumber: "1029794817",
-  },
-  // City Campus — uncomment and fill when ready
-  // {
-  //   id: "city",
-  //   campus: "City Campus",
-  //   bank: "UBA BANK",
-  //   accountName: "...",
-  //   accountNumber: "...",
-  // },
-];
+// Campus giving accounts are sourced from the shared campus list (lib/campuses.ts)
+// so this stays in sync with the Contact page and the /campuses showcase.
+const CAMPUS_ACCOUNTS = CAMPUSES.filter((c) => c.bank).map((c) => ({
+  id: c.id,
+  campus: c.name,
+  bank: c.bank!.bank,
+  accountName: c.bank!.accountName,
+  accountNumber: c.bank!.accountNumber,
+}));
 
 // ─────────────────────────────────────────────
 // Reusable copy logic

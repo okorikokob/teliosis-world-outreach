@@ -19,6 +19,7 @@ export interface Devotional {
   topics?: string[];
   featured: boolean;
   coverImage?: unknown;
+  imageUrl?: string;
 }
 
 export interface Leader {
@@ -61,7 +62,8 @@ const devotionalFields = `
   pray,
   meditationScripture,
   meditationText,
-  coverImage
+  coverImage,
+  "imageUrl": coverImage.asset->url
 `;
 
 const sermonFields = `

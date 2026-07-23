@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import { Clock, Share2, ArrowRight } from "lucide-react";
+import { Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import type { Devotional } from "@/lib/sanity.queries";
+import ShareMenu from "@/components/ShareMenu";
 
 interface TodaySpotlightProps {
   featuredDevotional: Devotional | null;
@@ -15,8 +16,11 @@ const TodaySpotlight = ({ featuredDevotional }: TodaySpotlightProps) => {
   return (
     <section className="bg-white py-12 md:py-20">
       <div className="layout-container">
-        <div className="group hover:shadow-danger-500/10 relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#5C5C5C] p-8 text-white shadow-2xl transition-all md:p-16">
-          <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
+        <div className="group hover:shadow-danger-500/20 ring-1 ring-white/10 relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-zinc-950 p-8 text-white shadow-2xl transition-all md:p-16">
+          <div className="pointer-events-none absolute -top-32 -left-32 h-[420px] w-[420px] rounded-full bg-red-600/20 blur-[120px]" />
+          <div className="pointer-events-none absolute -right-32 -bottom-32 h-[380px] w-[380px] rounded-full bg-purple-600/20 blur-[110px]" />
+
+          <div className="relative z-10 mb-10 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-[10px] font-black tracking-widest uppercase backdrop-blur-md">
                 <span className="bg-danger-500 h-2 w-2 animate-pulse rounded-full" />
@@ -29,17 +33,17 @@ const TodaySpotlight = ({ featuredDevotional }: TodaySpotlightProps) => {
             </div>
 
             <div className="flex items-center gap-3">
-              <button
-                type="button"
-                aria-label="Share devotional"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
-              >
-                <Share2 size={18} />
-              </button>
+              <ShareMenu
+                title={featuredDevotional.title}
+                path={`/devotionals/${featuredDevotional.slug.current}`}
+                image={featuredDevotional.imageUrl}
+                description={featuredDevotional.excerpt}
+                buttonClassName="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
+              />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="relative z-10 grid grid-cols-1 gap-12 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <span className="mb-3 block text-sm font-bold tracking-[0.2em] text-white/40 uppercase">
                 {featuredDevotional.scripture}
