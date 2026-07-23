@@ -20,16 +20,19 @@ const CampusList = () => {
 
   useGSAP(
     () => {
+      // Only animate the vertical offset — never opacity. Fading cards to
+      // opacity:0 (GSAP's default immediateRender for .from()) meant the
+      // first card, sitting just below the short hero, could render as a
+      // big blank patch before its ScrollTrigger fired on load.
       const cards = gsap.utils.toArray<HTMLElement>(".campus-card");
       cards.forEach((card) => {
         gsap.from(card, {
-          y: 60,
-          opacity: 0,
+          y: 40,
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
             trigger: card,
-            start: "top 80%",
+            start: "top 90%",
             toggleActions: "play none none reverse",
           },
         });

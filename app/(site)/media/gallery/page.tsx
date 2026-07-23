@@ -29,12 +29,23 @@ export const metadata: Metadata = {
 };
 
 const galleryImages = [
-  { id: 1, src: "/assets/servicepage-hero.jpg", alt: "Sunday Service Worship", span: "md:col-span-2 md:row-span-2" },
-  { id: 2, src: "/assets/about-hero-image.jpg", alt: "Church Community", span: "col-span-1" },
-  { id: 3, src: "/assets/event.png", alt: "Special Event", span: "col-span-1" },
-  { id: 4, src: "/assets/impact.png", alt: "Community Outreach", span: "col-span-1" },
-  { id: 5, src: "/assets/joshua.jpg", alt: "Youth Ministry", span: "col-span-1" },
-  { id: 6, src: "/assets/faith.png", alt: "Worship Team", span: "md:col-span-2" },
+  {
+    id: 1,
+    src: "/assets/gallery-images/image1.jpg",
+    alt: "Award of Excellence Presentation",
+    span: "md:col-span-2 md:row-span-2",
+  },
+  { id: 2, src: "/assets/gallery-images/image2.jpg", alt: "Congregation in Worship", span: "col-span-1" },
+  { id: 3, src: "/assets/gallery-images/image3.jpg", alt: "Ministering at a Special Program", span: "col-span-1" },
+  { id: 4, src: "/assets/gallery-images/image4.jpg", alt: "Fellowship Dinner", span: "md:col-span-2" },
+  { id: 5, src: "/assets/gallery-images/image5.jpg", alt: "Celebrating With Pastor Peter Nwoji", span: "col-span-1" },
+  { id: 6, src: "/assets/gallery-images/image6.jpg", alt: "Sharing the Radio Ministry Vision", span: "col-span-1" },
+  { id: 7, src: "/assets/gallery-images/image7.jpg", alt: "Attentive Worship", span: "col-span-1" },
+  { id: 8, src: "/assets/gallery-images/image8.jpg", alt: "A Word in Season", span: "col-span-1" },
+  { id: 9, src: "/assets/gallery-images/image9.jpg", alt: "Mothers and Little Ones", span: "col-span-1" },
+  { id: 10, src: "/assets/gallery-images/image10.jpg", alt: "Children's Ministry Fellowship", span: "col-span-1" },
+  { id: 11, src: "/assets/gallery-images/image11.jpg", alt: "Sunday Service Congregation", span: "md:col-span-2" },
+  { id: 12, src: "/assets/gallery-images/image12.jpg", alt: "Family Portrait at a Teliosis Event", span: "col-span-1" },
 ];
 
 export default function GalleryPage() {
