@@ -1,7 +1,10 @@
 "use client";
 
-import { Search, X } from "lucide-react";
+import { useState } from "react";
+import { Search, X, Download, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface DevotionalFiltersProps {
   topics: string[];
@@ -18,6 +21,35 @@ const DevotionalFilters = ({
   searchQuery,
   setSearchQuery,
 }: DevotionalFiltersProps) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadMonth = async () => {
+    setIsDownloading(true);
+    try {
+      const response = await fetch("/api/devotionals/download");
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || "Failed to download devotionals.");
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get("Content-Disposition") ?? "";
+      const filenameMatch = disposition.match(/filename="(.+)"/);
+      const filename = filenameMatch?.[1] ?? "devotionals.pdf";
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to download devotionals.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <nav className="sticky top-20 z-40 w-full border-y border-gray-100 bg-white/80 backdrop-blur-xl transition-all">
       <div className="layout-container py-4">
@@ -67,6 +99,17 @@ const DevotionalFilters = ({
                 </button>
               )}
             </div>
+
+            <Button
+              type="button"
+              variant="brand"
+              disabled={isDownloading}
+              onClick={handleDownloadMonth}
+              className="shadow-danger-500/30 hover:shadow-danger-500/50 h-12 shrink-0 gap-2 rounded-full px-6 font-bold whitespace-nowrap shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0"
+            >
+              {isDownloading ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
+              Download This Month
+            </Button>
           </div>
         </div>
       </div>

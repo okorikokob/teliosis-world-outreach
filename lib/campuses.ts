@@ -27,14 +27,14 @@ export const CAMPUSES: Campus[] = [
   {
     id: "wuse",
     name: "Wuse Campus",
-    shortAddress: "Jabi, FCT Abuja",
-    address: "Suite 350, Dominion Hub\nRock of Ages Mall, Jabi\nFCT Abuja",
+    shortAddress: "Wuse Zone 5, Abuja",
+    address: "Bible Guest House\nNdola Crescent, Adjacent Grand Ibro Hotel\nWuse Zone 5, Abuja",
     mapEmbed:
-      "https://maps.google.com/maps?q=Suite+350+Dominion+Hub+Rock+of+Ages+Mall+Jabi+Abuja&t=&z=15&ie=UTF8&iwloc=&output=embed",
-    mapLink: "https://www.google.com/maps/search/?api=1&query=Suite+350+Dominion+Hub+Rock+of+Ages+Mall+Jabi+Abuja",
+      "https://maps.google.com/maps?q=Bible+Guest+House+Ndola+Crescent+Wuse+Zone+5+Abuja&t=&z=15&ie=UTF8&iwloc=&output=embed",
+    mapLink: "https://www.google.com/maps/search/?api=1&query=Bible+Guest+House+Ndola+Crescent+Wuse+Zone+5+Abuja",
     phone: "+234 701 914 5771 / +234 814 629 0513",
     email: "teliosisworldoutreach@gmail.com",
-    serviceTimes: [{ day: "Last Saturday of Every Month", time: "4:00 PM – 7:00 PM" }],
+    serviceTimes: [{ day: "Sunday", time: "4:00 PM" }],
     image: "/assets/aboutpage-hero.jpg",
     bank: {
       bank: "UBA BANK",
@@ -56,6 +56,7 @@ export const CAMPUSES: Campus[] = [
     serviceTimes: [
       { day: "Sunday", time: "8:00 AM & 10:00 AM" },
       { day: "Wednesday", time: "6:00 PM" },
+      { day: "Thursday", time: "6:00 PM" },
     ],
     image: "/assets/hero-background.png",
     bank: {
