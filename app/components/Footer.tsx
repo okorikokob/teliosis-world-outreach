@@ -3,7 +3,8 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Youtube, MapPin, Phone, Mail } from "lucide-react";
+import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, ArrowRight } from "lucide-react";
+import { CAMPUSES } from "@/lib/campuses";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -179,17 +180,24 @@ const Footer = () => {
           <div className="footer-col space-y-6">
             <h3 className="text-body-md font-bold tracking-wide text-white">Connect</h3>
             <div className="text-muted text-body-sm space-y-4">
-              <div className="group flex items-start gap-3 transition-colors hover:text-white">
-                <div className="bg-danger-500/10 text-danger-500 group-hover:bg-danger-500/20 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors">
+              <div className="flex items-start gap-3">
+                <div className="bg-danger-500/10 text-danger-500 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
                   <MapPin className="h-4 w-4" />
                 </div>
-                <span className="leading-relaxed">
-                  Teliosis Tudunwada Campus,
-                  <br />
-                  After Catholic Church, Sauka Road,
-                  <br />
-                  Tudunwada FHA Lugbe, Abuja.
-                </span>
+                <div className="space-y-1.5">
+                  {CAMPUSES.map((campus) => (
+                    <p key={campus.id} className="leading-relaxed">
+                      {campus.name} — <span className="text-white/70">{campus.shortAddress}</span>
+                    </p>
+                  ))}
+                  <Link
+                    href="/campuses"
+                    className="text-danger-500 hover:text-danger-500/80 group mt-2 inline-flex items-center gap-1 text-xs font-bold"
+                  >
+                    View All Campuses
+                    <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </div>
               </div>
               <div className="group flex items-center gap-3 transition-colors hover:text-white">
                 <div className="bg-danger-500/10 text-danger-500 group-hover:bg-danger-500/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors">

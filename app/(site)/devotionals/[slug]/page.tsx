@@ -2,9 +2,11 @@ import { client } from "@/sanity/lib/client";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import ShareButton from "./_components/ShareButton";
 
 const DEVOTIONAL_QUERY = `*[_type == "devotional" && slug.current == $slug][0]{
   title,
+  slug,
   publishedAt,
   scripture,
   verseText,
@@ -41,7 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const title = devotional.title;
   const description = devotional.excerpt || "Daily devotional from Teliosis World Outreach.";
-  const image = devotional.imageUrl || "/assets/og-default.jpg";
+  const image = devotional.imageUrl || "/assets/hero-background.png";
   const url = `/devotionals/${slug}`;
 
   return {
@@ -153,6 +155,15 @@ export default async function DevotionalPage({ params }: { params: Promise<{ slu
               </p>
             </div>
           )}
+
+          <div className="mt-10 flex justify-center border-t border-gray-50 pt-8">
+            <ShareButton
+              title={devotional.title}
+              slug={devotional.slug.current}
+              image={devotional.imageUrl}
+              description={devotional.excerpt}
+            />
+          </div>
         </div>
       </article>
     </main>

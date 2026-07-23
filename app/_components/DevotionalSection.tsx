@@ -222,8 +222,25 @@ const DevotionalSection = ({ devotionals, featuredDevotional }: DevotionalSectio
             },
           },
           "-=0.8"
-        )
-        .from(".view-all-btn", { y: 20, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.5");
+        );
+
+      // The "View All" button gets its own ScrollTrigger keyed to its own
+      // position, instead of being chained to the end of `tl`. Chained to
+      // `tl`, its start time rode on the `.regular-card` stagger — which
+      // grows with the devotional count — so the button sat invisible
+      // (immediateRender snaps it to opacity:0) for longer and longer as
+      // more devotionals got published.
+      gsap.from(".view-all-btn", {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".view-all-btn",
+          start: "top 90%",
+          toggleActions: "play none none reverse",
+        },
+      });
     },
     { scope: container }
   );

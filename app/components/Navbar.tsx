@@ -62,6 +62,7 @@ const Navbar = () => {
     { href: "/about", label: "About" },
     // { href: "/partner", label: "Partner" },
     { href: "/media", label: "Media" },
+    { href: "/campuses", label: "Campuses" },
     { href: "/contact", label: "Contact" },
     { href: "/give", label: "Give" },
   ];
