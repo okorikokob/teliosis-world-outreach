@@ -1,7 +1,9 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
+import { UploadIcon } from "@sanity/icons";
 import { schemaTypes } from "./sanity/schemas";
+import { ImportDevotionalsTool } from "./sanity/tools/ImportDevotionalsTool";
 
 export default defineConfig({
   name: "default",
@@ -17,4 +19,14 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
+
+  tools: (prev) => [
+    ...prev,
+    {
+      name: "import-devotionals",
+      title: "Import Devotionals",
+      icon: UploadIcon,
+      component: ImportDevotionalsTool,
+    },
+  ],
 });
