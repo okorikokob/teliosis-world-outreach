@@ -161,8 +161,44 @@ export function ImportDevotionalsTool() {
         discussion paragraphs, and optionally CONFESSION:, PRAYER:, and MEDITATION: lines.
       </p>
 
-      <div className="mt-8 space-y-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="mt-8 space-y-5 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div>
+          <label
+            htmlFor="devotional-docx-input"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => {
+              e.preventDefault();
+              const dropped = e.dataTransfer.files?.[0];
+              if (dropped) setFile(dropped);
+            }}
+            className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-10 text-center transition-colors ${
+              file ? "border-green-300 bg-green-50" : "border-gray-300 bg-gray-50 hover:border-gray-400 hover:bg-gray-100"
+            }`}
+          >
+            <input
+              id="devotional-docx-input"
+              type="file"
+              accept=".docx"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              className="sr-only"
+            />
+            {file ? (
+              <>
+                <span className="text-2xl">📄</span>
+                <span className="text-sm font-bold text-green-800">{file.name}</span>
+                <span className="text-xs text-green-700">Click or drop a different file to replace it</span>
+              </>
+            ) : (
+              <>
+                <span className="text-2xl">⬆️</span>
+                <span className="text-sm font-bold text-gray-800">Click to upload, or drag and drop</span>
+                <span className="text-xs text-gray-500">The month&apos;s Word document (.docx)</span>
+              </>
+            )}
+          </label>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 sm:w-1/2">
           <div>
             <label className="mb-1 block text-xs font-bold text-gray-700">Month</label>
             <select
@@ -190,15 +226,6 @@ export function ImportDevotionalsTool() {
                 </option>
               ))}
             </select>
-          </div>
-          <div className="col-span-2 sm:col-span-2">
-            <label className="mb-1 block text-xs font-bold text-gray-700">Word Document (.docx)</label>
-            <input
-              type="file"
-              accept=".docx"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-              className="block w-full text-sm"
-            />
           </div>
         </div>
 
